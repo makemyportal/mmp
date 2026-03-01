@@ -1,0 +1,55 @@
+rules_version = '2';
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // ── Helper: Check if user is authenticated ──
+    function isAuth() {
+      return request.auth != null;
+    }
+
+    // ── Helper: Check if user is admin ──
+    function isAdmin() {
+      return isAuth() && get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == 'admin';
+    }
+
+    // ── Users Collection ──
+    match /users/{userId} {
+      // Anyone authenticated can read their own doc
+      // Admins can read/write all user docs
+      allow read: if isAuth() && (request.auth.uid == userId || isAdmin());
+      allow create: if isAuth() && request.auth.uid == userId;
+      allow update, delete: if isAuth() && (request.auth.uid == userId || isAdmin());
+    }
+
+    // ── Orders Collection ──
+    match /orders/{orderId} {
+      // Customers can read their own orders
+      // Admins can read/write all orders
+      allow read: if isAuth();
+      allow create: if isAuth();
+      allow update, delete: if isAdmin();
+    }
+
+    // ── Services Collection ──
+    match /services/{serviceId} {
+      // Everyone can read services (public catalog)
+      allow read: if true;
+      // Only admins can create/update/delete services
+      allow create, update, delete: if isAdmin();
+    }
+
+    // ── Settings Collection (website settings) ──
+    match /settings/{settingId} {
+      // Anyone can read settings (needed for frontend to show business info)
+      allow read: if true;
+      // Only admins can write settings
+      allow write: if isAdmin();
+    }
+
+    // ── Catch-all: deny everything else ──
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
+}
