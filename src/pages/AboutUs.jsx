@@ -1,5 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import { Helmet } from 'react-helmet-async';
 import { Rocket, Target, Eye, Heart, Zap, Users, ArrowRight, Sparkles, Shield, Star } from 'lucide-react';
 
 const AboutUs = () => {
@@ -29,6 +30,11 @@ const AboutUs = () => {
 
     return (
         <div className="min-h-screen">
+            <Helmet>
+                <title>About Us | MakeMyPortal</title>
+                <meta name="description" content="Learn about MakeMyPortal's mission, vision, and leadership. We build digital futures and empower companies with top-tier engineering." />
+                <link rel="canonical" href="https://makemyportal.com/about" />
+            </Helmet>
             {/* Hero */}
             <section className="relative py-24 overflow-hidden">
                 <div className="absolute inset-0 bg-gradient-to-b from-brand-primary/5 via-transparent to-transparent" />

@@ -1,11 +1,12 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Search, Edit2, Trash2, X, CheckCircle2, MessageSquare, Phone, Mail } from 'lucide-react';
+import { Search, Edit2, Trash2, X, CheckCircle2, MessageSquare, Phone, Mail, FileText } from 'lucide-react';
 import { doc, updateDoc, deleteDoc } from 'firebase/firestore';
 import { db } from '../../firebase';
 import { StatusBadge } from './OverviewTab';
+import { generateInvoice } from '../../utils/generateInvoice';
 
-const OrdersTab = ({ orders, loading, showToast }) => {
+const OrdersTab = ({ orders, loading, showToast, siteSettings }) => {
     const [search, setSearch] = useState('');
     const [statusFilter, setStatusFilter] = useState('all');
     const [editingOrder, setEditingOrder] = useState(null);
@@ -110,6 +111,18 @@ const OrdersTab = ({ orders, loading, showToast }) => {
                                     <td className="px-6 py-4 text-xs text-gray-500">{order.date}</td>
                                     <td className="px-6 py-4 text-right">
                                         <div className="flex items-center justify-end gap-1">
+                                            {(order.status === 'completed' || order.status === 'delivered') && (
+                                                <button
+                                                    onClick={() => {
+                                                        generateInvoice(order, siteSettings);
+                                                        showToast('Invoice downloading...', 'success');
+                                                    }}
+                                                    className="p-2 rounded-lg text-emerald-400 hover:text-emerald-300 hover:bg-emerald-500/10 transition-colors"
+                                                    title="Download Invoice"
+                                                >
+                                                    <FileText className="w-4 h-4" />
+                                                </button>
+                                            )}
                                             <button onClick={() => setEditingOrder(order)} className="p-2 rounded-lg text-gray-400 hover:text-white hover:bg-white/10 transition-colors" title="Manage">
                                                 <Edit2 className="w-4 h-4" />
                                             </button>

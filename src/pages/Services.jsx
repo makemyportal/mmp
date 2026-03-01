@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { ArrowRight, MessageCircle, Search, X } from 'lucide-react';
+import { Helmet } from 'react-helmet-async';
 import { useServices } from '../context/ServiceContext';
 import { useSearchParams } from 'react-router-dom';
 import BookingModal from '../components/BookingModal';
@@ -113,6 +114,11 @@ const Services = () => {
 
     return (
         <div className="min-h-screen pb-32">
+            <Helmet>
+                <title>Our Services | MakeMyPortal</title>
+                <meta name="description" content="Explore our premium suite of digital products, consulting, and engineering services tailored for your scale, including custom websites and enterprise portals." />
+                <link rel="canonical" href="https://makemyportal.com/services" />
+            </Helmet>
             {/* Header */}
             <section className="pt-32 pb-16 px-4 text-center max-w-4xl mx-auto relative z-10">
                 <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-64 h-64 bg-brand-primary/20 blur-[100px] rounded-full pointer-events-none" />

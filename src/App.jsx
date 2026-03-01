@@ -15,6 +15,7 @@ import RefundPolicy from './pages/RefundPolicy';
 import TermsOfService from './pages/TermsOfService';
 import Contact from './pages/Contact';
 import WhatsAppFloat from './components/WhatsAppFloat';
+import AIAssistantWidget from './components/AIAssistantWidget';
 
 // Scroll to top on route change
 const ScrollToTop = () => {
@@ -84,6 +85,7 @@ const App = () => {
       </PageLayout>
       <Footer />
       <WhatsAppFloat />
+      <AIAssistantWidget />
     </>
   );
 };

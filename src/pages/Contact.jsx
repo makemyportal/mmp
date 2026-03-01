@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Mail, Phone, MapPin, Send, MessageSquare, Clock, ArrowRight, Sparkles } from 'lucide-react';
+import { Helmet } from 'react-helmet-async';
 import { useSettings } from '../context/SettingsContext';
 
 const Contact = () => {
@@ -49,6 +50,11 @@ const Contact = () => {
 
     return (
         <div className="min-h-screen">
+            <Helmet>
+                <title>Contact Us | MakeMyPortal</title>
+                <meta name="description" content="Get in touch with MakeMyPortal. Ready to build something extraordinary? Drop us a message, email, or chat via WhatsApp." />
+                <link rel="canonical" href="https://makemyportal.com/contact" />
+            </Helmet>
             {/* Hero */}
             <section className="relative py-24 overflow-hidden">
                 <div className="absolute inset-0 bg-gradient-to-b from-brand-primary/5 via-transparent to-transparent" />

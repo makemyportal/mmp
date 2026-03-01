@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import { Link, useNavigate } from 'react-router-dom';
+import { Helmet } from 'react-helmet-async';
 import {
     Check, Monitor, LayoutTemplate, Palette, GraduationCap, Bot, Lightbulb,
     CheckCircle2, Users, Layers, ArrowRight, Search, Star, Quote,
@@ -58,6 +59,11 @@ const Home = () => {
 
     return (
         <div className="relative w-full overflow-hidden bg-dark-900 text-white font-sans selection:bg-brand-primary selection:text-white">
+            <Helmet>
+                <title>MakeMyPortal | Premium Web Development & Digital Solutions</title>
+                <meta name="description" content="MakeMyPortal delivers production-ready portals, AI applications, EdTech platforms, and custom websites for modern businesses." />
+                <link rel="canonical" href="https://makemyportal.com/" />
+            </Helmet>
 
             {/* --- BACKGROUND GLOWS --- */}
             <div className="absolute top-[-10%] left-[-10%] w-[50%] h-[50%] bg-[#7c3aed]/20 rounded-full blur-[140px] pointer-events-none" />

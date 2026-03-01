@@ -4,7 +4,8 @@ import { Link } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import { Package, ShieldCheck, DollarSign, CheckCircle2, CircleDashed, FileText, LifeBuoy, CreditCard, ChevronRight, Clock, X } from 'lucide-react';
 import { db } from '../firebase';
-import { collection, query, where, onSnapshot } from 'firebase/firestore';
+import { collection, query, where, onSnapshot, getDoc, doc } from 'firebase/firestore';
+import { generateInvoice } from '../utils/generateInvoice';
 
 // Inline toast notification component
 const Toast = ({ message, onClose }) => (
@@ -31,6 +32,22 @@ const CustomerDashboard = () => {
     const [orders, setOrders] = useState([]);
     const [loading, setLoading] = useState(true);
     const [toast, setToast] = useState('');
+    const [siteSettings, setSiteSettings] = useState({});
+
+    // Fetch Site Settings for Invoice Logo/Address
+    useEffect(() => {
+        const fetchSettings = async () => {
+            try {
+                const snap = await getDoc(doc(db, 'settings', 'website'));
+                if (snap.exists()) {
+                    setSiteSettings(snap.data());
+                }
+            } catch (err) {
+                console.warn('Failed to fetch settings', err);
+            }
+        };
+        fetchSettings();
+    }, []);
 
     const showToast = useCallback((msg) => {
         setToast(msg);
@@ -131,7 +148,7 @@ const CustomerDashboard = () => {
                 <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
 
                     {/* Sidebar Nav */}
-                    <div className="lg:col-span-3 flex flex-col gap-2">
+                    <div className="lg:col-span-3 flex lg:flex-col gap-2 overflow-x-auto pb-4 lg:pb-0 scrollbar-hide snap-x">
                         {[
                             { id: 'tracking', icon: <Clock className="w-5 h-5" />, label: 'Order Tracking' },
                             { id: 'invoices', icon: <FileText className="w-5 h-5" />, label: 'Invoices & Billing' },
@@ -141,7 +158,7 @@ const CustomerDashboard = () => {
                             <button
                                 key={tab.id}
                                 onClick={() => setActiveTab(tab.id)}
-                                className={`flex items-center gap-3 px-5 py-4 rounded-xl font-bold transition-all text-sm w-full text-left ${activeTab === tab.id ? 'bg-brand-primary/20 text-brand-primary border border-brand-primary/30' : 'text-gray-400 hover:bg-white/5 hover:text-white border border-transparent'}`}
+                                className={`flex items-center gap-3 px-5 py-4 rounded-xl font-bold transition-all text-sm whitespace-nowrap lg:w-full text-left shrink-0 snap-start ${activeTab === tab.id ? 'bg-brand-primary/20 text-brand-primary border border-brand-primary/30' : 'text-gray-400 hover:bg-white/5 hover:text-white border border-transparent'}`}
                             >
                                 {tab.icon} {tab.label}
                                 {activeTab === tab.id && <ChevronRight className="w-4 h-4 ml-auto" />}
@@ -278,8 +295,27 @@ const CustomerDashboard = () => {
                                                     </div>
                                                     <div className="flex items-center gap-4">
                                                         <p className="font-bold text-white tracking-wide">{inv.price}</p>
-                                                        <span className={`px-3 py-1 rounded-md text-xs font-bold ${inv.status === 'completed' ? 'bg-green-500/10 text-emerald-400' : 'bg-[#f59e0b]/10 text-[#f59e0b]'}`}>{inv.status === 'completed' ? 'Paid' : 'Pending'}</span>
-                                                        <button className="text-brand-primary hover:text-white transition-colors text-sm font-bold" onClick={() => showToast("Invoice PDF export coming soon!")}>PDF</button>
+                                                        <span className={`px-3 py-1 rounded-md text-xs font-bold ${inv.status === 'completed' || inv.status === 'delivered' ? 'bg-green-500/10 text-emerald-400' : 'bg-[#f59e0b]/10 text-[#f59e0b]'}`}>{inv.status === 'completed' || inv.status === 'delivered' ? 'Paid' : 'Pending'}</span>
+
+                                                        {inv.status === 'completed' || inv.status === 'delivered' ? (
+                                                            <button
+                                                                className="text-brand-primary hover:text-white transition-colors text-sm font-bold flex items-center gap-1 bg-brand-primary/10 px-3 py-1.5 rounded-lg border border-brand-primary/30 hover:bg-brand-primary hover:border-brand-primary"
+                                                                onClick={() => {
+                                                                    generateInvoice(inv, siteSettings);
+                                                                    showToast("Downloading Invoice PDF...");
+                                                                }}
+                                                            >
+                                                                Download PDF
+                                                            </button>
+                                                        ) : (
+                                                            <button
+                                                                className="text-gray-500 cursor-not-allowed text-sm font-bold opacity-50 px-3 py-1.5 border border-white/5 rounded-lg"
+                                                                disabled
+                                                                title="Invoice generates upon completion"
+                                                            >
+                                                                Unavailable
+                                                            </button>
+                                                        )}
                                                     </div>
                                                 </div>
                                             ))}
