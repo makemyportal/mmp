@@ -167,7 +167,7 @@ const CustomerDashboard = () => {
                                             <p className="text-lg font-semibold text-white mb-2">No orders yet</p>
                                             <p className="text-sm">Browse our catalog and place your first order.</p>
                                             <Link to="/services" className="inline-flex items-center gap-2 mt-6 px-5 py-2.5 rounded-xl bg-brand-primary/20 text-brand-primary font-bold text-sm border border-brand-primary/30 hover:bg-brand-primary/30 transition-colors">
-                                                Explore Catalog
+                                                View Services
                                             </Link>
                                         </div>
                                     ) : (
@@ -198,7 +198,7 @@ const CustomerDashboard = () => {
                                                                 <p className="text-sm text-gray-500 font-medium">Order ID: {order.id.substring(0, 8)}... • Placed on {order.date} • {order.price}</p>
                                                             </div>
                                                             {order.status !== 'completed' && order.status !== 'delivered' && (
-                                                                <a href={`https://wa.me/919999999999?text=Hi, I need an update on my order: ${order.serviceName} (ID: ${order.id})`}
+                                                                <a href={`https://wa.me/917017978807?text=Hi, I need an update on my order: ${order.serviceName} (ID: ${order.id})`}
                                                                     target="_blank" rel="noopener noreferrer"
                                                                     className="px-4 py-2 rounded-lg bg-[#25D366]/10 hover:bg-[#25D366]/20 text-sm font-bold border border-[#25D366]/30 text-[#25D366] transition-colors shrink-0">
                                                                     💬 Message Team
@@ -303,7 +303,7 @@ const CustomerDashboard = () => {
                                     </p>
 
                                     {activeTab === 'support' && (
-                                        <a href="https://wa.me/919999999999?text=Hi, I need support for my Makemyportal account." target="_blank" rel="noopener noreferrer" className="px-6 py-3 rounded-xl bg-white/10 hover:bg-white/20 text-white font-bold transition-colors">
+                                        <a href="https://wa.me/917017978807?text=Hi, I need support for my Makemyportal account." target="_blank" rel="noopener noreferrer" className="px-6 py-3 rounded-xl bg-white/10 hover:bg-white/20 text-white font-bold transition-colors">
                                             Contact Support via WhatsApp
                                         </a>
                                     )}

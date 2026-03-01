@@ -21,7 +21,7 @@ const Home = () => {
     const [openFAQ, setOpenFAQ] = useState(null);
     const [selectedService, setSelectedService] = useState(null);
     const [isBookingOpen, setIsBookingOpen] = useState(false);
-    const whatsappNum = settings.whatsapp || '919999999999';
+    const whatsappNum = settings.whatsapp || '918077162909';
 
     const handleBookNow = (service) => {
         if (!currentUser) {
@@ -104,7 +104,7 @@ const Home = () => {
                             Start Your Project <ArrowRight className="w-5 h-5" />
                         </Link>
                         <Link to="/services" className="w-full sm:w-auto px-8 py-4 rounded-xl border border-white/10 bg-white/5 hover:bg-white/10 backdrop-blur-sm transition-all font-semibold flex items-center justify-center">
-                            View Catalog
+                            View Services
                         </Link>
                     </div>
 

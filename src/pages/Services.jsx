@@ -53,7 +53,7 @@ const ServiceCard = ({ service, index, onBook }) => (
 
                 <div className="grid grid-cols-2 gap-3 mt-4">
                     <a
-                        href={`https://wa.me/919999999999?text=Hi, I am interested in booking the *${service.title}* service for ${service.price}.`}
+                        href={`https://wa.me/917017978807?text=Hi, I am interested in booking the *${service.title}* service for ${service.price}.`}
                         target="_blank"
                         rel="noopener noreferrer"
                         className="flex items-center justify-center gap-2 py-3 px-4 rounded-xl font-bold text-white bg-[#25D366]/20 border border-[#25D366]/50 hover:bg-[#25D366]/30 transition-colors text-sm"
@@ -118,7 +118,7 @@ const Services = () => {
                 <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-64 h-64 bg-brand-primary/20 blur-[100px] rounded-full pointer-events-none" />
                 <motion.h1 initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}
                     className="text-5xl md:text-7xl font-black tracking-tight mb-6 font-heading">
-                    Our <span className="text-transparent bg-clip-text bg-gradient-to-r from-brand-primary to-brand-secondary">Catalog</span>
+                    Our <span className="text-transparent bg-clip-text bg-gradient-to-r from-brand-primary to-brand-secondary">Services</span>
                 </motion.h1>
                 <motion.p initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.1 }}
                     className="text-lg md:text-xl text-gray-400 font-medium mb-8">

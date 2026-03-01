@@ -61,7 +61,7 @@ const Footer = () => {
                         <ul className="space-y-4">
                             {[
                                 { name: 'Home', path: '/' },
-                                { name: 'Catalog', path: '/services' },
+                                { name: 'Services', path: '/services' },
                                 { name: 'Pricing', path: '/#pricing', isAnchor: true },
                                 { name: 'Sign In', path: '/login' },
                                 { name: 'Register', path: '/register' },
@@ -124,9 +124,12 @@ const Footer = () => {
 
                 <div className="border-t border-white/10 pt-8 flex flex-col md:flex-row justify-between items-center gap-4 text-sm text-gray-500">
                     <p>© {new Date().getFullYear()} {settings.businessName || 'MakeMyPortal'}. All rights reserved.</p>
-                    <div className="flex gap-6">
-                        <span className="hover:text-white transition-colors cursor-pointer">Privacy Policy</span>
-                        <span className="hover:text-white transition-colors cursor-pointer">Terms of Service</span>
+                    <div className="flex flex-wrap gap-6">
+                        <Link to="/about" className="hover:text-white transition-colors">About Us</Link>
+                        <Link to="/contact" className="hover:text-white transition-colors">Contact</Link>
+                        <Link to="/privacy" className="hover:text-white transition-colors">Privacy Policy</Link>
+                        <Link to="/terms" className="hover:text-white transition-colors">Terms of Service</Link>
+                        <Link to="/refund" className="hover:text-white transition-colors">Refund Policy</Link>
                     </div>
                 </div>
             </div>

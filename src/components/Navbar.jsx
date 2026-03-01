@@ -31,7 +31,7 @@ const Navbar = () => {
     // Filtered out meaningless tabs, kept core functional ones.
     const navLinks = [
         { name: 'Home', path: '/' },
-        { name: 'Catalog', path: '/services' },
+        { name: 'Services', path: '/services' },
     ];
 
     const handleNavClick = (e, path) => {

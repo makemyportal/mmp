@@ -9,6 +9,12 @@ import Register from './pages/Register';
 import AdminDashboard from './pages/AdminDashboard';
 import CustomerDashboard from './pages/CustomerDashboard';
 import ProtectedRoute from './components/ProtectedRoute';
+import AboutUs from './pages/AboutUs';
+import PrivacyPolicy from './pages/PrivacyPolicy';
+import RefundPolicy from './pages/RefundPolicy';
+import TermsOfService from './pages/TermsOfService';
+import Contact from './pages/Contact';
+import WhatsAppFloat from './components/WhatsAppFloat';
 
 // Scroll to top on route change
 const ScrollToTop = () => {
@@ -63,6 +69,11 @@ const App = () => {
               <CustomerDashboard />
             </ProtectedRoute>
           } />
+          <Route path="/about" element={<AboutUs />} />
+          <Route path="/privacy" element={<PrivacyPolicy />} />
+          <Route path="/refund" element={<RefundPolicy />} />
+          <Route path="/terms" element={<TermsOfService />} />
+          <Route path="/contact" element={<Contact />} />
           <Route path="*" element={
             <div className="min-h-[70vh] flex flex-col items-center justify-center text-center px-4">
               <h1 className="text-6xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-red-500 to-orange-500 mb-4">404</h1>
@@ -72,6 +83,7 @@ const App = () => {
         </Routes>
       </PageLayout>
       <Footer />
+      <WhatsAppFloat />
     </>
   );
 };
