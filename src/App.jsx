@@ -78,7 +78,7 @@ const App = () => {
           <Route path="*" element={
             <div className="min-h-[70vh] flex flex-col items-center justify-center text-center px-4">
               <h1 className="text-6xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-red-500 to-orange-500 mb-4">404</h1>
-              <p className="text-gray-400 text-lg">Oops! The page you are looking for doesn't exist.</p>
+              <p className="text-gray-500 text-lg">Oops! The page you are looking for doesn't exist.</p>
             </div>
           } />
         </Routes>

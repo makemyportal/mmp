@@ -26,8 +26,8 @@ const AdminToast = ({ toasts, removeToast }) => (
                     className={`flex items-center gap-3 px-5 py-3.5 rounded-xl border backdrop-blur-xl shadow-2xl min-w-[300px] max-w-md ${colors[t.type] || colors.info}`}
                 >
                     {icons[t.type] || icons.info}
-                    <span className="text-sm font-medium text-white flex-1">{t.message}</span>
-                    <button onClick={() => removeToast(t.id)} className="text-gray-400 hover:text-white shrink-0">
+                    <span className="text-sm font-medium text-gray-900 flex-1">{t.message}</span>
+                    <button onClick={() => removeToast(t.id)} className="text-gray-500 hover:text-gray-900 shrink-0">
                         <X className="w-4 h-4" />
                     </button>
                 </motion.div>

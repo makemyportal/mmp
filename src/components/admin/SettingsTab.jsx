@@ -8,11 +8,11 @@ import { db } from '../../firebase';
 
 const InputField = ({ label, icon: Icon, value, onChange, type = 'text', placeholder }) => (
     <div className="space-y-1.5">
-        <label className="text-sm font-medium text-gray-300 ml-1 flex items-center gap-2">
+        <label className="text-sm font-medium text-gray-600 ml-1 flex items-center gap-2">
             {Icon && <Icon className="w-3.5 h-3.5 text-gray-500" />} {label}
         </label>
         <input type={type} value={value || ''} onChange={e => onChange(e.target.value)} placeholder={placeholder}
-            className="w-full px-4 py-2.5 bg-dark-900 border border-white/10 rounded-xl text-white text-sm focus:outline-none focus:border-brand-primary focus:ring-2 focus:ring-brand-primary/20 transition-all" />
+            className="w-full px-4 py-2.5 bg-white border border-gray-200 rounded-xl text-gray-900 text-sm focus:outline-none focus:border-brand-primary focus:ring-2 focus:ring-brand-primary/20 transition-all" />
     </div>
 );
 
@@ -62,13 +62,13 @@ const SettingsTab = ({ showToast, siteSettings, setSiteSettings }) => {
     return (
         <div className="space-y-8 max-w-3xl">
             <div className="flex items-center justify-between">
-                <h2 className="text-2xl font-black text-white font-heading">Settings</h2>
+                <h2 className="text-2xl font-black text-gray-900 font-heading">Settings</h2>
                 {saved && <span className="text-xs text-emerald-400 font-bold flex items-center gap-1"><CheckCircle2 className="w-4 h-4" /> Saved!</span>}
             </div>
 
             {/* Business Info */}
-            <div className="bg-dark-800 border border-white/10 rounded-2xl p-6 space-y-5">
-                <h3 className="text-lg font-bold text-white mb-2">Business Information</h3>
+            <div className="bg-gray-50 border border-gray-200 rounded-2xl p-6 space-y-5">
+                <h3 className="text-lg font-bold text-gray-900 mb-2">Business Information</h3>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
                     <InputField label="Business Name" icon={Globe} value={localSettings.businessName} onChange={v => update('businessName', v)} placeholder="MakeMyPortal" />
                     <InputField label="Tagline" icon={ExternalLink} value={localSettings.tagline} onChange={v => update('tagline', v)} placeholder="Premium Digital Solutions" />
@@ -80,8 +80,8 @@ const SettingsTab = ({ showToast, siteSettings, setSiteSettings }) => {
             </div>
 
             {/* Social Links */}
-            <div className="bg-dark-800 border border-white/10 rounded-2xl p-6 space-y-5">
-                <h3 className="text-lg font-bold text-white mb-2">Social Media Links</h3>
+            <div className="bg-gray-50 border border-gray-200 rounded-2xl p-6 space-y-5">
+                <h3 className="text-lg font-bold text-gray-900 mb-2">Social Media Links</h3>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
                     <InputField label="Instagram" value={localSettings.instagram} onChange={v => update('instagram', v)} placeholder="https://instagram.com/yourpage" />
                     <InputField label="Facebook" value={localSettings.facebook} onChange={v => update('facebook', v)} placeholder="https://facebook.com/yourpage" />
@@ -91,16 +91,16 @@ const SettingsTab = ({ showToast, siteSettings, setSiteSettings }) => {
             </div>
 
             {/* Preferences */}
-            <div className="bg-dark-800 border border-white/10 rounded-2xl p-6 space-y-4">
-                <h3 className="text-lg font-bold text-white mb-2">Preferences</h3>
+            <div className="bg-gray-50 border border-gray-200 rounded-2xl p-6 space-y-4">
+                <h3 className="text-lg font-bold text-gray-900 mb-2">Preferences</h3>
                 {[
                     { key: 'emailNotifications', label: 'Email Notifications', desc: 'Get notified for new orders via email' },
                     { key: 'soundAlerts', label: 'Sound Alerts', desc: 'Play sound on new notifications' },
                     { key: 'maintenanceMode', label: 'Maintenance Mode', desc: 'Show maintenance page to visitors' },
                 ].map(pref => (
-                    <div key={pref.key} className="flex items-center justify-between p-4 bg-dark-900 rounded-xl border border-white/5">
+                    <div key={pref.key} className="flex items-center justify-between p-4 bg-white rounded-xl border border-gray-200">
                         <div>
-                            <p className="text-sm font-bold text-white">{pref.label}</p>
+                            <p className="text-sm font-bold text-gray-900">{pref.label}</p>
                             <p className="text-xs text-gray-500">{pref.desc}</p>
                         </div>
                         <button onClick={() => update(pref.key, !localSettings[pref.key])}
@@ -114,7 +114,7 @@ const SettingsTab = ({ showToast, siteSettings, setSiteSettings }) => {
             {/* Actions */}
             <div className="flex items-center justify-between gap-4">
                 <button onClick={handleSave} disabled={saving}
-                    className="flex items-center gap-2 px-8 py-3 rounded-xl bg-gradient-to-r from-brand-primary to-blue-600 text-white font-bold hover:opacity-90 transition-all disabled:opacity-50 shadow-xl shadow-brand-primary/20">
+                    className="flex items-center gap-2 px-8 py-3 rounded-xl bg-gradient-to-r from-brand-primary to-blue-600 text-gray-900 font-bold hover:opacity-90 transition-all disabled:opacity-50 shadow-xl shadow-brand-primary/20">
                     <Save className="w-4 h-4" /> {saving ? 'Saving...' : 'Save All Settings'}
                 </button>
                 <button onClick={handleLogout}

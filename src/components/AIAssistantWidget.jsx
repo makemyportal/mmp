@@ -7,14 +7,14 @@ const AIAssistantWidget = () => {
     const [messages, setMessages] = useState([
         {
             role: 'assistant',
-            content: 'Hello! 👋 I am MakeMyPortal\'s AI Concierge. I can help you with our web development services, pricing, or assist with any customer care inquiries. How can I assist you today?'
+            content: 'Hello! 👋 I\'m **MakeMyPortal AI** — your smart assistant. I can help you explore our services, check pricing, or answer any questions. How can I help you today?'
         }
     ]);
     const [inputMessage, setInputMessage] = useState('');
     const [isLoading, setIsLoading] = useState(false);
     const messagesEndRef = useRef(null);
 
-    const SYSTEM_PROMPT = `You are the ultimate MakeMyPortal AI Concierge.
+    const SYSTEM_PROMPT = `You are the ultimate MakeMyPortal Nova AI.
 You are highly intelligent, deeply professional, very polite, and slightly playful. Your tone is premium and customer-centric. You must act as the primary customer support agent and sales guide for MakeMyPortal.
 
 ### Core Identity & Knowledge:
@@ -120,7 +120,7 @@ You can direct users to these pages if they ask:
     };
 
     return (
-        <div className="fixed bottom-6 left-6 z-50 font-sans">
+        <div className="fixed bottom-[84px] md:bottom-6 left-4 md:left-6 z-50 font-sans">
             <AnimatePresence>
                 {isOpen && (
                     <motion.div
@@ -128,31 +128,31 @@ You can direct users to these pages if they ask:
                         animate={{ opacity: 1, y: 0, scale: 1, filter: 'blur(0px)' }}
                         exit={{ opacity: 0, y: 30, scale: 0.9, filter: 'blur(10px)' }}
                         transition={{ type: "spring", stiffness: 300, damping: 25 }}
-                        className="absolute bottom-20 left-0 w-[340px] sm:w-[400px] border border-white/10 rounded-3xl shadow-[0_0_40px_rgba(0,0,0,0.5)] flex flex-col overflow-hidden bg-dark-900/80 backdrop-blur-2xl"
+                        className="absolute bottom-20 left-0 w-[340px] sm:w-[400px] border border-gray-200 rounded-3xl shadow-[0_0_40px_rgba(0,0,0,0.5)] flex flex-col overflow-hidden bg-white/80 backdrop-blur-2xl"
                         style={{ height: '550px', maxHeight: '80vh' }}
                     >
                         {/* Header */}
-                        <div className="bg-white/5 border-b border-white/10 p-5 flex items-center justify-between relative overflow-hidden">
+                        <div className="bg-white/5 border-b border-gray-200 p-5 flex items-center justify-between relative overflow-hidden">
                             {/* Decorative background glow */}
                             <div className="absolute top-0 right-0 w-32 h-32 bg-brand-primary/20 rounded-full blur-3xl -mr-16 -mt-16 pointer-events-none" />
 
                             <div className="flex items-center gap-4 relative z-10">
-                                <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-brand-primary to-blue-500 flex items-center justify-center shadow-[0_0_15px_rgba(59,130,246,0.5)] border border-white/20">
-                                    <Bot className="w-6 h-6 text-white" />
+                                <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-violet-600 to-blue-500 flex items-center justify-center shadow-[0_0_15px_rgba(124,58,237,0.5)] border border-violet-400/30">
+                                    <Sparkles className="w-6 h-6 text-white" />
                                 </div>
                                 <div>
-                                    <h3 className="font-bold text-white text-base tracking-wide flex items-center gap-2">
-                                        AI Concierge <Sparkles className="w-4 h-4 text-brand-primary animate-pulse" />
+                                    <h3 className="font-bold text-gray-900 text-base tracking-wide flex items-center gap-2">
+                                        MakeMyPortal AI <Sparkles className="w-4 h-4 text-violet-500 animate-pulse" />
                                     </h3>
-                                    <p className="text-xs text-gray-400 font-medium flex items-center gap-1.5 mt-0.5">
+                                    <p className="text-xs text-gray-500 font-medium flex items-center gap-1.5 mt-0.5">
                                         <span className="w-2 h-2 rounded-full bg-emerald-400 shadow-[0_0_8px_rgba(52,211,153,0.8)]" />
-                                        MakeMyPortal Support
+                                        Smart Assistant
                                     </p>
                                 </div>
                             </div>
                             <button
                                 onClick={() => setIsOpen(false)}
-                                className="p-2 rounded-xl hover:bg-white/10 text-gray-400 hover:text-white transition-all active:scale-95 relative z-10"
+                                className="p-2 rounded-xl hover:bg-white/10 text-gray-500 hover:text-gray-900 transition-all active:scale-95 relative z-10"
                             >
                                 <X className="w-5 h-5" />
                             </button>
@@ -169,16 +169,16 @@ You can direct users to these pages if they ask:
                                     className={`flex gap-3 ${msg.role === 'user' ? 'justify-end' : 'justify-start'}`}
                                 >
                                     {msg.role === 'assistant' && (
-                                        <div className="w-8 h-8 rounded-full bg-brand-primary/10 border border-brand-primary/20 flex items-center justify-center shrink-0 mt-0.5 shadow-lg">
-                                            <Bot className="w-4 h-4 text-brand-primary" />
+                                        <div className="w-8 h-8 rounded-full bg-violet-100 border border-violet-200 flex items-center justify-center shrink-0 mt-0.5 shadow-sm">
+                                            <Sparkles className="w-4 h-4 text-violet-600" />
                                         </div>
                                     )}
 
                                     <div className={`max-w-[80%] px-4 py-3 text-[14.5px] leading-relaxed shadow-lg ${msg.role === 'user'
-                                        ? 'bg-gradient-to-br from-brand-primary to-blue-600 text-white rounded-2xl rounded-tr-sm border border-white/10'
-                                        : 'bg-white/5 border border-white/10 text-gray-200 rounded-2xl rounded-tl-sm backdrop-blur-md'
+                                        ? 'bg-gradient-to-br from-brand-primary to-blue-600 text-white rounded-2xl rounded-tr-sm border border-transparent shadow-brand-primary/20'
+                                        : 'bg-white border border-gray-100 text-gray-800 rounded-2xl rounded-tl-sm shadow-sm'
                                         }`}>
-                                        <div className="prose prose-invert prose-p:text-sm prose-p:leading-relaxed prose-p:mb-2 last:prose-p:mb-0 prose-strong:text-brand-primary prose-strong:font-semibold prose-ul:my-1 prose-li:my-0"
+                                        <div className={`prose prose-sm prose-p:leading-relaxed prose-p:mb-2 last:prose-p:mb-0 prose-strong:font-semibold prose-ul:my-1 prose-li:my-0 ${msg.role === 'user' ? 'prose-invert prose-strong:text-white' : 'prose-strong:text-brand-primary'}`}
                                             dangerouslySetInnerHTML={{
                                                 // Extremely basic markdown interpretation for bold and line breaks
                                                 __html: msg.content
@@ -190,8 +190,8 @@ You can direct users to these pages if they ask:
                                     </div>
 
                                     {msg.role === 'user' && (
-                                        <div className="w-8 h-8 rounded-full bg-dark-800 border border-white/10 flex items-center justify-center shrink-0 mt-0.5 shadow-lg">
-                                            <User className="w-4 h-4 text-gray-400" />
+                                        <div className="w-8 h-8 rounded-full bg-gray-100 border border-gray-200 flex items-center justify-center shrink-0 mt-0.5 shadow-sm">
+                                            <User className="w-4 h-4 text-gray-600" />
                                         </div>
                                     )}
                                 </motion.div>
@@ -203,10 +203,10 @@ You can direct users to these pages if they ask:
                                     animate={{ opacity: 1 }}
                                     className="flex gap-3 justify-start"
                                 >
-                                    <div className="w-8 h-8 rounded-full bg-brand-primary/10 border border-brand-primary/20 flex items-center justify-center shrink-0 mt-0.5">
-                                        <Bot className="w-4 h-4 text-brand-primary md:animate-pulse" />
+                                    <div className="w-8 h-8 rounded-full bg-violet-100 border border-violet-200 flex items-center justify-center shrink-0 mt-0.5">
+                                        <Sparkles className="w-4 h-4 text-violet-600" />
                                     </div>
-                                    <div className="px-5 py-3.5 rounded-2xl bg-white/5 border border-white/10 rounded-tl-sm flex items-center gap-3 backdrop-blur-md">
+                                    <div className="px-5 py-3.5 rounded-2xl bg-white/5 border border-gray-200 rounded-tl-sm flex items-center gap-3 backdrop-blur-md">
                                         <div className="flex gap-1.5">
                                             <span className="w-1.5 h-1.5 rounded-full bg-brand-primary animate-bounce" style={{ animationDelay: '0ms' }} />
                                             <span className="w-1.5 h-1.5 rounded-full bg-brand-primary animate-bounce" style={{ animationDelay: '150ms' }} />
@@ -219,7 +219,7 @@ You can direct users to these pages if they ask:
                         </div>
 
                         {/* Input Area */}
-                        <div className="p-4 bg-dark-900 border-t border-white/10 shadow-[0_-10px_40px_rgba(0,0,0,0.3)] z-10">
+                        <div className="p-4 bg-white border-t border-gray-200 shadow-[0_-10px_40px_rgba(0,0,0,0.3)] z-10">
                             <form onSubmit={handleSendMessage} className="relative flex items-center">
                                 <input
                                     type="text"
@@ -227,7 +227,7 @@ You can direct users to these pages if they ask:
                                     onChange={(e) => setInputMessage(e.target.value)}
                                     placeholder="Ask anything..."
                                     disabled={isLoading}
-                                    className="w-full bg-white/5 border border-white/10 rounded-2xl pl-5 pr-14 py-3.5 text-sm text-white placeholder:text-gray-500 focus:outline-none focus:border-brand-primary/50 focus:ring-1 focus:ring-brand-primary/30 transition-all disabled:opacity-50"
+                                    className="w-full bg-white/5 border border-gray-200 rounded-2xl pl-5 pr-14 py-3.5 text-sm text-gray-900 placeholder:text-gray-500 focus:outline-none focus:border-brand-primary/50 focus:ring-1 focus:ring-brand-primary/30 transition-all disabled:opacity-50"
                                 />
                                 <button
                                     type="submit"
@@ -238,8 +238,8 @@ You can direct users to these pages if they ask:
                                 </button>
                             </form>
                             <div className="flex items-center justify-center gap-1.5 mt-3 opacity-60">
-                                <Info className="w-3 h-3 text-gray-400" />
-                                <p className="text-[10px] text-gray-400 font-medium tracking-wide">AI powered by Llama 3.3 70B</p>
+                                <Info className="w-3 h-3 text-gray-500" />
+                                <p className="text-[10px] text-gray-500 font-medium tracking-wide">Powered by MakeMyPortal AI</p>
                             </div>
                         </div>
                     </motion.div>
@@ -248,18 +248,13 @@ You can direct users to these pages if they ask:
 
             {/* Toggle Button */}
             <motion.button
-                whileHover={{ scale: 1.05, boxShadow: "0 0 30px rgba(59,130,246,0.6)" }}
+                whileHover={{ scale: 1.05, boxShadow: "0 0 20px rgba(0,0,0,0.3)" }}
                 whileTap={{ scale: 0.95 }}
                 onClick={() => setIsOpen(!isOpen)}
-                className="w-16 h-16 rounded-full bg-gradient-to-br from-brand-primary to-blue-600 shadow-[0_0_20px_rgba(59,130,246,0.4)] flex items-center justify-center text-white border border-white/20 relative overflow-hidden group backdrop-blur-md"
+                className="w-12 h-12 rounded-full bg-gradient-to-br from-gray-900 to-gray-800 shadow-[0_4px_15px_rgba(0,0,0,0.3)] flex items-center justify-center text-white border border-gray-700 relative overflow-hidden group"
             >
-                <div className="absolute inset-0 bg-white/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-                {isOpen ? <X className="w-7 h-7 relative z-10" /> : <Bot className="w-7 h-7 relative z-10 group-hover:rotate-12 transition-transform duration-300" />}
-
-                {/* Notification dot */}
-                {!isOpen && (
-                    <span className="absolute top-0 right-0 w-4 h-4 rounded-full bg-emerald-400 border-[3px] border-dark-900 animate-pulse shadow-[0_0_10px_rgba(52,211,153,0.8)]" />
-                )}
+                <div className="absolute inset-0 bg-white/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                {isOpen ? <X className="w-5 h-5 relative z-10 text-white" /> : <Sparkles className="w-5 h-5 relative z-10 text-white group-hover:rotate-12 transition-transform duration-300" />}
             </motion.button>
         </div>
     );

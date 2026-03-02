@@ -51,17 +51,17 @@ const UsersTab = ({ users, loading, showToast }) => {
         <div className="space-y-6">
             <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
                 <div>
-                    <h2 className="text-2xl font-black text-white font-heading">User Management</h2>
+                    <h2 className="text-2xl font-black text-gray-900 font-heading">User Management</h2>
                     <p className="text-sm text-gray-500 mt-1">{users.length} registered user{users.length !== 1 ? 's' : ''}</p>
                 </div>
                 <div className="flex items-center gap-3">
                     <div className="relative">
                         <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-500" />
                         <input value={search} onChange={e => setSearch(e.target.value)} placeholder="Search users..."
-                            className="pl-10 pr-4 py-2.5 bg-dark-900 border border-white/10 rounded-xl text-sm text-white focus:outline-none focus:border-brand-primary transition-colors w-48" />
+                            className="pl-10 pr-4 py-2.5 bg-white border border-gray-200 rounded-xl text-sm text-gray-900 focus:outline-none focus:border-brand-primary transition-colors w-48" />
                     </div>
                     <select value={roleFilter} onChange={e => setRoleFilter(e.target.value)}
-                        className="px-4 py-2.5 bg-dark-900 border border-white/10 rounded-xl text-sm text-white focus:outline-none cursor-pointer">
+                        className="px-4 py-2.5 bg-white border border-gray-200 rounded-xl text-sm text-gray-900 focus:outline-none cursor-pointer">
                         <option value="all">All Roles</option>
                         <option value="admin">Admin</option>
                         <option value="customer">Customer</option>
@@ -71,25 +71,25 @@ const UsersTab = ({ users, loading, showToast }) => {
 
             {/* User Stats */}
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-                <div className="bg-dark-800 border border-white/10 rounded-xl p-4 flex items-center gap-4">
+                <div className="bg-gray-50 border border-gray-200 rounded-xl p-4 flex items-center gap-4">
                     <div className="p-2.5 rounded-lg bg-blue-500/10"><UserCheck className="w-5 h-5 text-blue-400" /></div>
-                    <div><p className="text-xs text-gray-500">Total Users</p><p className="text-xl font-black text-white">{users.length}</p></div>
+                    <div><p className="text-xs text-gray-500">Total Users</p><p className="text-xl font-black text-gray-900">{users.length}</p></div>
                 </div>
-                <div className="bg-dark-800 border border-white/10 rounded-xl p-4 flex items-center gap-4">
+                <div className="bg-gray-50 border border-gray-200 rounded-xl p-4 flex items-center gap-4">
                     <div className="p-2.5 rounded-lg bg-brand-primary/10"><Shield className="w-5 h-5 text-brand-primary" /></div>
-                    <div><p className="text-xs text-gray-500">Admins</p><p className="text-xl font-black text-white">{users.filter(u => u.role === 'admin').length}</p></div>
+                    <div><p className="text-xs text-gray-500">Admins</p><p className="text-xl font-black text-gray-900">{users.filter(u => u.role === 'admin').length}</p></div>
                 </div>
-                <div className="bg-dark-800 border border-white/10 rounded-xl p-4 flex items-center gap-4">
+                <div className="bg-gray-50 border border-gray-200 rounded-xl p-4 flex items-center gap-4">
                     <div className="p-2.5 rounded-lg bg-emerald-500/10"><Mail className="w-5 h-5 text-emerald-400" /></div>
-                    <div><p className="text-xs text-gray-500">Customers</p><p className="text-xl font-black text-white">{users.filter(u => (u.role || 'customer') === 'customer').length}</p></div>
+                    <div><p className="text-xs text-gray-500">Customers</p><p className="text-xl font-black text-gray-900">{users.filter(u => (u.role || 'customer') === 'customer').length}</p></div>
                 </div>
             </div>
 
-            <div className="bg-dark-800 border border-white/10 rounded-2xl overflow-hidden">
+            <div className="bg-gray-50 border border-gray-200 rounded-2xl overflow-hidden">
                 <div className="overflow-x-auto">
                     <table className="w-full">
                         <thead>
-                            <tr className="text-xs text-gray-500 uppercase tracking-wider border-b border-white/5">
+                            <tr className="text-xs text-gray-500 uppercase tracking-wider border-b border-gray-200">
                                 <th className="px-6 py-3 text-left font-semibold">User</th>
                                 <th className="px-6 py-3 text-left font-semibold">Email</th>
                                 <th className="px-6 py-3 text-left font-semibold">Organization</th>
@@ -110,13 +110,13 @@ const UsersTab = ({ users, loading, showToast }) => {
                                 <tr key={user.id} className="hover:bg-white/[0.02] transition-colors">
                                     <td className="px-6 py-4">
                                         <div className="flex items-center gap-3">
-                                            <div className={`w-9 h-9 rounded-full flex items-center justify-center text-white text-sm font-bold shadow ${user.role === 'admin' ? 'bg-gradient-to-br from-brand-primary to-brand-secondary' : 'bg-gradient-to-br from-blue-500 to-cyan-500'}`}>
+                                            <div className={`w-9 h-9 rounded-full flex items-center justify-center text-gray-900 text-sm font-bold shadow ${user.role === 'admin' ? 'bg-gradient-to-br from-brand-primary to-brand-secondary' : 'bg-gradient-to-br from-blue-500 to-cyan-500'}`}>
                                                 {(user.name || user.email || '?')[0].toUpperCase()}
                                             </div>
-                                            <p className="text-sm font-medium text-white">{user.name || 'No name'}</p>
+                                            <p className="text-sm font-medium text-gray-900">{user.name || 'No name'}</p>
                                         </div>
                                     </td>
-                                    <td className="px-6 py-4 text-sm text-gray-400">{user.email}</td>
+                                    <td className="px-6 py-4 text-sm text-gray-500">{user.email}</td>
                                     <td className="px-6 py-4 text-sm text-gray-500">{user.organization || '—'}</td>
                                     <td className="px-6 py-4">
                                         <span className={`px-2.5 py-1 rounded-full text-xs font-bold border ${user.role === 'admin' ? 'bg-brand-primary/10 text-brand-primary border-brand-primary/20' : 'bg-emerald-500/10 text-emerald-400 border-emerald-500/20'}`}>
@@ -127,7 +127,7 @@ const UsersTab = ({ users, loading, showToast }) => {
                                     <td className="px-6 py-4 text-right">
                                         <div className="flex items-center justify-end gap-2">
                                             <button onClick={() => toggleRole(user.id, user.role || 'customer')}
-                                                className="px-3 py-1.5 rounded-lg text-xs font-semibold border border-white/10 text-gray-400 hover:text-white hover:bg-white/5 transition-colors">
+                                                className="px-3 py-1.5 rounded-lg text-xs font-semibold border border-gray-200 text-gray-500 hover:text-gray-900 hover:bg-white/5 transition-colors">
                                                 {user.role === 'admin' ? 'Make Customer' : 'Make Admin'}
                                             </button>
                                             <button onClick={() => handleDeleteUser(user)}

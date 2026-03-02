@@ -6,20 +6,24 @@ import './index.css'
 import { AuthProvider } from './context/AuthContext'
 import { ServiceProvider } from './context/ServiceContext'
 import { SettingsProvider } from './context/SettingsContext'
+import { PortfolioProvider } from './context/PortfolioContext'
 import { HelmetProvider } from 'react-helmet-async'
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
     <AuthProvider>
       <ServiceProvider>
-        <SettingsProvider>
-          <HelmetProvider>
-            <BrowserRouter>
-              <App />
-            </BrowserRouter>
-          </HelmetProvider>
-        </SettingsProvider>
+        <PortfolioProvider>
+          <SettingsProvider>
+            <HelmetProvider>
+              <BrowserRouter>
+                <App />
+              </BrowserRouter>
+            </HelmetProvider>
+          </SettingsProvider>
+        </PortfolioProvider>
       </ServiceProvider>
     </AuthProvider>
   </React.StrictMode>
 )
+

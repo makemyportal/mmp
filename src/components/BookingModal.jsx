@@ -70,7 +70,7 @@ const BookingModal = ({ isOpen, onClose, service }) => {
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
                     exit={{ opacity: 0 }}
-                    className="fixed inset-0 bg-dark-900/80 backdrop-blur-md"
+                    className="fixed inset-0 bg-white/80 backdrop-blur-md"
                     onClick={onClose}
                 />
 
@@ -78,15 +78,15 @@ const BookingModal = ({ isOpen, onClose, service }) => {
                     initial={{ opacity: 0, scale: 0.95, y: 20 }}
                     animate={{ opacity: 1, scale: 1, y: 0 }}
                     exit={{ opacity: 0, scale: 0.95, y: 20 }}
-                    className="relative w-full max-w-lg bg-dark-800 border border-white/10 rounded-2xl shadow-2xl overflow-hidden flex flex-col my-auto"
+                    className="relative w-full max-w-lg bg-gray-50 border border-gray-200 rounded-2xl shadow-2xl overflow-hidden flex flex-col my-auto"
                 >
                     {/* Header */}
-                    <div className="relative p-6 border-b border-white/10 overflow-hidden">
+                    <div className="relative p-6 border-b border-gray-200 overflow-hidden">
                         <div className="absolute inset-0 bg-gradient-to-br from-brand-primary/20 to-transparent opacity-50" />
                         <div className="relative flex justify-between items-start">
                             <div>
-                                <h3 className="text-xl sm:text-2xl font-bold text-white font-heading">Complete Your Booking</h3>
-                                <p className="text-gray-400 text-sm mt-1 flex items-center gap-2">
+                                <h3 className="text-xl sm:text-2xl font-bold text-gray-900 font-heading">Complete Your Booking</h3>
+                                <p className="text-gray-500 text-sm mt-1 flex items-center gap-2">
                                     <span className="font-semibold text-brand-secondary">{service.title}</span>
                                     <span className="w-1 h-1 rounded-full bg-white/30" />
                                     <span>{service.price}</span>
@@ -94,7 +94,7 @@ const BookingModal = ({ isOpen, onClose, service }) => {
                             </div>
                             <button
                                 onClick={onClose}
-                                className="text-gray-400 hover:text-white bg-white/5 hover:bg-white/10 rounded-full p-2 transition-colors z-10"
+                                className="text-gray-500 hover:text-gray-900 bg-white/5 hover:bg-white/10 rounded-full p-2 transition-colors z-10"
                             >
                                 <X className="w-5 h-5" />
                             </button>
@@ -111,8 +111,8 @@ const BookingModal = ({ isOpen, onClose, service }) => {
                                 <div className="w-16 h-16 rounded-full bg-green-500/20 text-green-500 flex items-center justify-center mb-6">
                                     <CheckCircle2 className="w-8 h-8" />
                                 </div>
-                                <h4 className="text-2xl font-bold text-white mb-2">Request Received!</h4>
-                                <p className="text-gray-400">Thank you for your interest in {service.title}. Our team will review your requirements and contact you shortly.</p>
+                                <h4 className="text-2xl font-bold text-gray-900 mb-2">Request Received!</h4>
+                                <p className="text-gray-500">Thank you for your interest in {service.title}. Our team will review your requirements and contact you shortly.</p>
                             </motion.div>
                         ) : (
                             <form onSubmit={handleSubmit} className="space-y-4">
@@ -124,7 +124,7 @@ const BookingModal = ({ isOpen, onClose, service }) => {
                                 )}
 
                                 <div className="space-y-1">
-                                    <label className="text-sm font-medium text-gray-300 ml-1">Full Name *</label>
+                                    <label className="text-sm font-medium text-gray-600 ml-1">Full Name *</label>
                                     <div className="relative">
                                         <User className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-500" />
                                         <input
@@ -132,7 +132,7 @@ const BookingModal = ({ isOpen, onClose, service }) => {
                                             type="text"
                                             value={formData.name}
                                             onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                                            className="w-full pl-10 pr-4 py-2.5 bg-dark-900 border border-white/10 rounded-xl text-white focus:outline-none focus:border-brand-primary transition-colors text-sm"
+                                            className="w-full pl-10 pr-4 py-2.5 bg-white border border-gray-200 rounded-xl text-gray-900 focus:outline-none focus:border-brand-primary transition-colors text-sm"
                                             placeholder="John Doe"
                                         />
                                     </div>
@@ -140,7 +140,7 @@ const BookingModal = ({ isOpen, onClose, service }) => {
 
                                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                                     <div className="space-y-1">
-                                        <label className="text-sm font-medium text-gray-300 ml-1">Email *</label>
+                                        <label className="text-sm font-medium text-gray-600 ml-1">Email *</label>
                                         <div className="relative">
                                             <Mail className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-500" />
                                             <input
@@ -148,13 +148,13 @@ const BookingModal = ({ isOpen, onClose, service }) => {
                                                 type="email"
                                                 value={formData.email}
                                                 onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                                                className="w-full pl-10 pr-4 py-2.5 bg-dark-900 border border-white/10 rounded-xl text-white focus:outline-none focus:border-brand-primary transition-colors text-sm"
+                                                className="w-full pl-10 pr-4 py-2.5 bg-white border border-gray-200 rounded-xl text-gray-900 focus:outline-none focus:border-brand-primary transition-colors text-sm"
                                                 placeholder="you@email.com"
                                             />
                                         </div>
                                     </div>
                                     <div className="space-y-1">
-                                        <label className="text-sm font-medium text-gray-300 ml-1">Phone Number *</label>
+                                        <label className="text-sm font-medium text-gray-600 ml-1">Phone Number *</label>
                                         <div className="relative">
                                             <Phone className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-500" />
                                             <input
@@ -162,7 +162,7 @@ const BookingModal = ({ isOpen, onClose, service }) => {
                                                 type="tel"
                                                 value={formData.phone}
                                                 onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
-                                                className="w-full pl-10 pr-4 py-2.5 bg-dark-900 border border-white/10 rounded-xl text-white focus:outline-none focus:border-brand-primary transition-colors text-sm"
+                                                className="w-full pl-10 pr-4 py-2.5 bg-white border border-gray-200 rounded-xl text-gray-900 focus:outline-none focus:border-brand-primary transition-colors text-sm"
                                                 placeholder="+91 98765 43210"
                                             />
                                         </div>
@@ -170,21 +170,21 @@ const BookingModal = ({ isOpen, onClose, service }) => {
                                 </div>
 
                                 <div className="space-y-1">
-                                    <label className="text-sm font-medium text-gray-300 ml-1">Company / School</label>
+                                    <label className="text-sm font-medium text-gray-600 ml-1">Company / School</label>
                                     <div className="relative">
                                         <Building className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-500" />
                                         <input
                                             type="text"
                                             value={formData.company}
                                             onChange={(e) => setFormData({ ...formData, company: e.target.value })}
-                                            className="w-full pl-10 pr-4 py-2.5 bg-dark-900 border border-white/10 rounded-xl text-white focus:outline-none focus:border-brand-primary transition-colors text-sm"
+                                            className="w-full pl-10 pr-4 py-2.5 bg-white border border-gray-200 rounded-xl text-gray-900 focus:outline-none focus:border-brand-primary transition-colors text-sm"
                                             placeholder="Optional"
                                         />
                                     </div>
                                 </div>
 
                                 <div className="space-y-1">
-                                    <label className="text-sm font-medium text-gray-300 ml-1">Project Requirements</label>
+                                    <label className="text-sm font-medium text-gray-600 ml-1">Project Requirements</label>
                                     <div className="relative">
                                         <MessageSquare className="absolute left-3 top-3 w-5 h-5 text-gray-500" />
                                         <textarea
@@ -192,7 +192,7 @@ const BookingModal = ({ isOpen, onClose, service }) => {
                                             rows="3"
                                             value={formData.requirements}
                                             onChange={(e) => setFormData({ ...formData, requirements: e.target.value })}
-                                            className="w-full pl-10 pr-4 py-3 bg-dark-900 border border-white/10 rounded-xl text-white focus:outline-none focus:border-brand-primary transition-colors resize-none text-sm"
+                                            className="w-full pl-10 pr-4 py-3 bg-white border border-gray-200 rounded-xl text-gray-900 focus:outline-none focus:border-brand-primary transition-colors resize-none text-sm"
                                             placeholder="Tell us briefly what you're looking for..."
                                         />
                                     </div>
@@ -202,7 +202,7 @@ const BookingModal = ({ isOpen, onClose, service }) => {
                                     <button
                                         type="submit"
                                         disabled={isSubmitting}
-                                        className="w-full flex justify-center items-center gap-2 py-3 px-4 rounded-xl font-semibold text-white bg-gradient-to-r from-brand-primary to-brand-secondary hover:opacity-90 disabled:opacity-50 disabled:cursor-not-allowed transition-all shadow-[0_0_20px_rgba(139,92,246,0.3)]"
+                                        className="w-full flex justify-center items-center gap-2 py-3 px-4 rounded-xl font-semibold text-gray-900 bg-gradient-to-r from-brand-primary to-brand-secondary hover:opacity-90 disabled:opacity-50 disabled:cursor-not-allowed transition-all shadow-[0_0_20px_rgba(139,92,246,0.3)]"
                                     >
                                         {isSubmitting ? 'Submitting...' : 'Submit Booking Request'}
                                         {!isSubmitting && <ArrowRight className="w-4 h-4" />}

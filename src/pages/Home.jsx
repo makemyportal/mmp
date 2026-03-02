@@ -6,11 +6,12 @@ import {
     Check, Monitor, LayoutTemplate, Palette, GraduationCap, Bot, Lightbulb,
     CheckCircle2, Users, Layers, ArrowRight, Search, Star, Quote,
     MessageCircle, ChevronDown, ChevronUp, Zap, FileCheck, Rocket, Headphones,
-    Shield, Clock, Heart, ShoppingCart
+    Shield, Clock, Heart, ShoppingCart, ExternalLink, Wrench, FolderKanban
 } from 'lucide-react';
 import { useServices } from '../context/ServiceContext';
 import { useSettings } from '../context/SettingsContext';
 import { useAuth } from '../context/AuthContext';
+import { usePortfolio } from '../context/PortfolioContext';
 import BookingModal from '../components/BookingModal';
 
 const Home = () => {
@@ -18,10 +19,12 @@ const Home = () => {
     const { services } = useServices();
     const { settings } = useSettings();
     const { currentUser } = useAuth();
+    const { clients, projects, tools, testimonials } = usePortfolio();
     const [searchQuery, setSearchQuery] = useState('');
     const [openFAQ, setOpenFAQ] = useState(null);
     const [selectedService, setSelectedService] = useState(null);
     const [isBookingOpen, setIsBookingOpen] = useState(false);
+    const [heroActiveTab, setHeroActiveTab] = useState('SaaS Platforms');
     const whatsappNum = settings.whatsapp || '918077162909';
 
     const handleBookNow = (service) => {
@@ -51,14 +54,10 @@ const Home = () => {
         { q: 'Do you provide source code access?', a: 'Yes, you receive full ownership level access of all source code and assets upon project completion. No lock-in.' },
     ];
 
-    const testimonials = [
-        { name: 'Rahul Sharma', role: 'CEO, TechStartup', text: 'MakeMyPortal delivered a stunning website that exceeded our expectations. The team was professional and responsive throughout.', rating: 5 },
-        { name: 'Priya Patel', role: 'Founder, EduLearn', text: 'Our EdTech platform was built flawlessly. Student engagement increased by 200% within the first month of launch.', rating: 5 },
-        { name: 'Amit Kumar', role: 'Director, RetailMax', text: 'The e-commerce portal they built handles 10,000+ daily orders smoothly. Best investment we made for our business.', rating: 5 },
-    ];
+
 
     return (
-        <div className="relative w-full overflow-hidden bg-dark-900 text-white font-sans selection:bg-brand-primary selection:text-white">
+        <div className="relative w-full overflow-hidden bg-white text-gray-900 font-sans selection:bg-brand-primary selection:text-gray-900">
             <Helmet>
                 <title>MakeMyPortal | Premium Web Development & Digital Solutions</title>
                 <meta name="description" content="MakeMyPortal delivers production-ready portals, AI applications, EdTech platforms, and custom websites for modern businesses." />
@@ -70,89 +69,101 @@ const Home = () => {
             <div className="absolute top-[20%] right-[-10%] w-[40%] h-[40%] bg-[#2563eb]/20 rounded-full blur-[140px] pointer-events-none" />
             <div className="absolute bottom-[-10%] left-[20%] w-[40%] h-[40%] bg-[#f59e0b]/10 rounded-full blur-[120px] pointer-events-none" />
 
-            {/* ═══════════════════════════════════ HERO ═══════════════════════════════════ */}
-            <section className="relative pt-32 pb-20 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto flex flex-col lg:flex-row items-center justify-between gap-12 lg:gap-8 z-10">
+            {/* ═══════════════════════════════════ NEW HERO (TECH STUDIO) ═══════════════════════════════════ */}
+            <section className="relative pt-32 pb-20 px-4 sm:px-6 lg:px-8 max-w-5xl mx-auto text-center z-10 flex flex-col items-center">
                 <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }}
-                    className="flex-1 w-full max-w-2xl text-center lg:text-left">
-                    <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-brand-primary/10 border border-brand-primary/20 text-brand-primary text-sm font-semibold mb-6">
+                    className="w-full flex flex-col items-center">
+
+                    <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-gray-50 border border-gray-200 text-gray-600 text-sm font-semibold mb-8 shadow-sm">
                         <span className="relative flex h-2 w-2">
                             <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-brand-primary opacity-75"></span>
                             <span className="relative inline-flex rounded-full h-2 w-2 bg-brand-primary"></span>
                         </span>
-                        {settings.tagline || 'Premium Digital Solutions'}
+                        Premium Digital Studio
                     </div>
-                    <h1 className="text-4xl sm:text-5xl lg:text-6xl font-black leading-[1.15] mb-6 font-heading tracking-tight sm:leading-tight">
-                        We Build <span className="text-transparent bg-clip-text bg-gradient-to-r from-brand-primary to-[#06b6d4]">Powerful Systems</span> For Modern Businesses.
+
+                    <h1 className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-black leading-[1.1] mb-6 font-heading tracking-tighter">
+                        We Build <br className="hidden sm:block" />
+                        <span className="text-transparent bg-clip-text bg-gradient-to-r from-brand-primary via-blue-600 to-[#06b6d4]">
+                            {heroActiveTab}
+                        </span>
                     </h1>
-                    <p className="text-lg sm:text-xl text-gray-300 mb-8 max-w-xl mx-auto lg:mx-0">
-                        From High-End Branding to Advanced AI Portals — We deliver production-ready software that scales your business.
+
+                    <p className="text-lg sm:text-xl text-gray-700 mb-10 max-w-2xl mx-auto font-medium">
+                        Stop using templates. We engineer bespoke, production-ready software that scales your business and dominates your market.
                     </p>
 
-                    {/* ── SEARCH BAR ── */}
-                    <form onSubmit={handleSearch} className="flex items-center gap-2 max-w-xl mx-auto lg:mx-0 mb-8">
-                        <div className="relative flex-1">
-                            <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-500" />
-                            <input
-                                type="text"
-                                value={searchQuery}
-                                onChange={e => setSearchQuery(e.target.value)}
-                                placeholder="Search services... e.g., Website, Logo, SEO"
-                                className="w-full pl-12 pr-4 py-4 rounded-xl bg-dark-800 border border-white/10 text-white placeholder:text-gray-500 focus:outline-none focus:border-brand-primary focus:ring-2 focus:ring-brand-primary/20 transition-all text-sm font-medium"
-                            />
-                        </div>
-                        <button type="submit" className="px-6 py-4 rounded-xl bg-gradient-to-r from-brand-primary to-blue-600 text-white font-bold hover:shadow-[0_0_30px_rgba(124,58,237,0.5)] transition-all hover:scale-105 active:scale-95 shrink-0">
-                            Search
-                        </button>
-                    </form>
+                    {/* Interactive Selector */}
+                    <div className="flex flex-wrap items-center justify-center gap-2 mb-12 p-2 rounded-2xl md:rounded-full bg-gray-50/80 backdrop-blur-md border border-gray-200">
+                        {['SaaS Platforms', 'AI Portals', 'E-Commerce', 'Websites'].map((tab) => (
+                            <button
+                                key={tab}
+                                onClick={() => setHeroActiveTab(tab)}
+                                className={`px-6 py-3 rounded-xl md:rounded-full text-sm font-bold transition-all ${heroActiveTab === tab
+                                    ? 'bg-white text-gray-900 shadow-[0_2px_15px_rgba(0,0,0,0.08)]'
+                                    : 'text-gray-500 hover:text-gray-900 hover:bg-white/50'
+                                    }`}
+                            >
+                                {tab}
+                            </button>
+                        ))}
+                    </div>
 
-                    <div className="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-4">
-                        <Link to="/register" className="w-full sm:w-auto px-8 py-4 rounded-xl bg-gradient-to-r from-brand-primary to-blue-600 text-white font-bold hover:shadow-[0_0_30px_rgba(124,58,237,0.5)] transition-all hover:scale-105 active:scale-95 flex items-center justify-center gap-2">
+                    <div className="flex flex-col sm:flex-row items-center justify-center gap-4 w-full sm:w-auto">
+                        <Link to="/register" className="w-full sm:w-auto px-8 py-4 rounded-full bg-gray-900 text-white font-bold hover:bg-brand-primary hover:shadow-[0_0_30px_rgba(124,58,237,0.3)] transition-all flex items-center justify-center gap-2">
                             Start Your Project <ArrowRight className="w-5 h-5" />
                         </Link>
-                        <Link to="/services" className="w-full sm:w-auto px-8 py-4 rounded-xl border border-white/10 bg-white/5 hover:bg-white/10 backdrop-blur-sm transition-all font-semibold flex items-center justify-center">
-                            View Services
+                        <Link to="/services" className="w-full sm:w-auto px-8 py-4 rounded-full border border-gray-200 bg-white hover:bg-gray-50 transition-all font-bold text-gray-900 flex items-center justify-center">
+                            Explore Systems
                         </Link>
                     </div>
 
                     {/* Trust Badges */}
-                    <div className="flex items-center gap-6 mt-8 justify-center lg:justify-start">
-                        {[{ icon: Shield, text: '100% Secure' }, { icon: Clock, text: 'On-Time Delivery' }, { icon: Heart, text: 'Free Support' }].map((b, i) => (
-                            <div key={i} className="flex items-center gap-1.5 text-xs text-gray-500 font-semibold">
-                                <b.icon className="w-3.5 h-3.5 text-emerald-400" /> {b.text}
+                    <div className="flex flex-wrap items-center gap-6 mt-12 justify-center">
+                        {[{ icon: Shield, text: 'Enterprise Grade', clr: 'text-emerald-500' }, { icon: Zap, text: 'Built for Speed', clr: 'text-amber-500' }, { icon: CheckCircle2, text: 'Custom Engineered', clr: 'text-blue-500' }].map((b, i) => (
+                            <div key={i} className="flex items-center gap-2 text-xs text-gray-800 font-bold uppercase tracking-wider">
+                                <b.icon className={`w-4 h-4 ${b.clr}`} /> {b.text}
                             </div>
                         ))}
                     </div>
                 </motion.div>
-
-                {/* Hero Dashboard Image */}
-                <motion.div initial={{ opacity: 0, scale: 0.95, y: 20 }} animate={{ opacity: 1, scale: 1, y: 0 }} transition={{ duration: 0.8, delay: 0.2 }}
-                    className="flex-1 w-full max-w-2xl relative mt-10 lg:mt-0">
-                    <div className="relative rounded-2xl border border-white/10 bg-dark-800 shadow-[0_20px_50px_rgba(0,0,0,0.5)] overflow-hidden group">
-                        <div className="h-8 bg-dark-900 border-b border-white/5 flex items-center px-4 gap-2">
-                            <div className="w-3 h-3 rounded-full bg-[#ff5f56]" />
-                            <div className="w-3 h-3 rounded-full bg-[#ffbd2e]" />
-                            <div className="w-3 h-3 rounded-full bg-[#27c93f]" />
-                        </div>
-                        <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=1200&q=80" alt="Dashboard Software Interface"
-                            className="w-full h-auto object-cover opacity-90 group-hover:opacity-100 group-hover:scale-[1.02] transition-all duration-700" />
-                        <div className="absolute inset-0 border-2 border-brand-primary/20 rounded-2xl pointer-events-none" />
-                        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[110%] h-[110%] bg-gradient-to-tr from-brand-primary/30 to-blue-500/30 blur-2xl -z-10 group-hover:opacity-80 opacity-40 transition-opacity duration-700 rounded-[3rem]" />
-                    </div>
-                </motion.div>
             </section>
 
-            {/* ═══════════════════════════════════ STATS BAR ═══════════════════════════════════ */}
-            <div className="relative max-w-6xl mx-auto px-4 z-20 mb-24 mt-8">
-                <motion.div initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, margin: "-100px" }}
-                    className="p-8 rounded-3xl bg-dark-800/80 backdrop-blur-xl border border-white/10 shadow-2xl flex flex-col md:flex-row justify-between items-center gap-8 md:gap-4 divide-y md:divide-y-0 md:divide-x divide-white/10">
+            {/* ═══════════════════════════════════ MOBILE QUICK CATEGORIES (TECH UI) ═══════════════════════════════════ */}
+            <div className="md:hidden w-full px-4 mb-10 relative z-20">
+                <div className="grid grid-cols-4 gap-3">
                     {[
-                        { num: '300+', label: 'Projects Delivered', icon: <CheckCircle2 className="w-6 h-6 text-brand-secondary" /> },
-                        { num: '99%', label: 'Client Satisfaction', icon: <Users className="w-6 h-6 text-brand-primary" /> },
-                        { num: '24/7', label: 'System Uptime', icon: <Monitor className="w-6 h-6 text-brand-accent" /> },
-                        { num: '50+', label: 'Enterprise Apps', icon: <Layers className="w-6 h-6 text-blue-400" /> }
+                        { icon: <Monitor className="w-6 h-6" />, label: 'Websites', bg: 'bg-blue-50', color: 'text-blue-600' },
+                        { icon: <ShoppingCart className="w-6 h-6" />, label: 'E-Comm', bg: 'bg-emerald-50', color: 'text-emerald-600' },
+                        { icon: <Bot className="w-6 h-6" />, label: 'AI Portals', bg: 'bg-brand-primary/10', color: 'text-brand-primary' },
+                        { icon: <Palette className="w-6 h-6" />, label: 'Branding', bg: 'bg-orange-50', color: 'text-orange-500' },
+                        { icon: <LayoutTemplate className="w-6 h-6" />, label: 'SaaS App', bg: 'bg-purple-50', color: 'text-purple-600' },
+                        { icon: <GraduationCap className="w-6 h-6" />, label: 'EdTech', bg: 'bg-teal-50', color: 'text-teal-600' },
+                        { icon: <Search className="w-6 h-6" />, label: 'Tech SEO', bg: 'bg-pink-50', color: 'text-pink-600' },
+                        { icon: <Layers className="w-6 h-6" />, label: 'All Svcs', bg: 'bg-gray-100', color: 'text-gray-700' },
+                    ].map((cat, i) => (
+                        <div key={i} onClick={() => navigate('/services')} className="flex flex-col items-center gap-1.5 cursor-pointer group">
+                            <div className={`w-[60px] h-[60px] rounded-2xl flex items-center justify-center shadow-sm border border-gray-100 ${cat.bg} group-active:scale-95 transition-transform`}>
+                                <div className={cat.color}>{cat.icon}</div>
+                            </div>
+                            <span className="text-[10px] font-bold text-gray-700 text-center uppercase tracking-tight">{cat.label}</span>
+                        </div>
+                    ))}
+                </div>
+            </div>
+
+            {/* ═══════════════════════════════════ STATS BAR ═══════════════════════════════════ */}
+            <div className="relative max-w-6xl mx-auto px-4 z-20 mb-16 md:mb-24 mt-4 md:mt-8">
+                <motion.div initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, margin: "-100px" }}
+                    className="p-8 rounded-3xl bg-gradient-to-r from-gray-900 via-gray-800 to-gray-900 border border-gray-700 shadow-2xl flex flex-col md:flex-row justify-between items-center gap-8 md:gap-4 divide-y md:divide-y-0 md:divide-x divide-gray-700">
+                    {[
+                        { num: '300+', label: 'Projects Delivered', icon: <CheckCircle2 className="w-6 h-6 text-emerald-400" /> },
+                        { num: '99%', label: 'Client Satisfaction', icon: <Users className="w-6 h-6 text-violet-400" /> },
+                        { num: '24/7', label: 'System Uptime', icon: <Monitor className="w-6 h-6 text-cyan-400" /> },
+                        { num: '50+', label: 'Enterprise Apps', icon: <Layers className="w-6 h-6 text-amber-400" /> }
                     ].map((stat, i) => (
                         <div key={i} className={`flex-1 flex flex-col items-center justify-center w-full ${i > 0 ? 'pt-8 md:pt-0' : ''}`}>
-                            <div className="p-3 rounded-2xl bg-white/5 mb-4 shadow-[inset_0_1px_1px_rgba(255,255,255,0.1)] hover:bg-white/10 transition-colors cursor-default">
+                            <div className="p-3 rounded-2xl bg-white/10 mb-4 hover:bg-white/15 transition-colors cursor-default">
                                 {stat.icon}
                             </div>
                             <h3 className="text-3xl md:text-4xl font-black text-white mb-2 tracking-tight">{stat.num}</h3>
@@ -163,35 +174,42 @@ const Home = () => {
             </div>
 
             {/* ═══════════════════════════════════ OUR SERVICES ═══════════════════════════════════ */}
-            <section id="services" className="py-24 relative overflow-hidden">
+            <section id="services" className="py-12 md:py-24 relative overflow-hidden">
                 <div className="absolute top-0 right-0 w-[800px] h-[800px] bg-brand-primary/5 rounded-full blur-[150px] -z-10" />
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                     <div className="text-center mb-16 max-w-3xl mx-auto">
                         <h2 className="text-sm font-bold tracking-widest text-[#06b6d4] uppercase mb-3">What We Do</h2>
                         <h3 className="text-4xl md:text-5xl font-black font-heading mb-6 tracking-tight">A Suite of Premium Digital Services.</h3>
-                        <p className="text-gray-400 text-lg">We combine high-end design with robust engineering to create platforms that dominate their markets.</p>
+                        <p className="text-gray-600 text-lg">We combine high-end design with robust engineering to create platforms that dominate their markets.</p>
                     </div>
 
-                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                    <div className="grid grid-cols-2 md:grid-cols-3 gap-4 md:gap-6 relative z-10">
                         {[
-                            { icon: <Monitor className="w-7 h-7" />, title: 'Website Development', desc: 'Custom coded, ultra-fast websites with flawless UI/UX positioning.', color: 'from-blue-500 to-cyan-400' },
-                            { icon: <LayoutTemplate className="w-7 h-7" />, title: 'Custom Web Portals', desc: 'Complex SaaS dashboards and scalable CRM architectures.', color: 'from-purple-600 to-brand-primary' },
-                            { icon: <Palette className="w-7 h-7" />, title: 'Branding & Identity', desc: 'Visually stunning brand packages that command authority.', color: 'from-orange-500 to-amber-400' },
-                            { icon: <GraduationCap className="w-7 h-7" />, title: 'EdTech Platforms', desc: 'LMS, CBT exams, and scalable management tools for institutions.', color: 'from-emerald-500 to-teal-400' },
-                            { icon: <Bot className="w-7 h-7" />, title: 'AI Integration', desc: 'Automate workflows and build custom LLM-powered applications.', color: 'from-pink-500 to-rose-400' },
-                            { icon: <Lightbulb className="w-7 h-7" />, title: 'Tech Consulting', desc: 'Fractional CTO services and architectural planning for start-ups.', color: 'from-indigo-500 to-blue-500' }
+                            { icon: <LayoutTemplate className="w-6 h-6" />, title: 'SaaS & Web Portals', desc: 'Dashboards, CRMs & enterprise apps.', iconBg: 'bg-gradient-to-br from-violet-500 to-indigo-600', color: 'from-violet-600 to-indigo-600' },
+                            { icon: <Bot className="w-6 h-6" />, title: 'AI Integration', desc: 'Custom LLM-powered business tools.', iconBg: 'bg-gradient-to-br from-pink-500 to-rose-500', color: 'from-pink-500 to-rose-500' },
+                            { icon: <Monitor className="w-6 h-6" />, title: 'Website Dev', desc: 'Ultra-fast, bespoke corporate sites.', iconBg: 'bg-gradient-to-br from-blue-500 to-cyan-500', color: 'from-blue-500 to-cyan-500' },
+                            { icon: <ShoppingCart className="w-6 h-6" />, title: 'E-Commerce', desc: 'Scalable online stores & marketplaces.', iconBg: 'bg-gradient-to-br from-emerald-500 to-teal-500', color: 'from-emerald-500 to-teal-500' },
+                            { icon: <GraduationCap className="w-6 h-6" />, title: 'EdTech', desc: 'LMS platforms & exam systems.', iconBg: 'bg-gradient-to-br from-amber-500 to-orange-500', color: 'from-amber-500 to-orange-500' },
+                            { icon: <Palette className="w-6 h-6" />, title: 'Branding', desc: 'Logos, identity & brand packages.', iconBg: 'bg-gradient-to-br from-fuchsia-500 to-purple-600', color: 'from-fuchsia-500 to-purple-600' }
                         ].map((service, i) => (
                             <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, margin: "-50px" }}
                                 transition={{ delay: i * 0.1 }} key={i}
-                                className="group relative p-1 rounded-3xl bg-gradient-to-b from-white/10 to-transparent hover:from-brand-primary/50 transition-all duration-300 shadow-xl">
-                                <div className="relative h-full bg-dark-800 p-8 rounded-[22px] z-10 flex flex-col border border-white/5 group-hover:border-white/10 hover:shadow-[inset_0_2px_20px_rgba(255,255,255,0.05)] transition-all">
-                                    <div className={`w-16 h-16 rounded-2xl flex items-center justify-center bg-gradient-to-br ${service.color} mb-6 shadow-lg transform group-hover:-translate-y-2 group-hover:rotate-3 transition-transform duration-300`}>
-                                        <div className="text-white drop-shadow-md">{service.icon}</div>
+                                className="group relative p-5 md:p-8 rounded-2xl md:rounded-3xl bg-white border border-gray-100 hover:border-gray-200 transition-all duration-500 shadow-[0_4px_20px_rgba(0,0,0,0.04)] hover:shadow-xl flex flex-col overflow-hidden"
+                            >
+                                {/* Background Accent */}
+                                <div className={`absolute top-0 right-0 w-48 h-48 md:w-64 md:h-64 bg-gradient-to-br ${service.color} opacity-[0.03] group-hover:opacity-[0.08] rounded-full blur-3xl -mr-10 -mt-10 transition-opacity duration-700 pointer-events-none`} />
+
+                                <div className={`w-12 h-12 md:w-14 md:h-14 shrink-0 rounded-2xl flex items-center justify-center ${service.iconBg} mb-4 md:mb-6 group-hover:scale-110 group-hover:shadow-lg transition-all duration-500 z-10`}>
+                                    <div className="text-white">
+                                        {service.icon}
                                     </div>
-                                    <h4 className="text-2xl font-bold mb-3 text-white">{service.title}</h4>
-                                    <p className="text-gray-400 leading-relaxed font-medium mb-6 flex-1 text-sm">{service.desc}</p>
-                                    <Link to="/services" className="flex items-center text-sm font-bold text-white group-hover:text-brand-secondary transition-colors cursor-pointer mt-auto">
-                                        Learn More <ArrowRight className="w-4 h-4 ml-2 transform group-hover:translate-x-2 transition-transform" />
+                                </div>
+
+                                <div className="z-10 flex flex-col h-full w-full">
+                                    <h4 className="text-base md:text-xl font-black mb-1 md:mb-2 text-gray-900 tracking-tight leading-tight">{service.title}</h4>
+                                    <p className="text-gray-600 font-medium mb-4 md:mb-6 flex-1 text-xs md:text-sm leading-relaxed">{service.desc}</p>
+                                    <Link to="/services" className="inline-flex items-center text-[11px] md:text-sm font-bold text-brand-primary group-hover:text-violet-700 transition-colors mt-auto w-fit">
+                                        Explore <ArrowRight className="w-3.5 h-3.5 ml-1.5 transform group-hover:translate-x-1.5 transition-transform" />
                                     </Link>
                                 </div>
                             </motion.div>
@@ -201,61 +219,61 @@ const Home = () => {
             </section>
 
             {/* ═══════════════════════════════════ FEATURED SERVICES (PURCHASABLE) ═══════════════════════════════════ */}
-            <section className="py-24 relative">
+            <section className="py-12 md:py-24 relative">
                 <div className="absolute bottom-0 left-0 w-[600px] h-[600px] bg-brand-secondary/5 rounded-full blur-[150px] -z-10" />
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                     <div className="text-center mb-16 max-w-3xl mx-auto">
                         <h2 className="text-sm font-bold tracking-widest text-brand-secondary uppercase mb-3">Popular Plans</h2>
                         <h3 className="text-4xl md:text-5xl font-black font-heading mb-6 tracking-tight">Start Building <span className="text-transparent bg-clip-text bg-gradient-to-r from-brand-primary to-brand-secondary">Today</span></h3>
-                        <p className="text-gray-400 text-lg">Choose a plan that fits your needs. {currentUser ? 'Click Book Now to get started instantly.' : 'Sign in to book directly.'}</p>
+                        <p className="text-gray-600 text-lg">Choose a plan that fits your needs. {currentUser ? 'Click Book Now to get started instantly.' : 'Sign in to book directly.'}</p>
                     </div>
 
-                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 md:gap-6">
                         {featuredServices.map((service, i) => (
                             <motion.div key={service.id} initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }}
-                                viewport={{ once: true }} transition={{ delay: i * 0.1 }}
-                                className="bg-dark-800 border border-white/10 rounded-2xl overflow-hidden hover:border-brand-primary/40 transition-all group">
+                                viewport={{ once: true }} transition={{ delay: i * 0.08 }}
+                                className="bg-white rounded-2xl overflow-hidden border border-gray-100 shadow-[0_4px_24px_rgba(0,0,0,0.06)] hover:shadow-[0_12px_40px_rgba(124,58,237,0.12)] hover:border-violet-200 transition-all duration-500 group flex flex-col">
                                 {/* Image */}
-                                <div className="h-40 overflow-hidden relative">
+                                <div className="h-44 overflow-hidden relative shrink-0">
                                     <img src={service.imageUrl || 'https://images.unsplash.com/photo-1451187580459-43490279c0fa?w=600&q=80'}
-                                        alt={service.title} className="w-full h-full object-cover opacity-80 group-hover:opacity-100 group-hover:scale-105 transition-all duration-500" />
-                                    <div className="absolute inset-0 bg-gradient-to-t from-dark-800 to-transparent" />
-                                    <span className="absolute top-3 left-3 px-3 py-1 rounded-full text-xs font-bold bg-dark-900/80 backdrop-blur text-white border border-white/10">
+                                        alt={service.title} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" />
+                                    <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-black/10 to-transparent" />
+                                    <span className="absolute top-3 left-3 px-3 py-1.5 rounded-full text-[10px] font-bold bg-white/95 backdrop-blur-md text-gray-900 shadow-sm uppercase tracking-wider">
                                         {service.category.replace(/[^a-zA-Z\s]/g, '')}
                                     </span>
+                                    <div className="absolute bottom-3 right-3">
+                                        <span className="px-3 py-1.5 rounded-lg bg-white/95 backdrop-blur-md text-sm font-black text-gray-900 shadow-sm">{service.price}</span>
+                                    </div>
                                 </div>
 
-                                <div className="p-6">
-                                    <h4 className="text-lg font-bold text-white mb-2">{service.title}</h4>
-                                    <p className="text-sm text-gray-400 mb-4 line-clamp-2">{service.description}</p>
+                                <div className="p-5 md:p-6 flex flex-col flex-1">
+                                    <h4 className="text-lg font-black text-gray-900 mb-2 tracking-tight leading-snug">{service.title}</h4>
+                                    <p className="text-sm text-gray-600 mb-4 line-clamp-2 leading-relaxed">{service.description}</p>
 
                                     {/* Features */}
-                                    <ul className="space-y-1.5 mb-5">
+                                    <ul className="space-y-2 mb-5 flex-1">
                                         {service.features?.slice(0, 3).map((f, idx) => (
-                                            <li key={idx} className="text-xs text-gray-300 flex items-center gap-2">
-                                                <Check className="w-3.5 h-3.5 text-emerald-400 shrink-0" /> {f}
+                                            <li key={idx} className="text-sm text-gray-700 flex items-center gap-2.5 font-medium">
+                                                <div className="w-5 h-5 rounded-full bg-emerald-50 flex items-center justify-center shrink-0">
+                                                    <Check className="w-3 h-3 text-emerald-500" />
+                                                </div>
+                                                {f}
                                             </li>
                                         ))}
                                     </ul>
 
-                                    {/* Price + CTA */}
-                                    <div className="flex items-center justify-between pt-4 border-t border-white/10">
-                                        <div>
-                                            <span className="text-xs text-gray-500 block">Starting at</span>
-                                            <span className="text-2xl font-black text-white">{service.price}</span>
-                                        </div>
-                                        <button onClick={() => handleBookNow(service)}
-                                            className="flex items-center gap-2 px-5 py-2.5 rounded-xl bg-gradient-to-r from-brand-primary to-blue-600 text-white font-bold text-sm hover:shadow-[0_0_20px_rgba(124,58,237,0.4)] transition-all hover:scale-105 active:scale-95">
-                                            <ShoppingCart className="w-4 h-4" /> Book Now
-                                        </button>
-                                    </div>
+                                    {/* CTA */}
+                                    <button onClick={() => handleBookNow(service)}
+                                        className="w-full flex items-center justify-center gap-2 py-3.5 rounded-xl bg-gradient-to-r from-violet-600 to-blue-600 text-white font-bold text-sm shadow-lg shadow-violet-500/20 hover:shadow-violet-500/40 hover:scale-[1.02] active:scale-[0.98] transition-all duration-300 mt-auto">
+                                        <ShoppingCart className="w-4 h-4" /> Book Now
+                                    </button>
                                 </div>
                             </motion.div>
                         ))}
                     </div>
 
                     <div className="text-center mt-12">
-                        <Link to="/services" className="inline-flex items-center gap-2 px-8 py-4 rounded-xl border border-white/10 bg-white/5 text-white font-bold hover:bg-white/10 transition-all hover:scale-105">
+                        <Link to="/services" className="inline-flex items-center gap-2 px-8 py-4 rounded-xl border-2 border-gray-200 bg-white text-gray-900 font-bold hover:border-violet-300 hover:shadow-lg transition-all hover:scale-105">
                             View All {services.length} Services <ArrowRight className="w-5 h-5" />
                         </Link>
                     </div>
@@ -263,7 +281,7 @@ const Home = () => {
             </section>
 
             {/* ═══════════════════════════════════ HOW IT WORKS ═══════════════════════════════════ */}
-            <section className="py-24 bg-dark-800 border-y border-white/5 relative">
+            <section className="py-12 md:py-24 bg-gray-50 border-y border-gray-200 relative">
                 <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
                     <div className="text-center mb-16">
                         <h2 className="text-sm font-bold tracking-widest text-brand-primary uppercase mb-3">Process</h2>
@@ -283,8 +301,8 @@ const Home = () => {
                                     <step.icon className="w-8 h-8 text-brand-primary" />
                                 </div>
                                 <span className="text-xs font-black text-brand-primary/50 uppercase tracking-widest block mb-2">Step {step.step}</span>
-                                <h4 className="text-xl font-bold text-white mb-2">{step.title}</h4>
-                                <p className="text-sm text-gray-400 font-medium">{step.desc}</p>
+                                <h4 className="text-xl font-bold text-gray-900 mb-2">{step.title}</h4>
+                                <p className="text-sm text-gray-700 font-medium">{step.desc}</p>
                                 {i < 3 && <div className="hidden md:block absolute top-10 left-[60%] w-[80%] h-px bg-gradient-to-r from-brand-primary/30 to-transparent" />}
                             </motion.div>
                         ))}
@@ -293,14 +311,14 @@ const Home = () => {
             </section>
 
             {/* ═══════════════════════════════════ INDUSTRIES ═══════════════════════════════════ */}
-            <section id="solutions" className="py-24 relative">
+            <section id="solutions" className="py-12 md:py-24 relative">
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                     <div className="flex flex-col md:flex-row md:items-end justify-between mb-12 gap-6">
                         <div className="max-w-2xl">
                             <h2 className="text-sm font-bold tracking-widest text-[#10b981] uppercase mb-3">Industries</h2>
                             <h3 className="text-3xl md:text-5xl font-black font-heading tracking-tight sm:leading-tight">Tailored Solutions for Every Sector.</h3>
                         </div>
-                        <Link to="/services" className="hidden md:inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-white/5 hover:bg-white/10 border border-white/10 font-bold transition-colors">
+                        <Link to="/services" className="hidden md:inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-white/5 hover:bg-white/10 border border-gray-200 font-bold transition-colors">
                             View All Services <ArrowRight className="w-4 h-4" />
                         </Link>
                     </div>
@@ -314,11 +332,11 @@ const Home = () => {
                         ].map((ind, i) => (
                             <motion.div initial={{ opacity: 0, scale: 0.95 }} whileInView={{ opacity: 1, scale: 1 }} viewport={{ once: true }}
                                 transition={{ delay: i * 0.1 }} key={i}
-                                className={`group rounded-3xl overflow-hidden relative shadow-2xl bg-dark-900 border border-white/10 hover:border-brand-primary/50 transition-colors ${ind.span} ${i === 0 ? 'min-h-[300px] lg:min-h-[450px]' : 'min-h-[250px]'}`}>
+                                className={`group rounded-3xl overflow-hidden relative shadow-2xl bg-white border border-gray-200 hover:border-brand-primary/50 transition-colors ${ind.span} ${i === 0 ? 'min-h-[300px] lg:min-h-[450px]' : 'min-h-[250px]'}`}>
                                 <img src={ind.img} alt={ind.title} className="absolute inset-0 w-full h-full object-cover opacity-80 group-hover:opacity-100 group-hover:scale-110 transition-transform duration-700" />
-                                <div className="absolute inset-0 bg-gradient-to-t from-dark-900 via-dark-900/40 to-transparent opacity-90" />
+                                <div className="absolute inset-0 bg-gradient-to-t from-white via-white/40 to-transparent opacity-90" />
                                 <div className="absolute bottom-0 left-0 p-6 md:p-8 w-full z-10">
-                                    <h4 className="text-xl md:text-3xl font-bold text-white mb-3">{ind.title}</h4>
+                                    <h4 className="text-xl md:text-3xl font-bold text-gray-900 mb-3">{ind.title}</h4>
                                     <div className="h-1.5 w-12 bg-brand-primary rounded-full group-hover:w-24 group-hover:bg-[#06b6d4] transition-all duration-300" />
                                 </div>
                             </motion.div>
@@ -327,60 +345,177 @@ const Home = () => {
                 </div>
             </section>
 
+            {/* ═══════════════════════════════════ OUR CLIENTS ═══════════════════════════════════ */}
+            {clients.length > 0 && (
+                <section className="py-12 md:py-20 bg-gray-50 border-y border-gray-200">
+                    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                        <div className="text-center mb-10">
+                            <h2 className="text-sm font-bold tracking-widest text-brand-primary uppercase mb-3">Trusted By</h2>
+                            <h3 className="text-3xl md:text-4xl font-black font-heading tracking-tight">Our Clients</h3>
+                        </div>
+                        <div className="flex flex-wrap gap-6 md:gap-8 items-center justify-center">
+                            {clients.map((client, i) => (
+                                <motion.a key={client.id} href={client.website || '#'} target={client.website ? '_blank' : '_self'} rel="noopener noreferrer"
+                                    initial={{ opacity: 0, y: 10 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: i * 0.05 }}
+                                    className="flex flex-col items-center gap-2.5 group cursor-pointer">
+                                    <div className="w-20 h-20 md:w-24 md:h-24 rounded-2xl bg-white border border-gray-100 shadow-sm flex items-center justify-center overflow-hidden group-hover:border-brand-primary/30 group-hover:shadow-lg transition-all">
+                                        {client.logo ? (
+                                            <img src={client.logo} alt={client.name} className="w-full h-full object-contain p-3 transition-transform group-hover:scale-110" />
+                                        ) : (
+                                            <span className="text-2xl font-black text-violet-400">{client.name?.[0]}</span>
+                                        )}
+                                    </div>
+                                    <span className="text-[11px] font-bold text-gray-600 group-hover:text-gray-900 transition-colors text-center max-w-[80px] truncate">{client.name}</span>
+                                </motion.a>
+                            ))}
+                        </div>
+                    </div>
+                </section>
+            )}
+
+            {/* ═══════════════════════════════════ OUR PROJECTS ═══════════════════════════════════ */}
+            {projects.length > 0 && (
+                <section className="py-12 md:py-24 relative">
+                    <div className="absolute top-0 left-0 w-[600px] h-[600px] bg-blue-500/5 rounded-full blur-[150px] -z-10" />
+                    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                        <div className="text-center mb-12 max-w-3xl mx-auto">
+                            <h2 className="text-sm font-bold tracking-widest text-blue-500 uppercase mb-3">Portfolio</h2>
+                            <h3 className="text-4xl md:text-5xl font-black font-heading tracking-tight">Our Projects</h3>
+                            <p className="text-gray-600 text-lg mt-4">Real projects we've shipped for real businesses.</p>
+                        </div>
+                        <div className="grid grid-cols-2 md:grid-cols-3 gap-4 md:gap-6">
+                            {projects.map((project, i) => (
+                                <motion.div key={project.id} initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}
+                                    transition={{ delay: i * 0.08 }}
+                                    className="group bg-white border border-gray-100 rounded-2xl overflow-hidden shadow-[0_4px_20px_rgba(0,0,0,0.04)] hover:shadow-xl transition-all">
+                                    <div className="h-36 md:h-48 bg-gray-100 relative overflow-hidden">
+                                        {project.imageUrl ? (
+                                            <img src={project.imageUrl} alt={project.title} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
+                                        ) : (
+                                            <div className="w-full h-full flex items-center justify-center"><FolderKanban className="w-10 h-10 text-gray-300" /></div>
+                                        )}
+                                        {project.category && (
+                                            <span className="absolute top-3 left-3 px-2.5 py-1 rounded-full text-[10px] font-bold bg-white/90 backdrop-blur text-gray-900 border border-gray-200 uppercase tracking-wider">
+                                                {project.category}
+                                            </span>
+                                        )}
+                                    </div>
+                                    <div className="p-4 md:p-5">
+                                        <h4 className="text-base md:text-lg font-bold text-gray-900 mb-1">{project.title}</h4>
+                                        <p className="text-xs md:text-sm text-gray-600 line-clamp-2 mb-3">{project.description}</p>
+                                        {project.techStack?.length > 0 && (
+                                            <div className="flex flex-wrap gap-1 mb-3">
+                                                {project.techStack.slice(0, 3).map((t, idx) => (
+                                                    <span key={idx} className="px-2 py-0.5 text-[10px] font-bold bg-violet-50 text-violet-600 rounded-md">{t}</span>
+                                                ))}
+                                            </div>
+                                        )}
+                                        {project.liveUrl && (
+                                            <a href={project.liveUrl} target="_blank" rel="noopener noreferrer" className="inline-flex items-center text-xs font-bold text-brand-primary hover:text-violet-700 transition-colors">
+                                                <ExternalLink className="w-3.5 h-3.5 mr-1" /> View Live
+                                            </a>
+                                        )}
+                                    </div>
+                                </motion.div>
+                            ))}
+                        </div>
+                    </div>
+                </section>
+            )}
+
+            {/* ═══════════════════════════════════ OUR TOOLS ═══════════════════════════════════ */}
+            {tools.length > 0 && (
+                <section className="py-12 md:py-24 bg-gray-50 border-y border-gray-200">
+                    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                        <div className="text-center mb-12 max-w-3xl mx-auto">
+                            <h2 className="text-sm font-bold tracking-widest text-emerald-500 uppercase mb-3">Built By Us</h2>
+                            <h3 className="text-4xl md:text-5xl font-black font-heading tracking-tight">Our Tools</h3>
+                            <p className="text-gray-600 text-lg mt-4">Free and premium tools we've crafted for the community.</p>
+                        </div>
+                        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-6">
+                            {tools.map((tool, i) => (
+                                <motion.a key={tool.id} href={tool.link || '#'} target={tool.link ? '_blank' : '_self'} rel="noopener noreferrer"
+                                    initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}
+                                    transition={{ delay: i * 0.08 }}
+                                    className="group bg-white border border-gray-100 rounded-2xl p-5 shadow-[0_4px_20px_rgba(0,0,0,0.04)] hover:shadow-xl hover:border-emerald-200 transition-all flex flex-col">
+                                    <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-emerald-500 to-teal-500 flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
+                                        {tool.icon ? (
+                                            <img src={tool.icon} alt={tool.name} className="w-6 h-6 object-contain" />
+                                        ) : (
+                                            <Wrench className="w-5 h-5 text-white" />
+                                        )}
+                                    </div>
+                                    <h4 className="text-sm md:text-base font-bold text-gray-900 mb-1">{tool.name}</h4>
+                                    {tool.category && <span className="text-[10px] font-bold text-emerald-500 uppercase tracking-wider mb-2">{tool.category}</span>}
+                                    <p className="text-xs text-gray-600 line-clamp-2 flex-1">{tool.description}</p>
+                                    {tool.link && (
+                                        <span className="inline-flex items-center text-xs font-bold text-emerald-600 mt-3">
+                                            <ExternalLink className="w-3 h-3 mr-1" /> Open Tool
+                                        </span>
+                                    )}
+                                </motion.a>
+                            ))}
+                        </div>
+                    </div>
+                </section>
+            )}
+
             {/* ═══════════════════════════════════ TESTIMONIALS ═══════════════════════════════════ */}
-            <section className="py-24 bg-dark-800 border-y border-white/5">
-                <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                    <div className="text-center mb-16">
-                        <h2 className="text-sm font-bold tracking-widest text-[#f59e0b] uppercase mb-3">Testimonials</h2>
-                        <h3 className="text-4xl md:text-5xl font-black font-heading tracking-tight">What Our Clients Say</h3>
-                    </div>
-                    <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-                        {testimonials.map((t, i) => (
-                            <motion.div key={i} initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}
-                                transition={{ delay: i * 0.15 }}
-                                className="bg-dark-900 border border-white/10 rounded-2xl p-8 relative hover:border-brand-primary/30 transition-all group">
-                                <Quote className="w-10 h-10 text-brand-primary/20 absolute top-6 right-6 group-hover:text-brand-primary/40 transition-colors" />
-                                <div className="flex gap-1 mb-4">
-                                    {[...Array(t.rating)].map((_, j) => <Star key={j} className="w-4 h-4 text-amber-400 fill-amber-400" />)}
-                                </div>
-                                <p className="text-gray-300 text-sm leading-relaxed mb-6 font-medium">"{t.text}"</p>
-                                <div className="flex items-center gap-3">
-                                    <div className="w-10 h-10 rounded-full bg-gradient-to-br from-brand-primary to-brand-secondary flex items-center justify-center text-white text-sm font-bold">
-                                        {t.name[0]}
+            {testimonials.length > 0 && (
+                <section className="py-12 md:py-24 bg-gray-50 border-y border-gray-200">
+                    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                        <div className="text-center mb-16">
+                            <h2 className="text-sm font-bold tracking-widest text-[#f59e0b] uppercase mb-3">Testimonials</h2>
+                            <h3 className="text-4xl md:text-5xl font-black font-heading tracking-tight">What Our Clients Say</h3>
+                        </div>
+                        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+                            {testimonials.map((t, i) => (
+                                <motion.div key={t.id || i} initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}
+                                    transition={{ delay: i * 0.15 }}
+                                    className="bg-white border border-gray-200 rounded-2xl p-8 relative hover:border-brand-primary/30 transition-all group">
+                                    <Quote className="w-10 h-10 text-brand-primary/20 absolute top-6 right-6 group-hover:text-brand-primary/40 transition-colors" />
+                                    <div className="flex gap-1 mb-4">
+                                        {[...Array(t.rating || 5)].map((_, j) => <Star key={j} className="w-4 h-4 text-amber-400 fill-amber-400" />)}
                                     </div>
-                                    <div>
-                                        <p className="text-sm font-bold text-white">{t.name}</p>
-                                        <p className="text-xs text-gray-500">{t.role}</p>
+                                    <p className="text-gray-700 text-sm leading-relaxed mb-6 font-medium">"{t.text}"</p>
+                                    <div className="flex items-center gap-3">
+                                        <div className="w-10 h-10 rounded-full bg-gradient-to-br from-brand-primary to-brand-secondary flex items-center justify-center text-gray-900 text-sm font-bold">
+                                            {t.name?.[0]}
+                                        </div>
+                                        <div>
+                                            <p className="text-sm font-bold text-gray-900">{t.name}</p>
+                                            <p className="text-xs text-gray-500">{t.role}</p>
+                                        </div>
                                     </div>
-                                </div>
-                            </motion.div>
-                        ))}
+                                </motion.div>
+                            ))}
+                        </div>
                     </div>
-                </div>
-            </section>
+                </section>
+            )}
 
             {/* ═══════════════════════════════════ PRICING ═══════════════════════════════════ */}
-            <section id="pricing" className="py-24 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
-                <div className="text-center mb-20 max-w-3xl mx-auto">
+            <section id="pricing" className="py-12 md:py-24 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
+                <div className="text-center mb-10 md:mb-20 max-w-3xl mx-auto">
                     <h2 className="text-sm font-bold tracking-widest text-[#f59e0b] uppercase mb-3">Pricing Plans</h2>
                     <h3 className="text-4xl md:text-5xl font-black font-heading mb-6 tracking-tight">Invest in Digital Excellence.</h3>
-                    <p className="text-gray-400 text-lg">Transparent pricing for top-tier engineering. {currentUser ? 'Select a plan to get started.' : 'Sign in to purchase directly.'}</p>
+                    <p className="text-gray-600 text-lg">Transparent pricing for top-tier engineering. {currentUser ? 'Select a plan to get started.' : 'Sign in to purchase directly.'}</p>
                 </div>
 
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-8 items-stretch">
                     {/* STARTER */}
                     <motion.div initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: 0 }}
-                        className="rounded-[2rem] bg-dark-800 border border-white/10 p-8 shadow-xl hover:border-white/20 transition-all flex flex-col h-full bg-gradient-to-b from-dark-800 to-dark-900 group">
-                        <h4 className="text-2xl font-bold mb-2 text-white">Starter</h4>
-                        <p className="text-gray-400 text-sm mb-6 pb-6 border-b border-white/5">Perfect for small businesses establishing their online presence.</p>
-                        <div className="mb-8"><span className="text-4xl font-black text-white">₹25k</span><span className="text-gray-500">/project</span></div>
+                        className="rounded-[2rem] bg-gray-50 border border-gray-200 p-8 shadow-xl hover:border-gray-200 transition-all flex flex-col h-full bg-gradient-to-b from-gray-50 to-white group">
+                        <h4 className="text-2xl font-bold mb-2 text-gray-900">Starter</h4>
+                        <p className="text-gray-600 text-sm mb-6 pb-6 border-b border-gray-200">Perfect for small businesses establishing their online presence.</p>
+                        <div className="mb-8"><span className="text-4xl font-black text-gray-900">₹25k</span><span className="text-gray-500">/project</span></div>
                         <ul className="space-y-4 mb-8 flex-1">
                             {['Basic CMS Website', 'Premium Template Design', '5 Pages Included', 'Mobile Responsive', '1 Month Support'].map((feat, i) => (
-                                <li key={i} className="flex items-start gap-3 text-sm text-gray-300 font-medium"><Check className="w-5 h-5 text-emerald-400 shrink-0" /> {feat}</li>
+                                <li key={i} className="flex items-start gap-3 text-sm text-gray-600 font-medium"><Check className="w-5 h-5 text-emerald-400 shrink-0" /> {feat}</li>
                             ))}
                         </ul>
                         <button onClick={() => handleBookNow({ id: 'plan-starter', title: 'Starter Plan — CMS Website', price: '₹25,000', description: 'Basic CMS website with premium template, 5 pages, mobile responsive design, and 1 month support.', features: ['Basic CMS Website', 'Premium Template Design', '5 Pages', 'Mobile Responsive', '1 Month Support'], category: 'Pricing Plan' })}
-                            className="w-full py-4 rounded-xl border border-white/20 hover:bg-white/10 font-bold transition-all text-white group-hover:border-brand-primary/50 group-hover:shadow-lg group-hover:shadow-brand-primary/10 flex items-center justify-center gap-2">
+                            className="w-full py-4 rounded-xl border border-gray-200 hover:bg-white/10 font-bold transition-all text-gray-900 group-hover:border-brand-primary/50 group-hover:shadow-lg group-hover:shadow-brand-primary/10 flex items-center justify-center gap-2">
                             <ShoppingCart className="w-4 h-4" /> Choose Starter
                         </button>
                     </motion.div>
@@ -389,34 +524,34 @@ const Home = () => {
                     <motion.div initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: 0.1 }}
                         className="rounded-[2rem] bg-gradient-to-b from-brand-primary/20 to-brand-secondary/10 border border-brand-primary p-8 shadow-[0_0_50px_rgba(124,58,237,0.15)] flex flex-col h-full transform md:-translate-y-4 relative overflow-hidden backdrop-blur-md group">
                         <div className="absolute top-0 inset-x-0 h-1.5 bg-gradient-to-r from-brand-secondary via-brand-primary to-brand-accent" />
-                        <div className="absolute top-6 right-6 bg-brand-primary text-xs font-bold px-3 py-1.5 rounded-full uppercase tracking-wider text-white shadow-lg">Popular</div>
-                        <h4 className="text-2xl font-bold mb-2 text-white">Growth</h4>
-                        <p className="text-blue-100 text-sm mb-6 pb-6 border-b border-white/10">For scaling brands requiring custom features and ecommerce.</p>
-                        <div className="mb-8"><span className="text-4xl font-black text-white">₹50k</span><span className="text-blue-200">/project</span></div>
+                        <div className="absolute top-6 right-6 bg-brand-primary text-xs font-bold px-3 py-1.5 rounded-full uppercase tracking-wider text-gray-900 shadow-lg">Popular</div>
+                        <h4 className="text-2xl font-bold mb-2 text-gray-900">Growth</h4>
+                        <p className="text-gray-700 text-sm mb-6 pb-6 border-b border-brand-primary/20">For scaling brands requiring custom features and ecommerce.</p>
+                        <div className="mb-8"><span className="text-4xl font-black text-gray-900">₹50k</span><span className="text-blue-200">/project</span></div>
                         <ul className="space-y-4 mb-8 flex-1">
                             {['Custom UI/UX Design', 'Full E-Commerce / Portal', 'Up to 15 Pages', 'Payment Gateway Integration', 'Advanced SEO Setup', '3 Months Support'].map((feat, i) => (
-                                <li key={i} className="flex items-start gap-3 text-sm text-white font-semibold"><Check className="w-5 h-5 text-brand-secondary shrink-0" /> {feat}</li>
+                                <li key={i} className="flex items-start gap-3 text-sm text-gray-900 font-semibold"><Check className="w-5 h-5 text-brand-secondary shrink-0" /> {feat}</li>
                             ))}
                         </ul>
                         <button onClick={() => handleBookNow({ id: 'plan-growth', title: 'Growth Plan — E-Commerce / Portal', price: '₹50,000', description: 'Custom UI/UX design, full e-commerce or portal, up to 15 pages, payment gateway, advanced SEO, and 3 months support.', features: ['Custom UI/UX Design', 'Full E-Commerce / Portal', 'Up to 15 Pages', 'Payment Gateway', 'Advanced SEO', '3 Months Support'], category: 'Pricing Plan' })}
-                            className="w-full py-4 rounded-xl bg-gradient-to-r from-brand-primary to-blue-600 hover:from-brand-primary hover:to-blue-500 shadow-xl shadow-brand-primary/25 font-bold transition-all text-white hover:scale-[1.02] active:scale-[0.98] flex items-center justify-center gap-2">
+                            className="w-full py-4 rounded-xl bg-gradient-to-r from-brand-primary to-blue-600 hover:from-brand-primary hover:to-blue-500 shadow-xl shadow-brand-primary/25 font-bold transition-all text-gray-900 hover:scale-[1.02] active:scale-[0.98] flex items-center justify-center gap-2">
                             <ShoppingCart className="w-4 h-4" /> Choose Growth
                         </button>
                     </motion.div>
 
                     {/* ENTERPRISE */}
                     <motion.div initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: 0.2 }}
-                        className="rounded-[2rem] bg-dark-800 border border-white/10 p-8 shadow-xl hover:border-white/20 transition-all flex flex-col h-full bg-gradient-to-b from-dark-800 to-dark-900 group">
-                        <h4 className="text-2xl font-bold mb-2 text-white">Enterprise</h4>
-                        <p className="text-gray-400 text-sm mb-6 pb-6 border-b border-white/5">Complex systems, SaaS platforms, and AI integrated architectures.</p>
-                        <div className="mb-8"><span className="text-4xl font-black text-white">Custom</span><span className="text-gray-500">/quote</span></div>
+                        className="rounded-[2rem] bg-gray-50 border border-gray-200 p-8 shadow-xl hover:border-gray-200 transition-all flex flex-col h-full bg-gradient-to-b from-gray-50 to-white group">
+                        <h4 className="text-2xl font-bold mb-2 text-gray-900">Enterprise</h4>
+                        <p className="text-gray-600 text-sm mb-6 pb-6 border-b border-gray-200">Complex systems, SaaS platforms, and AI integrated architectures.</p>
+                        <div className="mb-8"><span className="text-4xl font-black text-gray-900">Custom</span><span className="text-gray-500">/quote</span></div>
                         <ul className="space-y-4 mb-8 flex-1">
                             {['Scalable Cloud Architecture', 'AI & ML Integrations', 'Custom Dashboards/CRM', 'Multi-tenant Support', 'Dedicated SLA 24/7'].map((feat, i) => (
-                                <li key={i} className="flex items-start gap-3 text-sm text-gray-300 font-medium"><Check className="w-5 h-5 text-emerald-400 shrink-0" /> {feat}</li>
+                                <li key={i} className="flex items-start gap-3 text-sm text-gray-600 font-medium"><Check className="w-5 h-5 text-emerald-400 shrink-0" /> {feat}</li>
                             ))}
                         </ul>
                         <button onClick={() => handleBookNow({ id: 'plan-enterprise', title: 'Enterprise Plan — Custom Solution', price: 'Custom Quote', description: 'Scalable cloud architecture, AI/ML integrations, custom dashboards/CRM, multi-tenant support, and dedicated SLA 24/7.', features: ['Scalable Cloud Architecture', 'AI & ML Integrations', 'Custom Dashboards/CRM', 'Multi-tenant Support', 'Dedicated SLA 24/7'], category: 'Pricing Plan' })}
-                            className="w-full py-4 rounded-xl border border-white/20 hover:bg-white/10 font-bold transition-all text-white group-hover:border-brand-primary/50 group-hover:shadow-lg group-hover:shadow-brand-primary/10 flex items-center justify-center gap-2">
+                            className="w-full py-4 rounded-xl border border-gray-200 hover:bg-white/10 font-bold transition-all text-gray-900 group-hover:border-brand-primary/50 group-hover:shadow-lg group-hover:shadow-brand-primary/10 flex items-center justify-center gap-2">
                             <MessageCircle className="w-4 h-4" /> Get Custom Quote
                         </button>
                     </motion.div>
@@ -424,24 +559,24 @@ const Home = () => {
             </section>
 
             {/* ═══════════════════════════════════ FAQ ═══════════════════════════════════ */}
-            <section className="py-24 bg-dark-800 border-y border-white/5">
+            <section className="py-12 md:py-24 bg-gray-50 border-y border-gray-200">
                 <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
-                    <div className="text-center mb-16">
+                    <div className="text-center mb-10 md:mb-16">
                         <h2 className="text-sm font-bold tracking-widest text-[#06b6d4] uppercase mb-3">FAQ</h2>
-                        <h3 className="text-4xl md:text-5xl font-black font-heading tracking-tight">Frequently Asked Questions</h3>
+                        <h3 className="text-3xl md:text-5xl font-black font-heading tracking-tight">Frequently Asked Questions</h3>
                     </div>
                     <div className="space-y-3">
                         {faqs.map((faq, i) => (
                             <motion.div key={i} initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} viewport={{ once: true }}
-                                className="border border-white/10 rounded-2xl overflow-hidden hover:border-white/20 transition-colors">
+                                className="border border-gray-200 rounded-2xl overflow-hidden hover:border-gray-200 transition-colors">
                                 <button onClick={() => setOpenFAQ(openFAQ === i ? null : i)}
                                     className="w-full flex items-center justify-between p-5 text-left">
-                                    <span className="text-sm font-bold text-white pr-4">{faq.q}</span>
+                                    <span className="text-sm font-bold text-gray-900 pr-4">{faq.q}</span>
                                     {openFAQ === i ? <ChevronUp className="w-5 h-5 text-brand-primary shrink-0" /> : <ChevronDown className="w-5 h-5 text-gray-500 shrink-0" />}
                                 </button>
                                 {openFAQ === i && (
                                     <motion.div initial={{ height: 0, opacity: 0 }} animate={{ height: 'auto', opacity: 1 }} transition={{ duration: 0.2 }}
-                                        className="px-5 pb-5 text-sm text-gray-400 leading-relaxed font-medium border-t border-white/5 pt-4">
+                                        className="px-5 pb-5 text-sm text-gray-700 leading-relaxed font-medium border-t border-gray-200 pt-4">
                                         {faq.a}
                                     </motion.div>
                                 )}
@@ -452,7 +587,7 @@ const Home = () => {
             </section>
 
             {/* ═══════════════════════════════════ CTA ═══════════════════════════════════ */}
-            <section className="py-24 relative">
+            <section className="py-12 md:py-24 relative">
                 <div className="absolute inset-0 bg-gradient-to-r from-brand-primary/10 to-brand-secondary/10 blur-3xl" />
                 <div className="max-w-4xl mx-auto px-4 text-center relative z-10">
                     <motion.div initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}>
@@ -460,13 +595,13 @@ const Home = () => {
                             <Zap className="w-4 h-4" /> Limited Slots Available
                         </div>
                         <h3 className="text-4xl md:text-5xl font-black font-heading tracking-tight mb-6">Ready to Build Something <span className="text-transparent bg-clip-text bg-gradient-to-r from-brand-primary to-[#06b6d4]">Extraordinary?</span></h3>
-                        <p className="text-gray-400 text-lg mb-10 max-w-2xl mx-auto">Join 300+ businesses that have transformed their digital presence with MakeMyPortal. Start your project today.</p>
+                        <p className="text-gray-700 text-lg mb-10 max-w-2xl mx-auto">Join 300+ businesses that have transformed their digital presence with MakeMyPortal. Start your project today.</p>
                         <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
                             <Link to="/register" className="px-10 py-4 rounded-xl bg-gradient-to-r from-brand-primary to-blue-600 text-white font-bold text-lg hover:shadow-[0_0_40px_rgba(124,58,237,0.5)] transition-all hover:scale-105 active:scale-95">
                                 Get Free Consultation <ArrowRight className="w-5 h-5 inline ml-2" />
                             </Link>
                             <a href={`https://wa.me/${whatsappNum}`} target="_blank" rel="noopener noreferrer"
-                                className="px-8 py-4 rounded-xl border border-emerald-500/30 bg-emerald-500/10 text-emerald-400 font-bold hover:bg-emerald-500/20 transition-all">
+                                className="px-8 py-4 rounded-xl border border-emerald-500/40 bg-emerald-50 text-emerald-700 font-bold hover:bg-emerald-100 transition-all">
                                 💬 WhatsApp Us
                             </a>
                         </div>

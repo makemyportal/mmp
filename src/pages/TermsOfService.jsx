@@ -2,14 +2,14 @@ import React from 'react';
 import { Scale, FileCheck, CreditCard, AlertOctagon, ShieldCheck, Ban, Gavel, Mail } from 'lucide-react';
 
 const SectionCard = ({ icon: Icon, title, children }) => (
-    <div className="bg-white/[0.03] border border-white/10 rounded-2xl p-6 sm:p-8 hover:border-white/20 transition-all duration-300">
+    <div className="bg-white/[0.03] border border-gray-200 rounded-2xl p-6 sm:p-8 hover:border-gray-200 transition-all duration-300">
         <div className="flex items-start gap-4 mb-4">
             <div className="w-10 h-10 rounded-lg bg-gradient-to-br from-emerald-500 to-teal-500 flex items-center justify-center shrink-0">
-                <Icon className="w-5 h-5 text-white" />
+                <Icon className="w-5 h-5 text-gray-900" />
             </div>
-            <h2 className="text-xl font-heading font-semibold text-white pt-1.5">{title}</h2>
+            <h2 className="text-xl font-heading font-semibold text-gray-900 pt-1.5">{title}</h2>
         </div>
-        <div className="text-gray-400 text-sm leading-relaxed space-y-3 ml-14">
+        <div className="text-gray-500 text-sm leading-relaxed space-y-3 ml-14">
             {children}
         </div>
     </div>
@@ -22,20 +22,20 @@ const TermsOfService = () => {
             <section className="relative py-20 overflow-hidden">
                 <div className="absolute inset-0 bg-gradient-to-b from-emerald-500/5 via-transparent to-transparent" />
                 <div className="relative max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-                    <div className="inline-flex items-center gap-2 bg-white/5 border border-white/10 rounded-full px-4 py-1.5 mb-6">
+                    <div className="inline-flex items-center gap-2 bg-white/5 border border-gray-200 rounded-full px-4 py-1.5 mb-6">
                         <Scale className="w-4 h-4 text-emerald-400" />
-                        <span className="text-sm text-gray-300">Legal</span>
+                        <span className="text-sm text-gray-600">Legal</span>
                     </div>
-                    <h1 className="text-4xl sm:text-5xl font-heading font-bold text-white mb-4">Terms of Service</h1>
-                    <p className="text-gray-400">Last updated: March 1, 2026</p>
+                    <h1 className="text-4xl sm:text-5xl font-heading font-bold text-gray-900 mb-4">Terms of Service</h1>
+                    <p className="text-gray-500">Last updated: March 1, 2026</p>
                 </div>
             </section>
 
             {/* Content */}
             <section className="pb-24">
                 <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 space-y-6">
-                    <div className="bg-white/[0.03] border border-white/10 rounded-2xl p-6 sm:p-8">
-                        <p className="text-gray-400 text-sm leading-relaxed">
+                    <div className="bg-white/[0.03] border border-gray-200 rounded-2xl p-6 sm:p-8">
+                        <p className="text-gray-500 text-sm leading-relaxed">
                             Welcome to MakeMyPortal. By accessing or using our website and services, you agree to be bound by
                             these Terms of Service. Please read them carefully. If you do not agree with any part of these terms,
                             you may not use our services.
@@ -58,7 +58,7 @@ const TermsOfService = () => {
                     </SectionCard>
 
                     <SectionCard icon={CreditCard} title="Payments & Pricing">
-                        <p>• All prices are listed in <strong className="text-white">Indian Rupees (INR)</strong> unless otherwise specified.</p>
+                        <p>• All prices are listed in <strong className="text-gray-900">Indian Rupees (INR)</strong> unless otherwise specified.</p>
                         <p>• Payment is required as per the agreed terms — either upfront, milestone-based, or upon completion.</p>
                         <p>• We reserve the right to modify pricing for future services. Existing orders will not be affected.</p>
                         <p>• Non-payment or delayed payment may result in suspension of services.</p>
@@ -87,13 +87,13 @@ const TermsOfService = () => {
                     </SectionCard>
 
                     <SectionCard icon={Scale} title="Governing Law">
-                        <p>These Terms of Service are governed by and construed in accordance with the laws of <strong className="text-white">India</strong>. Any disputes arising from these terms shall be subject to the exclusive jurisdiction of the courts located in India.</p>
+                        <p>These Terms of Service are governed by and construed in accordance with the laws of <strong className="text-gray-900">India</strong>. Any disputes arising from these terms shall be subject to the exclusive jurisdiction of the courts located in India.</p>
                     </SectionCard>
 
                     <SectionCard icon={Mail} title="Contact Us">
                         <p>If you have any questions about these Terms of Service, please contact us:</p>
-                        <p>• <strong className="text-white">Email:</strong> hello@makemyportal.com</p>
-                        <p>• <strong className="text-white">Website:</strong> www.makemyportal.com</p>
+                        <p>• <strong className="text-gray-900">Email:</strong> hello@makemyportal.com</p>
+                        <p>• <strong className="text-gray-900">Website:</strong> www.makemyportal.com</p>
                     </SectionCard>
                 </div>
             </section>

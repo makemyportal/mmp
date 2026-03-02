@@ -1,7 +1,9 @@
 import React, { createContext, useContext, useEffect, useState } from 'react';
 import { auth, db } from '../firebase';
-import { onAuthStateChanged, signInWithEmailAndPassword, createUserWithEmailAndPassword, signOut } from 'firebase/auth';
-import { doc, getDoc } from 'firebase/firestore';
+import { onAuthStateChanged, signInWithEmailAndPassword, createUserWithEmailAndPassword, signOut, GoogleAuthProvider, signInWithPopup } from 'firebase/auth';
+import { doc, getDoc, setDoc, serverTimestamp } from 'firebase/firestore';
+
+const googleProvider = new GoogleAuthProvider();
 
 const AuthContext = createContext();
 
@@ -57,12 +59,29 @@ export const AuthProvider = ({ children }) => {
         return signOut(auth);
     };
 
+    const googleLogin = async () => {
+        const result = await signInWithPopup(auth, googleProvider);
+        // Create user doc if doesn't exist
+        const userRef = doc(db, 'users', result.user.uid);
+        const userSnap = await getDoc(userRef);
+        if (!userSnap.exists()) {
+            await setDoc(userRef, {
+                name: result.user.displayName || '',
+                email: result.user.email,
+                role: 'customer',
+                createdAt: serverTimestamp()
+            });
+        }
+        return result;
+    };
+
     const value = {
         currentUser,
         userData,
         login,
         signup,
-        logout
+        logout,
+        googleLogin
     };
 
     return (

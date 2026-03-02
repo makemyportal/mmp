@@ -47,6 +47,30 @@ service cloud.firestore {
       allow write: if isAdmin();
     }
 
+    // ── Clients Collection ──
+    match /clients/{clientId} {
+      allow read: if true;
+      allow create, update, delete: if isAdmin();
+    }
+
+    // ── Projects Collection ──
+    match /projects/{projectId} {
+      allow read: if true;
+      allow create, update, delete: if isAdmin();
+    }
+
+    // ── Tools Collection ──
+    match /tools/{toolId} {
+      allow read: if true;
+      allow create, update, delete: if isAdmin();
+    }
+
+    // ── Testimonials Collection ──
+    match /testimonials/{testimonialId} {
+      allow read: if true;
+      allow create, update, delete: if isAdmin();
+    }
+
     // ── Catch-all: deny everything else ──
     match /{document=**} {
       allow read, write: if false;
