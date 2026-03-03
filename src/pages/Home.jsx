@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { motion } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
 import { Link, useNavigate } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
 import {
@@ -64,68 +64,298 @@ const Home = () => {
                 <link rel="canonical" href="https://makemyportal.in/" />
             </Helmet>
 
-            {/* --- BACKGROUND GLOWS --- */}
-            <div className="absolute top-[-10%] left-[-10%] w-[50%] h-[50%] bg-[#7c3aed]/20 rounded-full blur-[140px] pointer-events-none" />
-            <div className="absolute top-[20%] right-[-10%] w-[40%] h-[40%] bg-[#2563eb]/20 rounded-full blur-[140px] pointer-events-none" />
-            <div className="absolute bottom-[-10%] left-[20%] w-[40%] h-[40%] bg-[#f59e0b]/10 rounded-full blur-[120px] pointer-events-none" />
+            {/* --- ANIMATED BACKGROUND --- */}
+            <div className="absolute inset-0 overflow-hidden pointer-events-none">
+                {/* Gradient Mesh Blobs */}
+                <motion.div animate={{ x: [0, 40, -20, 0], y: [0, -30, 20, 0], scale: [1, 1.15, 0.95, 1] }}
+                    transition={{ duration: 20, repeat: Infinity, ease: 'linear' }}
+                    className="absolute top-[-15%] left-[-10%] w-[55%] h-[55%] bg-[#7c3aed]/15 rounded-full blur-[120px]" />
+                <motion.div animate={{ x: [0, -30, 25, 0], y: [0, 25, -35, 0], scale: [1, 0.9, 1.1, 1] }}
+                    transition={{ duration: 25, repeat: Infinity, ease: 'linear' }}
+                    className="absolute top-[15%] right-[-8%] w-[45%] h-[45%] bg-[#2563eb]/15 rounded-full blur-[120px]" />
+                <motion.div animate={{ x: [0, 20, -25, 0], y: [0, -20, 30, 0] }}
+                    transition={{ duration: 18, repeat: Infinity, ease: 'linear' }}
+                    className="absolute bottom-[-5%] left-[25%] w-[35%] h-[35%] bg-[#06b6d4]/10 rounded-full blur-[100px]" />
 
-            {/* ═══════════════════════════════════ NEW HERO (TECH STUDIO) ═══════════════════════════════════ */}
+                {/* Floating Service Pills */}
+                {[
+                    { text: '🌐 Web Dev', x: '8%', y: '18%', delay: 0, dur: 14 },
+                    { text: '🎨 Branding', x: '82%', y: '15%', delay: 2, dur: 16 },
+                    { text: '🤖 AI Portals', x: '75%', y: '65%', delay: 1, dur: 13 },
+                    { text: '🛒 E-Commerce', x: '5%', y: '70%', delay: 3, dur: 15 },
+                    { text: '📱 Mobile Apps', x: '88%', y: '40%', delay: 4, dur: 17 },
+                    { text: '🎓 EdTech', x: '15%', y: '45%', delay: 1.5, dur: 12 },
+                    { text: '📊 SaaS', x: '70%', y: '85%', delay: 2.5, dur: 14 },
+                    { text: '⚡ SEO', x: '25%', y: '85%', delay: 0.5, dur: 16 },
+                ].map((pill, i) => (
+                    <motion.div
+                        key={i}
+                        initial={{ opacity: 0, scale: 0.5 }}
+                        animate={{
+                            opacity: [0.25, 0.5, 0.25],
+                            y: [0, -15, 5, -10, 0],
+                            x: [0, 8, -5, 3, 0],
+                            rotate: [0, 3, -2, 1, 0],
+                            scale: [0.95, 1.05, 0.98, 1.02, 0.95],
+                        }}
+                        transition={{
+                            duration: pill.dur,
+                            repeat: Infinity,
+                            delay: pill.delay,
+                            ease: 'easeInOut',
+                        }}
+                        className="absolute hidden md:flex px-4 py-2 rounded-full bg-white/60 backdrop-blur-sm border border-gray-200/50 shadow-sm text-xs font-bold text-gray-600 select-none"
+                        style={{ left: pill.x, top: pill.y }}
+                    >
+                        {pill.text}
+                    </motion.div>
+                ))}
+
+                {/* Decorative Dots */}
+                {[...Array(6)].map((_, i) => (
+                    <motion.div
+                        key={`dot-${i}`}
+                        animate={{ y: [0, -20, 0], opacity: [0.2, 0.5, 0.2] }}
+                        transition={{ duration: 6 + i * 2, repeat: Infinity, delay: i * 1.2 }}
+                        className="absolute w-2 h-2 rounded-full bg-brand-primary/30"
+                        style={{
+                            left: `${15 + i * 15}%`,
+                            top: `${20 + (i % 3) * 25}%`,
+                        }}
+                    />
+                ))}
+            </div>
+
+            {/* ═══════════════════════════════════ HERO SECTION ═══════════════════════════════════ */}
             <section className="relative pt-32 pb-20 px-4 sm:px-6 lg:px-8 max-w-5xl mx-auto text-center z-10 flex flex-col items-center">
+
+                {/* ═══ PREMIUM TECH PATTERN — ORBITING RINGS + GEOMETRIC SHAPES ═══ */}
+                <div className="absolute inset-0 overflow-hidden pointer-events-none" style={{ maskImage: 'radial-gradient(ellipse 85% 75% at 50% 45%, black 20%, transparent 70%)', WebkitMaskImage: 'radial-gradient(ellipse 85% 75% at 50% 45%, black 20%, transparent 70%)' }}>
+
+                    {/* Orbiting Concentric Rings */}
+                    <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
+                        {[
+                            { size: 320, dur: 30, opacity: 0.08, dash: '8 16', width: 1.5, dir: false },
+                            { size: 480, dur: 45, opacity: 0.06, dash: '4 20', width: 1, dir: true },
+                            { size: 640, dur: 60, opacity: 0.05, dash: '12 24', width: 0.8, dir: false },
+                            { size: 800, dur: 80, opacity: 0.03, dash: '6 30', width: 0.5, dir: true },
+                        ].map((ring, i) => (
+                            <div
+                                key={i}
+                                className="absolute rounded-full hero-orbit"
+                                style={{
+                                    width: ring.size,
+                                    height: ring.size,
+                                    top: -ring.size / 2,
+                                    left: -ring.size / 2,
+                                    border: `${ring.width}px dashed rgba(124, 58, 237, ${ring.opacity * 3})`,
+                                    animationDuration: `${ring.dur}s`,
+                                    animationDirection: ring.dir ? 'reverse' : 'normal',
+                                }}
+                            />
+                        ))}
+
+                        {/* Center Glow Orb */}
+                        <div className="absolute -translate-x-1/2 -translate-y-1/2 w-40 h-40 rounded-full bg-gradient-to-br from-brand-primary/20 via-blue-500/15 to-cyan-400/10 blur-[60px] hero-glow-pulse" />
+                    </div>
+
+                    {/* Floating Geometric Shapes */}
+                    {[
+                        { shape: 'hexagon', x: '15%', y: '20%', size: 50, dur: 22, delay: 0, rot: 60, color: 'rgba(124,58,237,0.08)' },
+                        { shape: 'triangle', x: '80%', y: '25%', size: 40, dur: 18, delay: 2, rot: -45, color: 'rgba(37,99,235,0.07)' },
+                        { shape: 'diamond', x: '75%', y: '70%', size: 35, dur: 25, delay: 1, rot: 45, color: 'rgba(6,182,212,0.08)' },
+                        { shape: 'circle', x: '10%', y: '65%', size: 45, dur: 20, delay: 3, rot: 0, color: 'rgba(124,58,237,0.06)' },
+                        { shape: 'square', x: '88%', y: '50%', size: 30, dur: 28, delay: 1.5, rot: 30, color: 'rgba(37,99,235,0.06)' },
+                        { shape: 'hexagon', x: '25%', y: '80%', size: 35, dur: 24, delay: 4, rot: -30, color: 'rgba(6,182,212,0.07)' },
+                        { shape: 'triangle', x: '55%', y: '10%', size: 30, dur: 16, delay: 2.5, rot: 90, color: 'rgba(124,58,237,0.05)' },
+                    ].map((geo, i) => (
+                        <motion.div
+                            key={`geo-${i}`}
+                            animate={{
+                                y: [0, -12, 5, -8, 0],
+                                rotate: [geo.rot, geo.rot + 90, geo.rot + 180, geo.rot + 270, geo.rot + 360],
+                                scale: [1, 1.08, 0.95, 1.04, 1],
+                            }}
+                            transition={{
+                                duration: geo.dur,
+                                repeat: Infinity,
+                                delay: geo.delay,
+                                ease: 'easeInOut',
+                            }}
+                            className="absolute"
+                            style={{ left: geo.x, top: geo.y }}
+                        >
+                            <svg width={geo.size} height={geo.size} viewBox="0 0 50 50" className="drop-shadow-sm">
+                                {geo.shape === 'hexagon' && (
+                                    <polygon points="25,2 46,14 46,36 25,48 4,36 4,14" fill="none" stroke={geo.color} strokeWidth="1.5" />
+                                )}
+                                {geo.shape === 'triangle' && (
+                                    <polygon points="25,5 45,42 5,42" fill="none" stroke={geo.color} strokeWidth="1.5" />
+                                )}
+                                {geo.shape === 'diamond' && (
+                                    <polygon points="25,2 48,25 25,48 2,25" fill="none" stroke={geo.color} strokeWidth="1.5" />
+                                )}
+                                {geo.shape === 'circle' && (
+                                    <circle cx="25" cy="25" r="22" fill="none" stroke={geo.color} strokeWidth="1.5" strokeDasharray="4 6" />
+                                )}
+                                {geo.shape === 'square' && (
+                                    <rect x="5" y="5" width="40" height="40" rx="4" fill="none" stroke={geo.color} strokeWidth="1.5" />
+                                )}
+                            </svg>
+                        </motion.div>
+                    ))}
+
+                    {/* Shooting Stars / Comets */}
+                    {[
+                        { x1: '10%', y1: '30%', angle: 25, len: 120, dur: 4, delay: 0 },
+                        { x1: '70%', y1: '15%', angle: 155, len: 100, dur: 5, delay: 2 },
+                        { x1: '30%', y1: '75%', angle: 340, len: 90, dur: 4.5, delay: 3.5 },
+                    ].map((star, i) => (
+                        <div
+                            key={`star-${i}`}
+                            className="absolute hero-shooting-star"
+                            style={{
+                                left: star.x1,
+                                top: star.y1,
+                                width: star.len,
+                                height: 2,
+                                background: 'linear-gradient(90deg, transparent 0%, rgba(124,58,237,0.4) 40%, rgba(37,99,235,0.6) 70%, transparent 100%)',
+                                transform: `rotate(${star.angle}deg)`,
+                                animationDuration: `${star.dur}s`,
+                                animationDelay: `${star.delay}s`,
+                                borderRadius: 4,
+                            }}
+                        />
+                    ))}
+
+                    {/* Tiny Floating Particles */}
+                    {[...Array(12)].map((_, i) => (
+                        <motion.div
+                            key={`particle-${i}`}
+                            animate={{
+                                y: [0, -(10 + Math.random() * 20), 0],
+                                x: [0, (Math.random() - 0.5) * 15, 0],
+                                opacity: [0.15, 0.4, 0.15],
+                            }}
+                            transition={{
+                                duration: 4 + Math.random() * 6,
+                                repeat: Infinity,
+                                delay: i * 0.6,
+                                ease: 'easeInOut',
+                            }}
+                            className="absolute rounded-full"
+                            style={{
+                                width: 3 + Math.random() * 4,
+                                height: 3 + Math.random() * 4,
+                                left: `${8 + i * 7.5}%`,
+                                top: `${15 + (i % 4) * 20}%`,
+                                background: i % 3 === 0 ? '#7c3aed' : i % 3 === 1 ? '#2563eb' : '#06b6d4',
+                            }}
+                        />
+                    ))}
+                </div>
+
                 <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }}
                     className="w-full flex flex-col items-center">
 
-                    <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-gray-50 border border-gray-200 text-gray-600 text-sm font-semibold mb-8 shadow-sm">
-                        <span className="relative flex h-2 w-2">
-                            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-brand-primary opacity-75"></span>
-                            <span className="relative inline-flex rounded-full h-2 w-2 bg-brand-primary"></span>
+                    <motion.div
+                        initial={{ opacity: 0, scale: 0.9 }}
+                        animate={{ opacity: 1, scale: 1 }}
+                        transition={{ duration: 0.5 }}
+                        className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-white/80 backdrop-blur-lg border border-gray-200/80 text-gray-600 text-sm font-semibold mb-8 shadow-lg shadow-black/5"
+                    >
+                        <span className="relative flex h-2.5 w-2.5">
+                            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+                            <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-emerald-500"></span>
                         </span>
                         Premium Digital Studio
-                    </div>
+                    </motion.div>
 
-                    <h1 className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-black leading-[1.1] mb-6 font-heading tracking-tighter">
+                    <h1 className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-black leading-[1.05] mb-6 font-heading tracking-tighter">
                         We Build <br className="hidden sm:block" />
-                        <span className="text-transparent bg-clip-text bg-gradient-to-r from-brand-primary via-blue-600 to-[#06b6d4]">
-                            {heroActiveTab}
-                        </span>
+                        <AnimatePresence mode="wait">
+                            <motion.span
+                                key={heroActiveTab}
+                                initial={{ opacity: 0, y: 30, filter: 'blur(8px)' }}
+                                animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
+                                exit={{ opacity: 0, y: -30, filter: 'blur(8px)' }}
+                                transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
+                                className="inline-block text-transparent bg-clip-text bg-gradient-to-r from-brand-primary via-blue-600 to-[#06b6d4]"
+                            >
+                                {heroActiveTab}
+                            </motion.span>
+                        </AnimatePresence>
                     </h1>
 
-                    <p className="text-lg sm:text-xl text-gray-700 mb-10 max-w-2xl mx-auto font-medium">
+                    <motion.p
+                        initial={{ opacity: 0, y: 15 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ delay: 0.2 }}
+                        className="text-lg sm:text-xl text-gray-600 mb-12 max-w-2xl mx-auto font-medium leading-relaxed"
+                    >
                         Stop using templates. We engineer bespoke, production-ready software that scales your business and dominates your market.
-                    </p>
+                    </motion.p>
 
-                    {/* Interactive Selector */}
-                    <div className="flex flex-wrap items-center justify-center gap-2 mb-12 p-2 rounded-2xl md:rounded-full bg-gray-50/80 backdrop-blur-md border border-gray-200">
+                    {/* Interactive Selector with glow */}
+                    <motion.div
+                        initial={{ opacity: 0, y: 20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ delay: 0.3 }}
+                        className="relative flex flex-wrap items-center justify-center gap-2 mb-12 p-2 rounded-2xl md:rounded-full bg-white/70 backdrop-blur-xl border border-gray-200/80 shadow-xl shadow-black/5"
+                    >
                         {['SaaS Platforms', 'AI Portals', 'E-Commerce', 'Websites'].map((tab) => (
                             <button
                                 key={tab}
                                 onClick={() => setHeroActiveTab(tab)}
-                                className={`px-6 py-3 rounded-xl md:rounded-full text-sm font-bold transition-all ${heroActiveTab === tab
-                                    ? 'bg-white text-gray-900 shadow-[0_2px_15px_rgba(0,0,0,0.08)]'
-                                    : 'text-gray-500 hover:text-gray-900 hover:bg-white/50'
-                                    }`}
+                                className="relative px-6 py-3 rounded-xl md:rounded-full text-sm font-bold transition-all duration-300"
                             >
-                                {tab}
+                                {heroActiveTab === tab && (
+                                    <motion.div
+                                        layoutId="heroTabBg"
+                                        className="absolute inset-0 bg-gradient-to-r from-brand-primary to-blue-600 rounded-xl md:rounded-full shadow-lg shadow-brand-primary/25"
+                                        transition={{ type: 'spring', stiffness: 400, damping: 30 }}
+                                    />
+                                )}
+                                <span className={`relative z-10 transition-colors duration-300 ${heroActiveTab === tab ? 'text-white' : 'text-gray-500 hover:text-gray-900'}`}>
+                                    {tab}
+                                </span>
                             </button>
                         ))}
-                    </div>
+                    </motion.div>
 
-                    <div className="flex flex-col sm:flex-row items-center justify-center gap-4 w-full sm:w-auto">
-                        <Link to="/register" className="w-full sm:w-auto px-8 py-4 rounded-full bg-gray-900 text-white font-bold hover:bg-brand-primary hover:shadow-[0_0_30px_rgba(124,58,237,0.3)] transition-all flex items-center justify-center gap-2">
+                    <motion.div
+                        initial={{ opacity: 0, y: 20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ delay: 0.4 }}
+                        className="flex flex-col sm:flex-row items-center justify-center gap-4 w-full sm:w-auto"
+                    >
+                        <Link to="/register" className="w-full sm:w-auto px-8 py-4 rounded-full bg-gray-900 text-white font-bold hover:bg-brand-primary hover:shadow-[0_0_40px_rgba(124,58,237,0.4)] transition-all duration-300 flex items-center justify-center gap-2 hover:scale-105 active:scale-95">
                             Start Your Project <ArrowRight className="w-5 h-5" />
                         </Link>
-                        <Link to="/services" className="w-full sm:w-auto px-8 py-4 rounded-full border border-gray-200 bg-white hover:bg-gray-50 transition-all font-bold text-gray-900 flex items-center justify-center">
+                        <Link to="/services" className="w-full sm:w-auto px-8 py-4 rounded-full border border-gray-200 bg-white/80 backdrop-blur-sm hover:bg-white hover:border-brand-primary/30 hover:shadow-lg transition-all duration-300 font-bold text-gray-900 flex items-center justify-center">
                             Explore Systems
                         </Link>
-                    </div>
+                    </motion.div>
 
                     {/* Trust Badges */}
-                    <div className="flex flex-wrap items-center gap-6 mt-12 justify-center">
+                    <motion.div
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        transition={{ delay: 0.6 }}
+                        className="flex flex-wrap items-center gap-6 mt-12 justify-center"
+                    >
                         {[{ icon: Shield, text: 'Enterprise Grade', clr: 'text-emerald-500' }, { icon: Zap, text: 'Built for Speed', clr: 'text-amber-500' }, { icon: CheckCircle2, text: 'Custom Engineered', clr: 'text-blue-500' }].map((b, i) => (
-                            <div key={i} className="flex items-center gap-2 text-xs text-gray-800 font-bold uppercase tracking-wider">
+                            <motion.div
+                                key={i}
+                                initial={{ opacity: 0, y: 10 }}
+                                animate={{ opacity: 1, y: 0 }}
+                                transition={{ delay: 0.7 + i * 0.1 }}
+                                className="flex items-center gap-2 text-xs text-gray-700 font-bold uppercase tracking-wider px-3 py-2 rounded-full bg-white/50 backdrop-blur-sm border border-gray-100"
+                            >
                                 <b.icon className={`w-4 h-4 ${b.clr}`} /> {b.text}
-                            </div>
+                            </motion.div>
                         ))}
-                    </div>
+                    </motion.div>
                 </motion.div>
             </section>
 

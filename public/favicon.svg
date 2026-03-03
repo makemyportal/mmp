@@ -1,0 +1,78 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+  <defs>
+    <!-- Premium gradient background -->
+    <linearGradient id="bg" x1="0" y1="0" x2="512" y2="512" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#a855f7"/>
+      <stop offset="30%" stop-color="#8b5cf6"/>
+      <stop offset="60%" stop-color="#6366f1"/>
+      <stop offset="100%" stop-color="#38bdf8"/>
+    </linearGradient>
+    <!-- Gloss highlight (top-left shine) -->
+    <radialGradient id="gloss" cx="35%" cy="25%" r="60%">
+      <stop offset="0%" stop-color="#fff" stop-opacity="0.35"/>
+      <stop offset="40%" stop-color="#fff" stop-opacity="0.08"/>
+      <stop offset="100%" stop-color="#fff" stop-opacity="0"/>
+    </radialGradient>
+    <!-- Inner shadow for depth -->
+    <radialGradient id="inner-depth" cx="50%" cy="90%" r="70%">
+      <stop offset="0%" stop-color="#000" stop-opacity="0.12"/>
+      <stop offset="100%" stop-color="#000" stop-opacity="0"/>
+    </radialGradient>
+    <!-- Swoosh gradient -->
+    <linearGradient id="swoosh-grad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#fff" stop-opacity="0.1"/>
+      <stop offset="25%" stop-color="#fff" stop-opacity="0.7"/>
+      <stop offset="50%" stop-color="#fff" stop-opacity="1"/>
+      <stop offset="75%" stop-color="#fff" stop-opacity="0.8"/>
+      <stop offset="100%" stop-color="#fff" stop-opacity="0.15"/>
+    </linearGradient>
+    <!-- Flare glow -->
+    <radialGradient id="flare" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#fff" stop-opacity="0.95"/>
+      <stop offset="40%" stop-color="#e0c3fc" stop-opacity="0.5"/>
+      <stop offset="100%" stop-color="#fff" stop-opacity="0"/>
+    </radialGradient>
+    <!-- Drop shadow filter -->
+    <filter id="m-shadow" x="-5%" y="-5%" width="110%" height="115%">
+      <feDropShadow dx="0" dy="4" stdDeviation="8" flood-color="#1e1b4b" flood-opacity="0.25"/>
+    </filter>
+    <filter id="glow" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="6" result="blur"/>
+      <feMerge>
+        <feMergeNode in="blur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+
+  <!-- Rounded Square Background -->
+  <rect x="20" y="20" width="472" height="472" rx="105" ry="105" fill="url(#bg)"/>
+  
+  <!-- Depth overlay (bottom dark) -->
+  <rect x="20" y="20" width="472" height="472" rx="105" ry="105" fill="url(#inner-depth)"/>
+  
+  <!-- Gloss overlay (top shine) -->
+  <rect x="20" y="20" width="472" height="472" rx="105" ry="105" fill="url(#gloss)"/>
+
+  <!-- Orbit ring (back half - behind the M) -->
+  <ellipse cx="256" cy="268" rx="195" ry="72" fill="none" stroke="white" stroke-width="5.5" stroke-opacity="0.2"
+    transform="rotate(-22, 256, 268)"
+    stroke-linecap="round"/>
+
+  <!-- Bold "M" with shadow -->
+  <g filter="url(#m-shadow)">
+    <path d="M172,370 L172,158 L218,158 L256,248 L294,158 L340,158 L340,370 L304,370 L304,228 L268,318 L244,318 L208,228 L208,370 Z" 
+      fill="white"/>
+  </g>
+  
+  <!-- Orbit ring (front swoosh - over the M) -->
+  <path d="M82,310 C120,350 180,345 256,325 C332,305 400,275 430,232" 
+    fill="none" stroke="url(#swoosh-grad)" stroke-width="6" stroke-linecap="round" filter="url(#glow)"/>
+  
+  <!-- Sparkle flare at swoosh tip -->
+  <circle cx="432" cy="230" r="12" fill="url(#flare)"/>
+  <circle cx="432" cy="230" r="5" fill="white" opacity="0.95"/>
+  
+  <!-- Subtle edge highlight (premium feel) -->
+  <rect x="20" y="20" width="472" height="472" rx="105" ry="105" fill="none" stroke="white" stroke-width="1.5" stroke-opacity="0.12"/>
+</svg>
