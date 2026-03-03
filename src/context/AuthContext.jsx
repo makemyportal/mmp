@@ -75,13 +75,27 @@ export const AuthProvider = ({ children }) => {
         return result;
     };
 
+    const refreshUserData = async () => {
+        if (currentUser) {
+            try {
+                const userDoc = await getDoc(doc(db, 'users', currentUser.uid));
+                if (userDoc.exists()) {
+                    setUserData(userDoc.data());
+                }
+            } catch (err) {
+                console.error("Error refreshing user data:", err);
+            }
+        }
+    };
+
     const value = {
         currentUser,
         userData,
         login,
         signup,
         logout,
-        googleLogin
+        googleLogin,
+        refreshUserData
     };
 
     return (

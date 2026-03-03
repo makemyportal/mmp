@@ -78,7 +78,7 @@ const RefundPolicy = () => {
 
                     <SectionCard icon={Mail} title="Contact for Refunds">
                         <p>To request a refund or cancellation, please reach out to us:</p>
-                        <p>• <strong className="text-gray-900">Email:</strong> hello@makemyportal.com</p>
+                        <p>• <strong className="text-gray-900">Email:</strong> hello@makemyportal.in</p>
                         <p>• Please include your <strong className="text-gray-900">order ID</strong>, the <strong className="text-gray-900">service name</strong>, and the <strong className="text-gray-900">reason for your request</strong>.</p>
                     </SectionCard>
                 </div>

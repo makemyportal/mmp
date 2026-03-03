@@ -62,7 +62,7 @@ export const generateInvoice = (order, siteSettings) => {
     doc.text("Billed By (Supplier):", 16, 32);
 
     doc.setFontSize(11);
-    doc.text(siteSettings?.businessName || "MakeMyPortal.com", 16, 38);
+    doc.text(siteSettings?.businessName || "makemyportal.in", 16, 38);
 
     doc.setFont("helvetica", "normal");
     doc.setFontSize(9);
@@ -73,7 +73,7 @@ export const generateInvoice = (order, siteSettings) => {
 
     let sellerY = 43 + (addressLines.length * 4);
     doc.text(`Phone: ${siteSettings?.phone || "Update phone in settings"}`, 16, sellerY + 2);
-    doc.text(`Email: ${siteSettings?.contactEmail || "hello@makemyportal.com"}`, 16, sellerY + 7);
+    doc.text(`Email: ${siteSettings?.contactEmail || "hello@makemyportal.in"}`, 16, sellerY + 7);
 
     doc.setFont("helvetica", "bold");
     doc.text(`GSTIN/UIN: ${siteSettings?.gstin || "07AABCU9603R1ZX"}`, 16, sellerY + 14);

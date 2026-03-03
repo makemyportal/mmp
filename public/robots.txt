@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://makemyportal.com/sitemap.xml
+Sitemap: https://makemyportal.in/sitemap.xml

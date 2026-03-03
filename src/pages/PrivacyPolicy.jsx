@@ -83,8 +83,8 @@ const PrivacyPolicy = () => {
 
                     <SectionCard icon={Mail} title="Contact Us">
                         <p>If you have any questions or concerns about this Privacy Policy, please contact us:</p>
-                        <p>• <strong className="text-gray-900">Email:</strong> hello@makemyportal.com</p>
-                        <p>• <strong className="text-gray-900">Website:</strong> www.makemyportal.com</p>
+                        <p>• <strong className="text-gray-900">Email:</strong> hello@makemyportal.in</p>
+                        <p>• <strong className="text-gray-900">Website:</strong> www.makemyportal.in</p>
                     </SectionCard>
                 </div>
             </section>

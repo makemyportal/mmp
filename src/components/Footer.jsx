@@ -116,7 +116,7 @@ const Footer = () => {
                             </li>
                             <li className="flex items-center gap-3">
                                 <Mail className="w-5 h-5 text-brand-accent shrink-0" />
-                                <a href={`mailto:${settings.contactEmail || 'hello@makemyportal.com'}`} className="hover:text-gray-900 transition-colors">{settings.contactEmail || 'hello@makemyportal.com'}</a>
+                                <a href={`mailto:${settings.contactEmail || 'hello@makemyportal.in'}`} className="hover:text-gray-900 transition-colors">{settings.contactEmail || 'hello@makemyportal.in'}</a>
                             </li>
                         </ul>
                     </div>

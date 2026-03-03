@@ -72,7 +72,7 @@ const SettingsTab = ({ showToast, siteSettings, setSiteSettings }) => {
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
                     <InputField label="Business Name" icon={Globe} value={localSettings.businessName} onChange={v => update('businessName', v)} placeholder="MakeMyPortal" />
                     <InputField label="Tagline" icon={ExternalLink} value={localSettings.tagline} onChange={v => update('tagline', v)} placeholder="Premium Digital Solutions" />
-                    <InputField label="Contact Email" icon={Mail} value={localSettings.contactEmail} onChange={v => update('contactEmail', v)} placeholder="hello@makemyportal.com" />
+                    <InputField label="Contact Email" icon={Mail} value={localSettings.contactEmail} onChange={v => update('contactEmail', v)} placeholder="hello@makemyportal.in" />
                     <InputField label="Phone" icon={Phone} value={localSettings.phone} onChange={v => update('phone', v)} placeholder="+91 98765 43210" />
                     <InputField label="Address" icon={MapPin} value={localSettings.address} onChange={v => update('address', v)} placeholder="Mumbai, India" />
                     <InputField label="WhatsApp Number" icon={Phone} value={localSettings.whatsapp} onChange={v => update('whatsapp', v)} placeholder="919876543210" />

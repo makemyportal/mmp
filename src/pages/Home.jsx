@@ -61,7 +61,7 @@ const Home = () => {
             <Helmet>
                 <title>MakeMyPortal | Premium Web Development & Digital Solutions</title>
                 <meta name="description" content="MakeMyPortal delivers production-ready portals, AI applications, EdTech platforms, and custom websites for modern businesses." />
-                <link rel="canonical" href="https://makemyportal.com/" />
+                <link rel="canonical" href="https://makemyportal.in/" />
             </Helmet>
 
             {/* --- BACKGROUND GLOWS --- */}

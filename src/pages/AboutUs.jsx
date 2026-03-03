@@ -33,7 +33,7 @@ const AboutUs = () => {
             <Helmet>
                 <title>About Us | MakeMyPortal</title>
                 <meta name="description" content="Learn about MakeMyPortal's mission, vision, and leadership. We build digital futures and empower companies with top-tier engineering." />
-                <link rel="canonical" href="https://makemyportal.com/about" />
+                <link rel="canonical" href="https://makemyportal.in/about" />
             </Helmet>
             {/* Hero */}
             <section className="relative py-24 overflow-hidden">

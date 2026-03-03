@@ -1,47 +1,47 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>https://makemyportal.com/</loc>
+    <loc>https://makemyportal.in/</loc>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
   </url>
   <url>
-    <loc>https://makemyportal.com/services</loc>
+    <loc>https://makemyportal.in/services</loc>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://makemyportal.com/about</loc>
+    <loc>https://makemyportal.in/about</loc>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://makemyportal.com/contact</loc>
+    <loc>https://makemyportal.in/contact</loc>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://makemyportal.com/privacy</loc>
+    <loc>https://makemyportal.in/privacy</loc>
     <changefreq>yearly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
-    <loc>https://makemyportal.com/terms</loc>
+    <loc>https://makemyportal.in/terms</loc>
     <changefreq>yearly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
-    <loc>https://makemyportal.com/refund</loc>
+    <loc>https://makemyportal.in/refund</loc>
     <changefreq>yearly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
-    <loc>https://makemyportal.com/register</loc>
+    <loc>https://makemyportal.in/register</loc>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://makemyportal.com/login</loc>
+    <loc>https://makemyportal.in/login</loc>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>

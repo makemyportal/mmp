@@ -11,7 +11,7 @@ const Contact = () => {
     const handleSubmit = (e) => {
         e.preventDefault();
         // Construct mailto link
-        const mailtoLink = `mailto:${settings.contactEmail || 'hello@makemyportal.com'}?subject=${encodeURIComponent(formData.subject)}&body=${encodeURIComponent(`Name: ${formData.name}\nEmail: ${formData.email}\n\n${formData.message}`)}`;
+        const mailtoLink = `mailto:${settings.contactEmail || 'hello@makemyportal.in'}?subject=${encodeURIComponent(formData.subject)}&body=${encodeURIComponent(`Name: ${formData.name}\nEmail: ${formData.email}\n\n${formData.message}`)}`;
         window.location.href = mailtoLink;
         setSubmitted(true);
         setTimeout(() => setSubmitted(false), 3000);
@@ -21,8 +21,8 @@ const Contact = () => {
         {
             icon: Mail,
             title: 'Email Us',
-            value: settings.contactEmail || 'hello@makemyportal.com',
-            link: `mailto:${settings.contactEmail || 'hello@makemyportal.com'}`,
+            value: settings.contactEmail || 'hello@makemyportal.in',
+            link: `mailto:${settings.contactEmail || 'hello@makemyportal.in'}`,
             color: 'from-brand-primary to-brand-secondary',
         },
         {
@@ -53,7 +53,7 @@ const Contact = () => {
             <Helmet>
                 <title>Contact Us | MakeMyPortal</title>
                 <meta name="description" content="Get in touch with MakeMyPortal. Ready to build something extraordinary? Drop us a message, email, or chat via WhatsApp." />
-                <link rel="canonical" href="https://makemyportal.com/contact" />
+                <link rel="canonical" href="https://makemyportal.in/contact" />
             </Helmet>
             {/* Hero */}
             <section className="relative py-24 overflow-hidden">
