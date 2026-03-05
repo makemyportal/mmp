@@ -25,7 +25,17 @@ const Home = () => {
     const [selectedService, setSelectedService] = useState(null);
     const [isBookingOpen, setIsBookingOpen] = useState(false);
     const [heroActiveTab, setHeroActiveTab] = useState('SaaS Platforms');
+    const [searchFocused, setSearchFocused] = useState(false);
     const whatsappNum = settings.whatsapp || '918077162909';
+
+    // Dynamic search results
+    const searchResults = searchQuery.trim().length > 1
+        ? services.filter(s =>
+            s.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
+            s.category?.toLowerCase().includes(searchQuery.toLowerCase()) ||
+            s.description?.toLowerCase().includes(searchQuery.toLowerCase())
+        ).slice(0, 6)
+        : [];
 
     const handleBookNow = (service) => {
         if (!currentUser) {
@@ -74,12 +84,58 @@ const Home = () => {
                 <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }}
                     className="w-full flex flex-col items-center">
 
-                    <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-gray-50 border border-gray-200 text-gray-600 text-sm font-semibold mb-8 shadow-sm">
+                    <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-gray-50 border border-gray-200 text-gray-600 text-sm font-semibold mb-6 shadow-sm">
                         <span className="relative flex h-2 w-2">
                             <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-brand-primary opacity-75"></span>
                             <span className="relative inline-flex rounded-full h-2 w-2 bg-brand-primary"></span>
                         </span>
                         Premium Digital Studio
+                    </div>
+
+                    {/* Dynamic Search Bar */}
+                    <div className="w-full max-w-xl mx-auto mb-10 relative z-50">
+                        <form onSubmit={handleSearch} className="relative">
+                            <div className={`flex items-center bg-white border ${searchFocused ? 'border-violet-300 shadow-[0_0_30px_rgba(124,58,237,0.12)]' : 'border-gray-200 shadow-lg'} rounded-2xl transition-all duration-300 overflow-hidden`}>
+                                <Search className="w-5 h-5 text-gray-400 ml-5 shrink-0" />
+                                <input
+                                    type="text"
+                                    value={searchQuery}
+                                    onChange={(e) => setSearchQuery(e.target.value)}
+                                    onFocus={() => setSearchFocused(true)}
+                                    onBlur={() => setTimeout(() => setSearchFocused(false), 200)}
+                                    placeholder="Search services... e.g. Logo, Website, SEO"
+                                    className="flex-1 px-4 py-4 text-sm font-medium text-gray-900 placeholder-gray-400 outline-none bg-transparent"
+                                />
+                                <button type="submit" className="px-6 py-2.5 m-1.5 rounded-xl bg-gradient-to-r from-violet-600 to-blue-600 text-white text-sm font-bold hover:shadow-lg transition-all shrink-0">
+                                    Search
+                                </button>
+                            </div>
+                        </form>
+
+                        {/* Live Dropdown Results */}
+                        {searchFocused && searchResults.length > 0 && (
+                            <div className="absolute top-full left-0 right-0 mt-2 bg-white border border-gray-100 rounded-2xl shadow-2xl overflow-hidden z-50">
+                                {searchResults.map((s) => (
+                                    <div key={s.id}
+                                        onMouseDown={(e) => { e.preventDefault(); setSearchQuery(s.title); navigate(`/services?search=${encodeURIComponent(s.title)}`); }}
+                                        className="flex items-center justify-between px-5 py-3.5 hover:bg-violet-50 cursor-pointer transition-colors border-b border-gray-50 last:border-b-0 group">
+                                        <div className="flex items-center gap-3 min-w-0">
+                                            <div className="w-9 h-9 rounded-lg bg-gray-100 group-hover:bg-violet-100 flex items-center justify-center shrink-0 transition-colors">
+                                                <Search className="w-4 h-4 text-gray-400 group-hover:text-violet-500" />
+                                            </div>
+                                            <div className="min-w-0">
+                                                <p className="text-sm font-bold text-gray-900 truncate">{s.title}</p>
+                                                <p className="text-xs text-gray-500 font-medium">{s.category}</p>
+                                            </div>
+                                        </div>
+                                        <span className="text-sm font-black text-violet-600 shrink-0 ml-3">{s.price}</span>
+                                    </div>
+                                ))}
+                                <div onMouseDown={(e) => { e.preventDefault(); navigate(`/services?search=${encodeURIComponent(searchQuery)}`); }} className="px-5 py-3 bg-gray-50 text-center cursor-pointer hover:bg-violet-50 transition-colors">
+                                    <span className="text-sm font-bold text-violet-600">View all results for "{searchQuery}" →</span>
+                                </div>
+                            </div>
+                        )}
                     </div>
 
                     <h1 className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-black leading-[1.1] mb-6 font-heading tracking-tighter">
@@ -172,6 +228,95 @@ const Home = () => {
                     ))}
                 </motion.div>
             </div>
+
+            {/* ═══════════════════════════════════ WHY TRUST US ═══════════════════════════════════ */}
+            <section className="py-12 md:py-20 relative overflow-hidden">
+                <div className="absolute inset-0 bg-gradient-to-b from-white via-violet-50/30 to-white pointer-events-none" />
+                <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+                    <div className="text-center mb-12 md:mb-16">
+                        <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}>
+                            <h2 className="text-sm font-bold tracking-widest text-emerald-500 uppercase mb-3">Why Choose Us</h2>
+                            <h3 className="text-3xl md:text-5xl font-black font-heading tracking-tight mb-4">
+                                We Don't Just Promise, We <span className="text-transparent bg-clip-text bg-gradient-to-r from-emerald-500 to-teal-500">Deliver</span>.
+                            </h3>
+                            <p className="text-gray-600 text-lg max-w-2xl mx-auto">Transparent pricing. Lightning-fast turnarounds. Quality you can trust — backed by a 100% money-back guarantee.</p>
+                        </motion.div>
+                    </div>
+
+                    {/* Trust Metrics Row */}
+                    <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6 mb-12 md:mb-16">
+                        {[
+                            { value: '48hrs', label: 'Average Delivery', sub: 'For small projects', icon: Clock, color: 'from-blue-500 to-cyan-500', bg: 'bg-blue-50' },
+                            { value: '∞', label: 'Free Revisions', sub: 'Until you\'re happy', icon: Heart, color: 'from-pink-500 to-rose-500', bg: 'bg-pink-50' },
+                            { value: '100%', label: 'Quality Guaranteed', sub: 'Or money back', icon: Shield, color: 'from-emerald-500 to-green-500', bg: 'bg-emerald-50' },
+                            { value: '24/7', label: 'WhatsApp Support', sub: 'Always reachable', icon: Headphones, color: 'from-violet-500 to-purple-500', bg: 'bg-violet-50' },
+                        ].map((item, i) => (
+                            <motion.div key={i} initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}
+                                transition={{ delay: i * 0.1 }}
+                                className="relative group p-5 md:p-6 rounded-2xl bg-white border border-gray-100 shadow-[0_4px_20px_rgba(0,0,0,0.04)] hover:shadow-xl hover:border-gray-200 transition-all duration-500 text-center">
+                                <div className={`w-12 h-12 mx-auto rounded-xl ${item.bg} flex items-center justify-center mb-4 group-hover:scale-110 transition-transform`}>
+                                    <item.icon className="w-6 h-6" style={{ color: i === 0 ? '#3b82f6' : i === 1 ? '#ec4899' : i === 2 ? '#10b981' : '#8b5cf6' }} />
+                                </div>
+                                <h4 className="text-2xl md:text-3xl font-black text-gray-900 tracking-tight mb-1">{item.value}</h4>
+                                <p className="text-sm font-bold text-gray-800 mb-0.5">{item.label}</p>
+                                <p className="text-xs text-gray-500 font-medium">{item.sub}</p>
+                            </motion.div>
+                        ))}
+                    </div>
+
+                    {/* Promise Strip */}
+                    <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}
+                        className="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-6">
+                        {[
+                            {
+                                icon: Zap,
+                                title: 'Lightning Fast Delivery',
+                                desc: 'Logos delivered in 24 hours. Websites in 5 business days. Social media setup on the same day. We respect your deadlines.',
+                                gradient: 'from-amber-500 to-orange-500',
+                                bg: 'bg-amber-50',
+                                border: 'hover:border-amber-200'
+                            },
+                            {
+                                icon: Shield,
+                                title: 'No Hidden Charges',
+                                desc: 'The price you see is the price you pay. Zero surprises. 50% upfront, 50% on delivery. Simple, transparent, and fair.',
+                                gradient: 'from-emerald-500 to-green-500',
+                                bg: 'bg-emerald-50',
+                                border: 'hover:border-emerald-200'
+                            },
+                            {
+                                icon: CheckCircle2,
+                                title: '100% Money Back Guarantee',
+                                desc: 'Not satisfied with the final output? Get a full refund — no questions asked. That\'s how confident we are in our quality.',
+                                gradient: 'from-blue-500 to-indigo-500',
+                                bg: 'bg-blue-50',
+                                border: 'hover:border-blue-200'
+                            }
+                        ].map((promise, i) => (
+                            <motion.div key={i} initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}
+                                transition={{ delay: i * 0.15 }}
+                                className={`relative p-6 md:p-8 rounded-2xl bg-white border border-gray-100 shadow-[0_4px_20px_rgba(0,0,0,0.04)] hover:shadow-xl ${promise.border} transition-all duration-500 group overflow-hidden`}>
+                                {/* Subtle gradient bg on hover */}
+                                <div className={`absolute top-0 right-0 w-32 h-32 bg-gradient-to-br ${promise.gradient} opacity-[0.03] group-hover:opacity-[0.08] rounded-full blur-2xl -mr-8 -mt-8 transition-opacity duration-700`} />
+
+                                <div className={`w-12 h-12 rounded-xl ${promise.bg} flex items-center justify-center mb-4 group-hover:scale-110 transition-transform relative z-10`}>
+                                    <promise.icon className="w-6 h-6" style={{ color: i === 0 ? '#f59e0b' : i === 1 ? '#10b981' : '#3b82f6' }} />
+                                </div>
+                                <h4 className="text-lg font-black text-gray-900 mb-2 tracking-tight relative z-10">{promise.title}</h4>
+                                <p className="text-sm text-gray-600 leading-relaxed font-medium relative z-10">{promise.desc}</p>
+                            </motion.div>
+                        ))}
+                    </motion.div>
+
+                    {/* Bottom Trust Line */}
+                    <motion.div initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} viewport={{ once: true }}
+                        className="mt-10 md:mt-12 flex flex-wrap items-center justify-center gap-4 md:gap-8 text-xs md:text-sm font-bold text-gray-500">
+                        {['✅ GST Invoice Available', '✅ 300+ Happy Clients', '✅ Same Day Response', '✅ Work Samples Before Payment'].map((tag, i) => (
+                            <span key={i} className="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-gray-50 border border-gray-100">{tag}</span>
+                        ))}
+                    </motion.div>
+                </div>
+            </section>
 
             {/* ═══════════════════════════════════ OUR SERVICES ═══════════════════════════════════ */}
             <section id="services" className="py-12 md:py-24 relative overflow-hidden">

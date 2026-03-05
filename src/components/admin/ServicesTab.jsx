@@ -21,27 +21,37 @@ const ServicesTab = ({ services, addService, updateService, deleteService, showT
         setIsModalOpen(true);
     };
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
         const serviceData = { ...formData, features: formData.features.split(',').map(f => f.trim()).filter(f => f) };
-        if (editingService) {
-            updateService(editingService.id, serviceData);
-            showToast(`"${formData.title}" updated successfully!`, 'success');
-        } else {
-            addService(serviceData);
-            showToast(`"${formData.title}" added to catalog!`, 'success');
+        try {
+            if (editingService) {
+                await updateService(editingService.id, serviceData);
+                showToast(`"${formData.title}" updated successfully!`, 'success');
+            } else {
+                await addService(serviceData);
+                showToast(`"${formData.title}" added to catalog!`, 'success');
+            }
+            setIsModalOpen(false);
+            setEditingService(null);
+        } catch (err) {
+            console.error('Service save failed:', err);
+            showToast('Failed to save service. Please try again.', 'error');
         }
-        setIsModalOpen(false);
-        setEditingService(null);
     };
 
-    const handleDelete = (e, service) => {
+    const handleDelete = async (e, service) => {
         e.stopPropagation();
         if (deleteConfirm === service.id) {
             // Second click = confirm delete
             clearTimeout(deleteTimer.current);
-            deleteService(service.id);
-            showToast(`"${service.title}" removed from catalog`, 'success');
+            try {
+                await deleteService(service.id);
+                showToast(`"${service.title}" removed from catalog`, 'success');
+            } catch (err) {
+                console.error('Delete failed:', err);
+                showToast('Failed to delete service.', 'error');
+            }
             setDeleteConfirm(null);
         } else {
             // First click = mark for deletion

@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { Rocket, Facebook, Twitter, Instagram, Linkedin, Mail, Phone, MapPin } from 'lucide-react';
+import { Rocket, Facebook, Twitter, Instagram, Linkedin, Youtube, Mail, Phone, MapPin } from 'lucide-react';
 import { useSettings } from '../context/SettingsContext';
 
 const Footer = () => {
@@ -20,12 +20,14 @@ const Footer = () => {
         }
     };
 
+    // Only show social icons that have a valid URL
     const socialLinks = [
         { icon: Facebook, url: settings.facebook },
-        { icon: Twitter, url: '' },
         { icon: Instagram, url: settings.instagram },
         { icon: Linkedin, url: settings.linkedin },
-    ];
+        { icon: Youtube, url: settings.youtube },
+        { icon: Twitter, url: settings.twitter },
+    ].filter(s => s.url && s.url.trim());
 
     return (
         <footer className="bg-white border-t border-gray-200 pt-16 pb-8">
@@ -45,14 +47,16 @@ const Footer = () => {
                         <p className="text-gray-500 text-sm leading-relaxed">
                             {settings.tagline || 'Premium digital services platform empowering businesses and schools with modern web solutions and cutting-edge AI training.'}
                         </p>
-                        <div className="flex gap-4">
-                            {socialLinks.map((social, i) => (
-                                <a key={i} href={social.url || '#'} target={social.url ? '_blank' : undefined} rel="noopener noreferrer"
-                                    className="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center text-gray-500 hover:text-gray-900 hover:bg-white/10 transition-colors border border-gray-200">
-                                    <social.icon className="w-4 h-4" />
-                                </a>
-                            ))}
-                        </div>
+                        {socialLinks.length > 0 && (
+                            <div className="flex gap-4">
+                                {socialLinks.map((social, i) => (
+                                    <a key={i} href={social.url} target="_blank" rel="noopener noreferrer"
+                                        className="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center text-gray-500 hover:text-gray-900 hover:bg-white/10 transition-colors border border-gray-200">
+                                        <social.icon className="w-4 h-4" />
+                                    </a>
+                                ))}
+                            </div>
+                        )}
                     </div>
 
                     {/* Quick Links */}

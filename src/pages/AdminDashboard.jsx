@@ -103,23 +103,17 @@ const AdminDashboard = () => {
         soundAlerts: false,
     });
 
-    // Fetch site settings (Firestore + localStorage fallback)
+    // Fetch site settings from Firestore
     useEffect(() => {
         const fetchSettings = async () => {
             try {
                 const snap = await getDoc(doc(db, 'settings', 'website'));
                 if (snap.exists()) {
                     setSiteSettings(prev => ({ ...prev, ...snap.data() }));
-                    return;
                 }
             } catch (err) {
-                console.warn('Firestore settings fetch failed, using localStorage:', err);
+                console.warn('Firestore settings fetch failed:', err);
             }
-            // Fallback: load from localStorage
-            try {
-                const local = localStorage.getItem('makemyportal_settings');
-                if (local) setSiteSettings(prev => ({ ...prev, ...JSON.parse(local) }));
-            } catch (e) { /* ignore parse errors */ }
         };
         fetchSettings();
     }, []);

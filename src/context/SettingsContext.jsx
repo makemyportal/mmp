@@ -1,5 +1,5 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
-import { doc, getDoc } from 'firebase/firestore';
+import { doc, onSnapshot } from 'firebase/firestore';
 import { db } from '../firebase';
 
 const SettingsContext = createContext();
@@ -23,34 +23,16 @@ export const SettingsProvider = ({ children }) => {
     const [settings, setSettings] = useState(defaultSettings);
 
     useEffect(() => {
-        const loadSettings = async () => {
-            // Try Firestore first
-            try {
-                const snap = await getDoc(doc(db, 'settings', 'website'));
-                if (snap.exists()) {
-                    setSettings(prev => ({ ...prev, ...snap.data() }));
-                    return;
-                }
-            } catch (err) {
-                console.warn('Firestore settings load failed:', err);
+        // Realtime listener on Firestore settings document
+        const unsubscribe = onSnapshot(doc(db, 'settings', 'website'), (snap) => {
+            if (snap.exists()) {
+                setSettings(prev => ({ ...prev, ...snap.data() }));
             }
-            // Fallback: localStorage
-            try {
-                const local = localStorage.getItem('makemyportal_settings');
-                if (local) setSettings(prev => ({ ...prev, ...JSON.parse(local) }));
-            } catch (_) { }
-        };
-        loadSettings();
+        }, (err) => {
+            console.warn('Firestore settings listener error:', err);
+        });
 
-        // Listen for localStorage changes from admin panel (same tab)
-        const handleStorage = () => {
-            try {
-                const local = localStorage.getItem('makemyportal_settings');
-                if (local) setSettings(prev => ({ ...prev, ...JSON.parse(local) }));
-            } catch (_) { }
-        };
-        window.addEventListener('storage', handleStorage);
-        return () => window.removeEventListener('storage', handleStorage);
+        return () => unsubscribe();
     }, []);
 
     return (

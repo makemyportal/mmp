@@ -28,22 +28,15 @@ const SettingsTab = ({ showToast, siteSettings, setSiteSettings }) => {
     const handleSave = async () => {
         setSaving(true);
         try {
-            // Try Firestore first
             await setDoc(doc(db, 'settings', 'website'), localSettings, { merge: true });
             setSiteSettings(localSettings);
             setGlobalSettings(prev => ({ ...prev, ...localSettings }));
-            localStorage.setItem('makemyportal_settings', JSON.stringify(localSettings));
             showToast('Settings saved successfully!', 'success');
             setSaved(true);
             setTimeout(() => setSaved(false), 3000);
         } catch (err) {
-            console.warn('Firestore save failed, saving to localStorage:', err);
-            localStorage.setItem('makemyportal_settings', JSON.stringify(localSettings));
-            setSiteSettings(localSettings);
-            setGlobalSettings(prev => ({ ...prev, ...localSettings }));
-            showToast('Saved locally (update Firestore rules for cloud save)', 'info');
-            setSaved(true);
-            setTimeout(() => setSaved(false), 3000);
+            console.error('Failed to save settings:', err);
+            showToast('Failed to save settings. Check Firestore rules.', 'error');
         }
         setSaving(false);
     };
