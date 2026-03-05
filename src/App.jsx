@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react';
 import { Routes, Route, useLocation } from 'react-router-dom';
+import ReactGA from 'react-ga4';
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
 import Home from './pages/Home';
@@ -17,12 +18,26 @@ import Contact from './pages/Contact';
 import WhatsAppFloat from './components/WhatsAppFloat';
 import AIAssistantWidget from './components/AIAssistantWidget';
 
-// Scroll to top on route change
-const ScrollToTop = () => {
+// Initialize GA4
+const GA_MEASUREMENT_ID = import.meta.env.VITE_GA_MEASUREMENT_ID;
+if (GA_MEASUREMENT_ID) {
+  ReactGA.initialize(GA_MEASUREMENT_ID);
+}
+
+// Scroll to top and track page view on route change
+const RouteChangeTracker = () => {
   const { pathname } = useLocation();
+
   useEffect(() => {
+    // Scroll to top
     window.scrollTo(0, 0);
+
+    // Track page view
+    if (GA_MEASUREMENT_ID) {
+      ReactGA.send({ hitType: "pageview", page: pathname, title: pathname });
+    }
   }, [pathname]);
+
   return null;
 };
 
@@ -43,7 +58,7 @@ const App = () => {
   if (isAdminRoute) {
     return (
       <>
-        <ScrollToTop />
+        <RouteChangeTracker />
         <Routes>
           <Route path="/admin" element={
             <ProtectedRoute requireAdmin={true}>
@@ -57,7 +72,7 @@ const App = () => {
 
   return (
     <>
-      <ScrollToTop />
+      <RouteChangeTracker />
       <Navbar />
       <PageLayout>
         <Routes>
