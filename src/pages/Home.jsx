@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { motion } from 'framer-motion';
+import React, { useState, useEffect } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
 import { Link, useNavigate } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
 import {
@@ -24,8 +24,19 @@ const Home = () => {
     const [openFAQ, setOpenFAQ] = useState(null);
     const [selectedService, setSelectedService] = useState(null);
     const [isBookingOpen, setIsBookingOpen] = useState(false);
-    const [heroActiveTab, setHeroActiveTab] = useState('SaaS Platforms');
+    const heroTabs = ['SaaS Platforms', 'AI Portals', 'E-Commerce', 'Websites'];
+    const [heroActiveTab, setHeroActiveTab] = useState(heroTabs[0]);
     const [searchFocused, setSearchFocused] = useState(false);
+
+    useEffect(() => {
+        const interval = setInterval(() => {
+            setHeroActiveTab(current => {
+                const currentIndex = heroTabs.indexOf(current);
+                return heroTabs[(currentIndex + 1) % heroTabs.length];
+            });
+        }, 3000); // Auto change every 3 seconds
+        return () => clearInterval(interval);
+    }, []);
     const whatsappNum = settings.whatsapp || '918077162909';
 
     // Dynamic search results
@@ -79,34 +90,26 @@ const Home = () => {
             <div className="absolute top-[20%] right-[-10%] w-[40%] h-[40%] bg-[#2563eb]/20 rounded-full blur-[140px] pointer-events-none" />
             <div className="absolute bottom-[-10%] left-[20%] w-[40%] h-[40%] bg-[#f59e0b]/10 rounded-full blur-[120px] pointer-events-none" />
 
-            {/* ═══════════════════════════════════ NEW HERO (TECH STUDIO) ═══════════════════════════════════ */}
-            <section className="relative pt-32 pb-20 px-4 sm:px-6 lg:px-8 max-w-5xl mx-auto text-center z-10 flex flex-col items-center">
+            {/* ═══════════════════════════════════ HERO ═══════════════════════════════════ */}
+            <section className="relative pt-24 md:pt-32 pb-12 md:pb-20 px-4 sm:px-6 lg:px-8 max-w-5xl mx-auto text-center z-10 flex flex-col items-center">
                 <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }}
                     className="w-full flex flex-col items-center">
 
-                    <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-gray-50 border border-gray-200 text-gray-600 text-sm font-semibold mb-6 shadow-sm">
-                        <span className="relative flex h-2 w-2">
-                            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-brand-primary opacity-75"></span>
-                            <span className="relative inline-flex rounded-full h-2 w-2 bg-brand-primary"></span>
-                        </span>
-                        Premium Digital Studio
-                    </div>
-
-                    {/* Dynamic Search Bar */}
-                    <div className="w-full max-w-xl mx-auto mb-10 relative z-50">
+                    {/* Search Bar */}
+                    <div className="w-full max-w-md mx-auto relative z-50 mb-5">
                         <form onSubmit={handleSearch} className="relative">
-                            <div className={`flex items-center bg-white border ${searchFocused ? 'border-violet-300 shadow-[0_0_30px_rgba(124,58,237,0.12)]' : 'border-gray-200 shadow-lg'} rounded-2xl transition-all duration-300 overflow-hidden`}>
-                                <Search className="w-5 h-5 text-gray-400 ml-5 shrink-0" />
+                            <div className={`flex items-center bg-white border ${searchFocused ? 'border-violet-300 shadow-[0_0_20px_rgba(124,58,237,0.1)]' : 'border-gray-200 shadow-md'} rounded-xl transition-all duration-300 overflow-hidden`}>
+                                <Search className="w-4 h-4 text-gray-400 ml-4 shrink-0" />
                                 <input
                                     type="text"
                                     value={searchQuery}
                                     onChange={(e) => setSearchQuery(e.target.value)}
                                     onFocus={() => setSearchFocused(true)}
                                     onBlur={() => setTimeout(() => setSearchFocused(false), 200)}
-                                    placeholder="Search services... e.g. Logo, Website, SEO"
-                                    className="flex-1 px-4 py-4 text-sm font-medium text-gray-900 placeholder-gray-400 outline-none bg-transparent"
+                                    placeholder="Search services..."
+                                    className="flex-1 px-3 py-3 text-sm font-medium text-gray-900 placeholder-gray-400 outline-none bg-transparent"
                                 />
-                                <button type="submit" className="px-6 py-2.5 m-1.5 rounded-xl bg-gradient-to-r from-violet-600 to-blue-600 text-white text-sm font-bold hover:shadow-lg transition-all shrink-0">
+                                <button type="submit" className="px-4 py-2 m-1 rounded-lg bg-gradient-to-r from-violet-600 to-blue-600 text-white text-xs font-bold hover:shadow-lg transition-all shrink-0">
                                     Search
                                 </button>
                             </div>
@@ -114,49 +117,69 @@ const Home = () => {
 
                         {/* Live Dropdown Results */}
                         {searchFocused && searchResults.length > 0 && (
-                            <div className="absolute top-full left-0 right-0 mt-2 bg-white border border-gray-100 rounded-2xl shadow-2xl overflow-hidden z-50">
+                            <div className="absolute top-full left-0 right-0 mt-2 bg-white border border-gray-100 rounded-xl shadow-2xl overflow-hidden z-50">
                                 {searchResults.map((s) => (
                                     <div key={s.id}
                                         onMouseDown={(e) => { e.preventDefault(); setSearchQuery(s.title); navigate(`/services?search=${encodeURIComponent(s.title)}`); }}
-                                        className="flex items-center justify-between px-5 py-3.5 hover:bg-violet-50 cursor-pointer transition-colors border-b border-gray-50 last:border-b-0 group">
-                                        <div className="flex items-center gap-3 min-w-0">
-                                            <div className="w-9 h-9 rounded-lg bg-gray-100 group-hover:bg-violet-100 flex items-center justify-center shrink-0 transition-colors">
-                                                <Search className="w-4 h-4 text-gray-400 group-hover:text-violet-500" />
+                                        className="flex items-center justify-between px-4 py-3 hover:bg-violet-50 cursor-pointer transition-colors border-b border-gray-50 last:border-b-0 group">
+                                        <div className="flex items-center gap-2.5 min-w-0">
+                                            <div className="w-8 h-8 rounded-lg bg-gray-100 group-hover:bg-violet-100 flex items-center justify-center shrink-0 transition-colors">
+                                                <Search className="w-3.5 h-3.5 text-gray-400 group-hover:text-violet-500" />
                                             </div>
                                             <div className="min-w-0">
                                                 <p className="text-sm font-bold text-gray-900 truncate">{s.title}</p>
-                                                <p className="text-xs text-gray-500 font-medium">{s.category}</p>
+                                                <p className="text-[11px] text-gray-500 font-medium">{s.category}</p>
                                             </div>
                                         </div>
-                                        <span className="text-sm font-black text-violet-600 shrink-0 ml-3">{s.price}</span>
+                                        <span className="text-xs font-black text-violet-600 shrink-0 ml-2">{s.price}</span>
                                     </div>
                                 ))}
-                                <div onMouseDown={(e) => { e.preventDefault(); navigate(`/services?search=${encodeURIComponent(searchQuery)}`); }} className="px-5 py-3 bg-gray-50 text-center cursor-pointer hover:bg-violet-50 transition-colors">
-                                    <span className="text-sm font-bold text-violet-600">View all results for "{searchQuery}" →</span>
+                                <div onMouseDown={(e) => { e.preventDefault(); navigate(`/services?search=${encodeURIComponent(searchQuery)}`); }} className="px-4 py-2.5 bg-gray-50 text-center cursor-pointer hover:bg-violet-50 transition-colors">
+                                    <span className="text-xs font-bold text-violet-600">View all results →</span>
                                 </div>
                             </div>
                         )}
                     </div>
 
-                    <h1 className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-black leading-[1.1] mb-6 font-heading tracking-tighter">
+                    <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-gray-50 border border-gray-200 text-gray-600 text-xs md:text-sm font-semibold mb-5 shadow-sm">
+                        <span className="relative flex h-2 w-2">
+                            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-brand-primary opacity-75"></span>
+                            <span className="relative inline-flex rounded-full h-2 w-2 bg-brand-primary"></span>
+                        </span>
+                        Web Development Agency
+                    </div>
+
+
+                    <h1 className="text-4xl sm:text-5xl md:text-7xl lg:text-8xl font-black leading-[1.08] mb-4 md:mb-6 font-heading tracking-tighter">
                         We Build <br className="hidden sm:block" />
-                        <span className="text-transparent bg-clip-text bg-gradient-to-r from-brand-primary via-blue-600 to-[#06b6d4]">
-                            {heroActiveTab}
+                        <span className="text-transparent bg-clip-text bg-gradient-to-r from-brand-primary via-blue-600 to-[#06b6d4] inline-flex justify-center md:min-w-[500px] min-w-[240px]">
+                            <AnimatePresence mode="wait">
+                                <motion.span
+                                    key={heroActiveTab}
+                                    initial={{ opacity: 0, y: 20 }}
+                                    animate={{ opacity: 1, y: 0 }}
+                                    exit={{ opacity: 0, y: -20 }}
+                                    transition={{ duration: 0.35, ease: "easeOut" }}
+                                    className="inline-block"
+                                >
+                                    {heroActiveTab}
+                                </motion.span>
+                            </AnimatePresence>
                         </span>
                     </h1>
 
-                    <p className="text-lg sm:text-xl text-gray-700 mb-10 max-w-2xl mx-auto font-medium">
-                        Stop using templates. We engineer bespoke, production-ready software that scales your business and dominates your market.
+                    <p className="text-sm md:text-lg text-gray-600 mb-6 md:mb-8 max-w-xl mx-auto font-medium leading-relaxed">
+                        Custom websites, apps & digital solutions — designed to grow your business.
                     </p>
 
-                    {/* Interactive Selector */}
-                    <div className="flex flex-wrap items-center justify-center gap-2 mb-12 p-2 rounded-2xl md:rounded-full bg-gray-50/80 backdrop-blur-md border border-gray-200">
-                        {['SaaS Platforms', 'AI Portals', 'E-Commerce', 'Websites'].map((tab) => (
+                    {/* Interactive Selector — compact */}
+                    <div className="flex flex-wrap items-center justify-center gap-1.5 md:gap-2 mb-6 md:mb-8 p-1.5 md:p-2 rounded-xl md:rounded-full bg-gray-50/80 backdrop-blur-md border border-gray-200">
+                        {heroTabs.map((tab) => (
                             <button
                                 key={tab}
                                 onClick={() => setHeroActiveTab(tab)}
-                                className={`px-6 py-3 rounded-xl md:rounded-full text-sm font-bold transition-all ${heroActiveTab === tab
-                                    ? 'bg-white text-gray-900 shadow-[0_2px_15px_rgba(0,0,0,0.08)]'
+                                className={`px-3 md:px-5 py-2 md:py-2.5 rounded-lg md:rounded-full text-xs md:text-sm font-bold transition-all ${heroActiveTab === tab
+                                    ? 'bg-white text-gray-900 shadow-[0_2px_12px_rgba(0,0,0,0.08)]'
                                     : 'text-gray-500 hover:text-gray-900 hover:bg-white/50'
                                     }`}
                             >
@@ -165,20 +188,21 @@ const Home = () => {
                         ))}
                     </div>
 
-                    <div className="flex flex-col sm:flex-row items-center justify-center gap-4 w-full sm:w-auto">
-                        <Link to="/register" className="w-full sm:w-auto px-8 py-4 rounded-full bg-gray-900 text-white font-bold hover:bg-brand-primary hover:shadow-[0_0_30px_rgba(124,58,237,0.3)] transition-all flex items-center justify-center gap-2">
-                            Start Your Project <ArrowRight className="w-5 h-5" />
+                    <div className="flex flex-col sm:flex-row items-center justify-center gap-3 w-full sm:w-auto mb-6 md:mb-8">
+                        <Link to="/register" className="w-full sm:w-auto px-6 md:px-8 py-3 md:py-4 rounded-full bg-gray-900 text-white font-bold text-sm md:text-base hover:bg-brand-primary hover:shadow-[0_0_30px_rgba(124,58,237,0.3)] transition-all flex items-center justify-center gap-2">
+                            Start Your Project <ArrowRight className="w-4 h-4 md:w-5 md:h-5" />
                         </Link>
-                        <Link to="/services" className="w-full sm:w-auto px-8 py-4 rounded-full border border-gray-200 bg-white hover:bg-gray-50 transition-all font-bold text-gray-900 flex items-center justify-center">
-                            Explore Systems
+                        <Link to="/services" className="w-full sm:w-auto px-6 md:px-8 py-3 md:py-4 rounded-full border border-gray-200 bg-white hover:bg-gray-50 transition-all font-bold text-sm md:text-base text-gray-900 flex items-center justify-center">
+                            View Services
                         </Link>
                     </div>
 
-                    {/* Trust Badges */}
-                    <div className="flex flex-wrap items-center gap-6 mt-12 justify-center">
-                        {[{ icon: Shield, text: 'Enterprise Grade', clr: 'text-emerald-500' }, { icon: Zap, text: 'Built for Speed', clr: 'text-amber-500' }, { icon: CheckCircle2, text: 'Custom Engineered', clr: 'text-blue-500' }].map((b, i) => (
-                            <div key={i} className="flex items-center gap-2 text-xs text-gray-800 font-bold uppercase tracking-wider">
-                                <b.icon className={`w-4 h-4 ${b.clr}`} /> {b.text}
+
+                    {/* Trust Badges — minimal */}
+                    <div className="flex items-center gap-4 md:gap-6 justify-center">
+                        {[{ icon: Shield, text: '100% Secure', clr: 'text-emerald-500' }, { icon: Zap, text: 'Fast Delivery', clr: 'text-amber-500' }, { icon: CheckCircle2, text: '300+ Projects', clr: 'text-blue-500' }].map((b, i) => (
+                            <div key={i} className="flex items-center gap-1.5 text-[10px] md:text-xs text-gray-500 font-bold uppercase tracking-wider">
+                                <b.icon className={`w-3.5 h-3.5 md:w-4 md:h-4 ${b.clr}`} /> {b.text}
                             </div>
                         ))}
                     </div>
@@ -207,6 +231,66 @@ const Home = () => {
                     ))}
                 </div>
             </div>
+
+            {/* ═══════════════════════════════════ FEATURED SERVICES (PURCHASABLE) ═══════════════════════════════════ */}
+            <section className="py-10 md:py-16 relative">
+                <div className="absolute bottom-0 left-0 w-[600px] h-[600px] bg-brand-secondary/5 rounded-full blur-[150px] -z-10" />
+                <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                    <div className="text-center mb-8 md:mb-12 max-w-3xl mx-auto">
+                        <h2 className="text-sm font-bold tracking-widest text-brand-secondary uppercase mb-2">Popular Plans</h2>
+                        <h3 className="text-3xl md:text-4xl font-black font-heading mb-3 tracking-tight">Start Building <span className="text-transparent bg-clip-text bg-gradient-to-r from-brand-primary to-brand-secondary">Today</span></h3>
+                        <p className="text-gray-600 text-sm md:text-base">{currentUser ? 'Click Book Now to get started instantly.' : 'Sign in to book directly.'}</p>
+                    </div>
+
+                    <div className="grid grid-cols-2 lg:grid-cols-3 gap-3 md:gap-5">
+                        {featuredServices.map((service, i) => (
+                            <motion.div key={service.id} initial={{ opacity: 0, y: 15 }} whileInView={{ opacity: 1, y: 0 }}
+                                viewport={{ once: true }} transition={{ delay: i * 0.06 }}
+                                className="bg-white rounded-xl md:rounded-2xl overflow-hidden border border-gray-100 shadow-[0_2px_12px_rgba(0,0,0,0.05)] hover:shadow-[0_8px_30px_rgba(124,58,237,0.12)] hover:border-violet-200 transition-all duration-400 group flex flex-col">
+                                {/* Image — compact */}
+                                <div className="h-28 md:h-36 overflow-hidden relative shrink-0">
+                                    <img src={service.imageUrl || 'https://images.unsplash.com/photo-1451187580459-43490279c0fa?w=600&q=80'}
+                                        alt={service.title} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
+                                    <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent" />
+                                    <span className="absolute top-2 left-2 px-2 py-1 rounded-full text-[8px] md:text-[10px] font-bold bg-white/90 backdrop-blur-md text-gray-900 shadow-sm uppercase tracking-wider">
+                                        {service.category.replace(/[^a-zA-Z\s]/g, '')}
+                                    </span>
+                                    <div className="absolute bottom-2 right-2">
+                                        <span className="px-2 py-1 rounded-md bg-white/90 backdrop-blur-md text-xs md:text-sm font-black text-gray-900 shadow-sm">{service.price}</span>
+                                    </div>
+                                </div>
+
+                                <div className="p-3 md:p-4 flex flex-col flex-1">
+                                    <h4 className="text-sm md:text-base font-bold text-gray-900 mb-1 tracking-tight leading-snug line-clamp-1">{service.title}</h4>
+                                    <p className="text-[11px] md:text-xs text-gray-500 mb-2 md:mb-3 line-clamp-2 leading-relaxed hidden sm:block">{service.description}</p>
+
+                                    {/* Features — only on md+ */}
+                                    <ul className="hidden md:flex flex-col gap-1.5 mb-3 flex-1">
+                                        {service.features?.slice(0, 2).map((f, idx) => (
+                                            <li key={idx} className="text-xs text-gray-600 flex items-center gap-2 font-medium">
+                                                <Check className="w-3 h-3 text-emerald-500 shrink-0" />
+                                                <span className="line-clamp-1">{f}</span>
+                                            </li>
+                                        ))}
+                                    </ul>
+
+                                    {/* CTA */}
+                                    <button onClick={() => handleBookNow(service)}
+                                        className="w-full flex items-center justify-center gap-1.5 py-2 md:py-2.5 rounded-lg md:rounded-xl bg-gradient-to-r from-violet-600 to-blue-600 text-white font-bold text-[11px] md:text-sm shadow-md shadow-violet-500/15 hover:shadow-violet-500/30 hover:scale-[1.02] active:scale-[0.98] transition-all duration-300 mt-auto">
+                                        <ShoppingCart className="w-3 h-3 md:w-4 md:h-4" /> Book Now
+                                    </button>
+                                </div>
+                            </motion.div>
+                        ))}
+                    </div>
+
+                    <div className="text-center mt-8 md:mt-10">
+                        <Link to="/services" className="inline-flex items-center gap-2 px-6 py-3 rounded-xl border-2 border-gray-200 bg-white text-gray-900 font-bold text-sm hover:border-violet-300 hover:shadow-lg transition-all hover:scale-105">
+                            View All {services.length} Services <ArrowRight className="w-4 h-4" />
+                        </Link>
+                    </div>
+                </div>
+            </section>
 
             {/* ═══════════════════════════════════ STATS BAR ═══════════════════════════════════ */}
             <div className="relative max-w-6xl mx-auto px-4 z-20 mb-16 md:mb-24 mt-4 md:mt-8">
@@ -315,113 +399,6 @@ const Home = () => {
                             <span key={i} className="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-gray-50 border border-gray-100">{tag}</span>
                         ))}
                     </motion.div>
-                </div>
-            </section>
-
-            {/* ═══════════════════════════════════ OUR SERVICES ═══════════════════════════════════ */}
-            <section id="services" className="py-12 md:py-24 relative overflow-hidden">
-                <div className="absolute top-0 right-0 w-[800px] h-[800px] bg-brand-primary/5 rounded-full blur-[150px] -z-10" />
-                <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                    <div className="text-center mb-16 max-w-3xl mx-auto">
-                        <h2 className="text-sm font-bold tracking-widest text-[#06b6d4] uppercase mb-3">What We Do</h2>
-                        <h3 className="text-4xl md:text-5xl font-black font-heading mb-6 tracking-tight">A Suite of Premium Digital Services.</h3>
-                        <p className="text-gray-600 text-lg">We combine high-end design with robust engineering to create platforms that dominate their markets.</p>
-                    </div>
-
-                    <div className="grid grid-cols-2 md:grid-cols-3 gap-4 md:gap-6 relative z-10">
-                        {[
-                            { icon: <LayoutTemplate className="w-6 h-6" />, title: 'SaaS & Web Portals', desc: 'Dashboards, CRMs & enterprise apps.', iconBg: 'bg-gradient-to-br from-violet-500 to-indigo-600', color: 'from-violet-600 to-indigo-600' },
-                            { icon: <Bot className="w-6 h-6" />, title: 'AI Integration', desc: 'Custom LLM-powered business tools.', iconBg: 'bg-gradient-to-br from-pink-500 to-rose-500', color: 'from-pink-500 to-rose-500' },
-                            { icon: <Monitor className="w-6 h-6" />, title: 'Website Dev', desc: 'Ultra-fast, bespoke corporate sites.', iconBg: 'bg-gradient-to-br from-blue-500 to-cyan-500', color: 'from-blue-500 to-cyan-500' },
-                            { icon: <ShoppingCart className="w-6 h-6" />, title: 'E-Commerce', desc: 'Scalable online stores & marketplaces.', iconBg: 'bg-gradient-to-br from-emerald-500 to-teal-500', color: 'from-emerald-500 to-teal-500' },
-                            { icon: <GraduationCap className="w-6 h-6" />, title: 'EdTech', desc: 'LMS platforms & exam systems.', iconBg: 'bg-gradient-to-br from-amber-500 to-orange-500', color: 'from-amber-500 to-orange-500' },
-                            { icon: <Palette className="w-6 h-6" />, title: 'Branding', desc: 'Logos, identity & brand packages.', iconBg: 'bg-gradient-to-br from-fuchsia-500 to-purple-600', color: 'from-fuchsia-500 to-purple-600' }
-                        ].map((service, i) => (
-                            <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, margin: "-50px" }}
-                                transition={{ delay: i * 0.1 }} key={i}
-                                className="group relative p-5 md:p-8 rounded-2xl md:rounded-3xl bg-white border border-gray-100 hover:border-gray-200 transition-all duration-500 shadow-[0_4px_20px_rgba(0,0,0,0.04)] hover:shadow-xl flex flex-col overflow-hidden"
-                            >
-                                {/* Background Accent */}
-                                <div className={`absolute top-0 right-0 w-48 h-48 md:w-64 md:h-64 bg-gradient-to-br ${service.color} opacity-[0.03] group-hover:opacity-[0.08] rounded-full blur-3xl -mr-10 -mt-10 transition-opacity duration-700 pointer-events-none`} />
-
-                                <div className={`w-12 h-12 md:w-14 md:h-14 shrink-0 rounded-2xl flex items-center justify-center ${service.iconBg} mb-4 md:mb-6 group-hover:scale-110 group-hover:shadow-lg transition-all duration-500 z-10`}>
-                                    <div className="text-white">
-                                        {service.icon}
-                                    </div>
-                                </div>
-
-                                <div className="z-10 flex flex-col h-full w-full">
-                                    <h4 className="text-base md:text-xl font-black mb-1 md:mb-2 text-gray-900 tracking-tight leading-tight">{service.title}</h4>
-                                    <p className="text-gray-600 font-medium mb-4 md:mb-6 flex-1 text-xs md:text-sm leading-relaxed">{service.desc}</p>
-                                    <Link to="/services" className="inline-flex items-center text-[11px] md:text-sm font-bold text-brand-primary group-hover:text-violet-700 transition-colors mt-auto w-fit">
-                                        Explore <ArrowRight className="w-3.5 h-3.5 ml-1.5 transform group-hover:translate-x-1.5 transition-transform" />
-                                    </Link>
-                                </div>
-                            </motion.div>
-                        ))}
-                    </div>
-                </div>
-            </section>
-
-            {/* ═══════════════════════════════════ FEATURED SERVICES (PURCHASABLE) ═══════════════════════════════════ */}
-            <section className="py-12 md:py-24 relative">
-                <div className="absolute bottom-0 left-0 w-[600px] h-[600px] bg-brand-secondary/5 rounded-full blur-[150px] -z-10" />
-                <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                    <div className="text-center mb-16 max-w-3xl mx-auto">
-                        <h2 className="text-sm font-bold tracking-widest text-brand-secondary uppercase mb-3">Popular Plans</h2>
-                        <h3 className="text-4xl md:text-5xl font-black font-heading mb-6 tracking-tight">Start Building <span className="text-transparent bg-clip-text bg-gradient-to-r from-brand-primary to-brand-secondary">Today</span></h3>
-                        <p className="text-gray-600 text-lg">Choose a plan that fits your needs. {currentUser ? 'Click Book Now to get started instantly.' : 'Sign in to book directly.'}</p>
-                    </div>
-
-                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 md:gap-6">
-                        {featuredServices.map((service, i) => (
-                            <motion.div key={service.id} initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }}
-                                viewport={{ once: true }} transition={{ delay: i * 0.08 }}
-                                className="bg-white rounded-2xl overflow-hidden border border-gray-100 shadow-[0_4px_24px_rgba(0,0,0,0.06)] hover:shadow-[0_12px_40px_rgba(124,58,237,0.12)] hover:border-violet-200 transition-all duration-500 group flex flex-col">
-                                {/* Image */}
-                                <div className="h-44 overflow-hidden relative shrink-0">
-                                    <img src={service.imageUrl || 'https://images.unsplash.com/photo-1451187580459-43490279c0fa?w=600&q=80'}
-                                        alt={service.title} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" />
-                                    <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-black/10 to-transparent" />
-                                    <span className="absolute top-3 left-3 px-3 py-1.5 rounded-full text-[10px] font-bold bg-white/95 backdrop-blur-md text-gray-900 shadow-sm uppercase tracking-wider">
-                                        {service.category.replace(/[^a-zA-Z\s]/g, '')}
-                                    </span>
-                                    <div className="absolute bottom-3 right-3">
-                                        <span className="px-3 py-1.5 rounded-lg bg-white/95 backdrop-blur-md text-sm font-black text-gray-900 shadow-sm">{service.price}</span>
-                                    </div>
-                                </div>
-
-                                <div className="p-5 md:p-6 flex flex-col flex-1">
-                                    <h4 className="text-lg font-black text-gray-900 mb-2 tracking-tight leading-snug">{service.title}</h4>
-                                    <p className="text-sm text-gray-600 mb-4 line-clamp-2 leading-relaxed">{service.description}</p>
-
-                                    {/* Features */}
-                                    <ul className="space-y-2 mb-5 flex-1">
-                                        {service.features?.slice(0, 3).map((f, idx) => (
-                                            <li key={idx} className="text-sm text-gray-700 flex items-center gap-2.5 font-medium">
-                                                <div className="w-5 h-5 rounded-full bg-emerald-50 flex items-center justify-center shrink-0">
-                                                    <Check className="w-3 h-3 text-emerald-500" />
-                                                </div>
-                                                {f}
-                                            </li>
-                                        ))}
-                                    </ul>
-
-                                    {/* CTA */}
-                                    <button onClick={() => handleBookNow(service)}
-                                        className="w-full flex items-center justify-center gap-2 py-3.5 rounded-xl bg-gradient-to-r from-violet-600 to-blue-600 text-white font-bold text-sm shadow-lg shadow-violet-500/20 hover:shadow-violet-500/40 hover:scale-[1.02] active:scale-[0.98] transition-all duration-300 mt-auto">
-                                        <ShoppingCart className="w-4 h-4" /> Book Now
-                                    </button>
-                                </div>
-                            </motion.div>
-                        ))}
-                    </div>
-
-                    <div className="text-center mt-12">
-                        <Link to="/services" className="inline-flex items-center gap-2 px-8 py-4 rounded-xl border-2 border-gray-200 bg-white text-gray-900 font-bold hover:border-violet-300 hover:shadow-lg transition-all hover:scale-105">
-                            View All {services.length} Services <ArrowRight className="w-5 h-5" />
-                        </Link>
-                    </div>
                 </div>
             </section>
 

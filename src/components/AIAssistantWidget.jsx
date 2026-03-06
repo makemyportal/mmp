@@ -4,6 +4,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 
 const AIAssistantWidget = () => {
     const [isOpen, setIsOpen] = useState(false);
+    const [showGreeting, setShowGreeting] = useState(false);
     const [messages, setMessages] = useState([
         {
             role: 'assistant',
@@ -13,6 +14,32 @@ const AIAssistantWidget = () => {
     const [inputMessage, setInputMessage] = useState('');
     const [isLoading, setIsLoading] = useState(false);
     const messagesEndRef = useRef(null);
+
+    // Auto-greeting popup on first visit (once per session)
+    useEffect(() => {
+        const alreadyGreeted = sessionStorage.getItem('mmp_ai_greeted');
+        if (!alreadyGreeted) {
+            const showTimer = setTimeout(() => {
+                setShowGreeting(true);
+                sessionStorage.setItem('mmp_ai_greeted', 'true');
+            }, 3000); // Show after 3 seconds
+
+            return () => clearTimeout(showTimer);
+        }
+    }, []);
+
+    // Auto-dismiss greeting after 8 seconds
+    useEffect(() => {
+        if (showGreeting) {
+            const hideTimer = setTimeout(() => setShowGreeting(false), 8000);
+            return () => clearTimeout(hideTimer);
+        }
+    }, [showGreeting]);
+
+    // Hide greeting when chat is opened
+    useEffect(() => {
+        if (isOpen) setShowGreeting(false);
+    }, [isOpen]);
 
     const SYSTEM_PROMPT = `You are the ultimate MakeMyPortal Nova AI.
 You are highly intelligent, deeply professional, very polite, and slightly playful. Your tone is premium and customer-centric. You must act as the primary customer support agent and sales guide for MakeMyPortal.
@@ -246,6 +273,46 @@ You can direct users to these pages if they ask:
                 )}
             </AnimatePresence>
 
+            {/* Auto Greeting Popup Bubble */}
+            <AnimatePresence>
+                {showGreeting && !isOpen && (
+                    <motion.div
+                        initial={{ opacity: 0, y: 20, scale: 0.8 }}
+                        animate={{ opacity: 1, y: 0, scale: 1 }}
+                        exit={{ opacity: 0, y: 10, scale: 0.9 }}
+                        transition={{ type: "spring", stiffness: 300, damping: 22 }}
+                        className="absolute bottom-16 left-0 w-[280px] sm:w-[300px] bg-white border border-gray-200 rounded-2xl shadow-[0_8px_30px_rgba(0,0,0,0.12)] p-4 cursor-pointer"
+                        onClick={() => { setShowGreeting(false); setIsOpen(true); }}
+                    >
+                        {/* Close button */}
+                        <button
+                            onClick={(e) => { e.stopPropagation(); setShowGreeting(false); }}
+                            className="absolute top-2 right-2 p-1 rounded-full hover:bg-gray-100 text-gray-400 hover:text-gray-600 transition-colors"
+                        >
+                            <X className="w-3.5 h-3.5" />
+                        </button>
+
+                        <div className="flex items-start gap-3">
+                            <div className="w-10 h-10 rounded-full bg-gradient-to-br from-violet-600 to-blue-500 flex items-center justify-center shrink-0 shadow-lg">
+                                <Sparkles className="w-5 h-5 text-white" />
+                            </div>
+                            <div>
+                                <p className="text-sm font-bold text-gray-900 mb-1">👋 Hi! Welcome to MakeMyPortal</p>
+                                <p className="text-xs text-gray-600 leading-relaxed">Need a website, app, or e-commerce store? Ask me anything — I'm here to help!</p>
+                            </div>
+                        </div>
+
+                        <div className="flex gap-2 mt-3">
+                            <span className="px-3 py-1.5 rounded-full bg-violet-50 text-violet-600 text-[11px] font-bold border border-violet-100 hover:bg-violet-100 transition-colors">View Pricing</span>
+                            <span className="px-3 py-1.5 rounded-full bg-blue-50 text-blue-600 text-[11px] font-bold border border-blue-100 hover:bg-blue-100 transition-colors">Our Services</span>
+                        </div>
+
+                        {/* Small triangle pointer */}
+                        <div className="absolute -bottom-2 left-5 w-4 h-4 bg-white border-r border-b border-gray-200 transform rotate-45" />
+                    </motion.div>
+                )}
+            </AnimatePresence>
+
             {/* Toggle Button */}
             <motion.button
                 whileHover={{ scale: 1.05, boxShadow: "0 0 20px rgba(0,0,0,0.3)" }}
@@ -255,6 +322,11 @@ You can direct users to these pages if they ask:
             >
                 <div className="absolute inset-0 bg-white/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
                 {isOpen ? <X className="w-5 h-5 relative z-10 text-white" /> : <Sparkles className="w-5 h-5 relative z-10 text-white group-hover:rotate-12 transition-transform duration-300" />}
+
+                {/* Pulsing ring when greeting is showing */}
+                {showGreeting && (
+                    <span className="absolute inset-0 rounded-full border-2 border-violet-400 animate-ping opacity-50" />
+                )}
             </motion.button>
         </div>
     );
