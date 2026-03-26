@@ -1,6 +1,7 @@
 import React, { useState, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Search, Plus, Edit2, Trash2, X, Save, Building2, AlertTriangle, ExternalLink } from 'lucide-react';
+import ImageUploadField from './ImageUploadField';
 
 const ClientsTab = ({ clients, addClient, updateClient, deleteClient, showToast }) => {
     const [isModalOpen, setIsModalOpen] = useState(false);
@@ -134,12 +135,17 @@ const ClientsTab = ({ clients, addClient, updateClient, deleteClient, showToast 
                                         <input type="text" required value={formData.name} onChange={e => setFormData({ ...formData, name: e.target.value })}
                                             className="w-full px-4 py-2.5 bg-white border border-gray-200 rounded-xl text-gray-900 focus:outline-none focus:border-brand-primary transition-colors" placeholder="e.g., Acme Corp" />
                                     </div>
-                                    <div className="space-y-1">
-                                        <label className="text-sm font-medium text-gray-600 ml-1">Logo URL</label>
-                                        <input type="url" value={formData.logo} onChange={e => setFormData({ ...formData, logo: e.target.value })}
-                                            className="w-full px-4 py-2.5 bg-white border border-gray-200 rounded-xl text-gray-900 focus:outline-none focus:border-brand-primary transition-colors" placeholder="https://..." />
-                                        {formData.logo && <img src={formData.logo} alt="Preview" className="w-20 h-20 object-contain rounded-lg mt-2 border border-gray-200 p-2" onError={e => e.target.style.display = 'none'} />}
-                                    </div>
+
+                                    {/* Logo Upload/Link */}
+                                    <ImageUploadField
+                                        value={formData.logo}
+                                        onChange={(url) => setFormData({ ...formData, logo: url })}
+                                        folder="clients"
+                                        label="Client Logo"
+                                        showToast={showToast}
+                                        previewMode="contain"
+                                    />
+
                                     <div className="grid grid-cols-2 gap-4">
                                         <div className="space-y-1">
                                             <label className="text-sm font-medium text-gray-600 ml-1">Industry</label>

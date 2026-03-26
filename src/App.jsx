@@ -99,7 +99,7 @@ const App = () => {
         </Routes>
       </PageLayout>
       <Footer />
-      <WhatsAppFloat />
+      {pathname === '/' && <WhatsAppFloat />}
       <AIAssistantWidget />
     </>
   );

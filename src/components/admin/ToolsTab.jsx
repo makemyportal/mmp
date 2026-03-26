@@ -1,6 +1,7 @@
 import React, { useState, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Search, Plus, Edit2, Trash2, X, Save, Wrench, AlertTriangle, ExternalLink } from 'lucide-react';
+import ImageUploadField from './ImageUploadField';
 
 const ToolsTab = ({ tools, addTool, updateTool, deleteTool, showToast }) => {
     const [isModalOpen, setIsModalOpen] = useState(false);
@@ -152,12 +153,16 @@ const ToolsTab = ({ tools, addTool, updateTool, deleteTool, showToast }) => {
                                                 className="w-full px-4 py-2.5 bg-white border border-gray-200 rounded-xl text-gray-900 focus:outline-none focus:border-brand-primary transition-colors" placeholder="https://..." />
                                         </div>
                                     </div>
-                                    <div className="space-y-1">
-                                        <label className="text-sm font-medium text-gray-600 ml-1">Icon URL</label>
-                                        <input type="url" value={formData.icon} onChange={e => setFormData({ ...formData, icon: e.target.value })}
-                                            className="w-full px-4 py-2.5 bg-white border border-gray-200 rounded-xl text-gray-900 focus:outline-none focus:border-brand-primary transition-colors" placeholder="https://..." />
-                                        {formData.icon && <img src={formData.icon} alt="Preview" className="w-14 h-14 object-contain rounded-lg mt-2 border border-gray-200 p-2" onError={e => e.target.style.display = 'none'} />}
-                                    </div>
+
+                                    {/* Tool Icon Upload/Link */}
+                                    <ImageUploadField
+                                        value={formData.icon}
+                                        onChange={(url) => setFormData({ ...formData, icon: url })}
+                                        folder="tools"
+                                        label="Tool Icon / Image"
+                                        showToast={showToast}
+                                        previewMode="contain"
+                                    />
                                 </form>
                             </div>
                             <div className="p-6 border-t border-gray-200 bg-white/50 flex justify-end gap-3 shrink-0">

@@ -1,6 +1,7 @@
 import React, { useState, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Search, Plus, Edit2, Trash2, X, Save, FolderKanban, AlertTriangle, ExternalLink } from 'lucide-react';
+import ImageUploadField from './ImageUploadField';
 
 const ProjectsTab = ({ projects, addProject, updateProject, deleteProject, showToast }) => {
     const [isModalOpen, setIsModalOpen] = useState(false);
@@ -163,12 +164,19 @@ const ProjectsTab = ({ projects, addProject, updateProject, deleteProject, showT
                                             <input type="url" value={formData.liveUrl} onChange={e => setFormData({ ...formData, liveUrl: e.target.value })}
                                                 className="w-full px-4 py-2.5 bg-white border border-gray-200 rounded-xl text-gray-900 focus:outline-none focus:border-brand-primary transition-colors" placeholder="https://..." />
                                         </div>
-                                        <div className="space-y-1 md:col-span-2">
-                                            <label className="text-sm font-medium text-gray-600 ml-1">Image URL</label>
-                                            <input type="url" value={formData.imageUrl} onChange={e => setFormData({ ...formData, imageUrl: e.target.value })}
-                                                className="w-full px-4 py-2.5 bg-white border border-gray-200 rounded-xl text-gray-900 focus:outline-none focus:border-brand-primary transition-colors" placeholder="https://..." />
-                                            {formData.imageUrl && <img src={formData.imageUrl} alt="Preview" className="w-full h-24 object-cover rounded-lg mt-2 border border-gray-200" onError={e => e.target.style.display = 'none'} />}
+
+                                        {/* Project Image Upload/Link */}
+                                        <div className="md:col-span-2">
+                                            <ImageUploadField
+                                                value={formData.imageUrl}
+                                                onChange={(url) => setFormData({ ...formData, imageUrl: url })}
+                                                folder="projects"
+                                                label="Project Image"
+                                                showToast={showToast}
+                                                previewMode="cover"
+                                            />
                                         </div>
+
                                         <div className="space-y-1 md:col-span-2">
                                             <label className="text-sm font-medium text-gray-600 ml-1">Description *</label>
                                             <textarea required rows="3" value={formData.description} onChange={e => setFormData({ ...formData, description: e.target.value })}

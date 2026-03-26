@@ -8,7 +8,7 @@ import { useServices } from '../context/ServiceContext';
 import { useAuth } from '../context/AuthContext';
 import { usePortfolio } from '../context/PortfolioContext';
 import { db } from '../firebase';
-import { collection, onSnapshot, getDocs, doc, getDoc } from 'firebase/firestore';
+import { collection, onSnapshot, getDocs, doc, getDoc, query } from 'firebase/firestore';
 
 // Admin Components
 import AdminToast from '../components/admin/AdminToast';
@@ -70,6 +70,8 @@ const AdminDashboard = () => {
     const [notifications, setNotifications] = useState([]);
     const prevOrderCount = useRef(null);
     const prevUserCount = useRef(null);
+    const initializedOrders = useRef(false);
+    const initializedUsers = useRef(false);
 
     const addNotification = useCallback((title, message, type) => {
         setNotifications(prev => [{
@@ -118,7 +120,7 @@ const AdminDashboard = () => {
         fetchSettings();
     }, []);
 
-    // Fetch all orders (realtime)
+    // Fetch all orders (realtime) — skip notification on initial load
     useEffect(() => {
         const unsubscribe = onSnapshot(collection(db, 'orders'), (snapshot) => {
             const data = [];
@@ -131,13 +133,16 @@ const AdminDashboard = () => {
             });
             data.sort((a, b) => (b.createdAt?.toMillis?.() || 0) - (a.createdAt?.toMillis?.() || 0));
 
-            // Notify on new order
-            if (prevOrderCount.current !== null && data.length > prevOrderCount.current) {
+            // Only notify after initial load is done
+            if (!initializedOrders.current) {
+                initializedOrders.current = true;
+                prevOrderCount.current = data.length;
+            } else if (data.length > prevOrderCount.current) {
                 const newest = data[0];
                 addNotification('New Order Received!', `${newest.customerName || 'A customer'} ordered "${newest.serviceName}"`, 'order');
                 showToast(`🎉 New order: "${newest.serviceName}"`, 'success');
+                prevOrderCount.current = data.length;
             }
-            prevOrderCount.current = data.length;
 
             setOrders(data);
             setLoadingOrders(false);
@@ -145,19 +150,22 @@ const AdminDashboard = () => {
         return () => unsubscribe();
     }, [addNotification, showToast]);
 
-    // Fetch all users (realtime)
+    // Fetch all users (realtime) — skip notification on initial load
     useEffect(() => {
         const unsubscribe = onSnapshot(collection(db, 'users'), (snapshot) => {
             const data = [];
             snapshot.forEach(d => data.push({ id: d.id, ...d.data() }));
 
-            // Notify on new user
-            if (prevUserCount.current !== null && data.length > prevUserCount.current) {
+            // Only notify after initial load is done
+            if (!initializedUsers.current) {
+                initializedUsers.current = true;
+                prevUserCount.current = data.length;
+            } else if (data.length > prevUserCount.current) {
                 const newest = data[data.length - 1];
                 addNotification('New User Registered!', `${newest.name || newest.email || 'Someone'} just signed up`, 'user');
                 showToast(`👤 New user registered!`, 'info');
+                prevUserCount.current = data.length;
             }
-            prevUserCount.current = data.length;
 
             setUsers(data);
             setLoadingUsers(false);

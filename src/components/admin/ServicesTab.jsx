@@ -1,6 +1,7 @@
 import React, { useState, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Search, Plus, Edit2, Trash2, X, Save, Package, AlertTriangle } from 'lucide-react';
+import ImageUploadField from './ImageUploadField';
 
 const ServicesTab = ({ services, addService, updateService, deleteService, showToast }) => {
     const [isModalOpen, setIsModalOpen] = useState(false);
@@ -43,7 +44,6 @@ const ServicesTab = ({ services, addService, updateService, deleteService, showT
     const handleDelete = async (e, service) => {
         e.stopPropagation();
         if (deleteConfirm === service.id) {
-            // Second click = confirm delete
             clearTimeout(deleteTimer.current);
             try {
                 await deleteService(service.id);
@@ -54,7 +54,6 @@ const ServicesTab = ({ services, addService, updateService, deleteService, showT
             }
             setDeleteConfirm(null);
         } else {
-            // First click = mark for deletion
             setDeleteConfirm(service.id);
             clearTimeout(deleteTimer.current);
             deleteTimer.current = setTimeout(() => setDeleteConfirm(null), 3000);
@@ -158,12 +157,19 @@ const ServicesTab = ({ services, addService, updateService, deleteService, showT
                                                 list="categoryList" />
                                             <datalist id="categoryList">{categories.map(c => <option key={c} value={c} />)}</datalist>
                                         </div>
-                                        <div className="space-y-1 md:col-span-2">
-                                            <label className="text-sm font-medium text-gray-600 ml-1">Image URL</label>
-                                            <input type="url" value={formData.imageUrl} onChange={e => setFormData({ ...formData, imageUrl: e.target.value })}
-                                                className="w-full px-4 py-2.5 bg-white border border-gray-200 rounded-xl text-gray-900 focus:outline-none focus:border-brand-primary transition-colors" placeholder="https://..." />
-                                            {formData.imageUrl && <img src={formData.imageUrl} alt="Preview" className="w-full h-24 object-cover rounded-lg mt-2 border border-gray-200" onError={e => e.target.style.display = 'none'} />}
+
+                                        {/* Service Image Upload/Link */}
+                                        <div className="md:col-span-2">
+                                            <ImageUploadField
+                                                value={formData.imageUrl}
+                                                onChange={(url) => setFormData({ ...formData, imageUrl: url })}
+                                                folder="services"
+                                                label="Service Image"
+                                                showToast={showToast}
+                                                previewMode="cover"
+                                            />
                                         </div>
+
                                         <div className="space-y-1 md:col-span-2">
                                             <label className="text-sm font-medium text-gray-600 ml-1">Description *</label>
                                             <textarea required rows="3" value={formData.description} onChange={e => setFormData({ ...formData, description: e.target.value })}
@@ -182,7 +188,7 @@ const ServicesTab = ({ services, addService, updateService, deleteService, showT
                                 <button type="button" onClick={() => { setIsModalOpen(false); setEditingService(null); }}
                                     className="px-5 py-2.5 rounded-xl border border-gray-200 text-gray-900 hover:bg-white/5 transition-colors font-medium">Cancel</button>
                                 <button type="submit" form="serviceForm"
-                                    className="px-5 py-2.5 rounded-xl bg-brand-primary hover:bg-opacity-90 text-gray-900 font-medium flex items-center gap-2 transition-colors shadow-[0_0_15px_rgba(139,92,246,0.2)]">
+                                    className="px-5 py-2.5 rounded-xl bg-brand-primary hover:bg-opacity-90 text-white font-medium flex items-center gap-2 transition-colors shadow-[0_0_15px_rgba(139,92,246,0.2)]">
                                     <Save className="w-4 h-4" />{editingService ? 'Save Changes' : 'Create Service'}
                                 </button>
                             </div>
