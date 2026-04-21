@@ -22,6 +22,9 @@ export const uploadImage = (file, folder = 'general', onProgress) => {
         const cloudName = import.meta.env.VITE_CLOUDINARY_CLOUD_NAME;
         const uploadPreset = import.meta.env.VITE_CLOUDINARY_UPLOAD_PRESET;
 
+        console.log('Cloud Name:', cloudName);
+        console.log('Upload Preset:', uploadPreset);
+
         if (!cloudName || !uploadPreset) {
             reject(new Error('Cloudinary configuration missing'));
             return;
